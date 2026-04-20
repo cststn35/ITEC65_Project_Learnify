@@ -46,4 +46,3 @@ CREATE TABLE IF NOT EXISTS users (
 
 echo "Database initialized successfully.";
 
-$conn->close();
