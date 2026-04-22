@@ -1,0 +1,59 @@
+#overlay {
+    background-image: url(./img/boy-5731001_1280.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    left: -50%;
+    transition: all ease-in .75s;
+}
+
+#overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 40%, #0F172A 100%), linear-gradient(to left, rgba(0, 0, 0, 0) 40%, #0F172A 100%);
+    pointer-events: none;
+}
+
+/* #overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+} */
+
+h1 {
+    z-index: 10;
+}
+
+#overlay.active {
+    left: 50%;
+}
+
+.login-wrapper {
+    top: 0;
+    transition: all ease-in .75s;
+}
+
+.login-wrapper.active {
+    top: 100%;
+}
+
+.reg-wrapper {
+    top: 100%;
+    transition: all ease-in .75s;
+}
+
+.reg-wrapper.active {
+    top: 0;
+}
+
+.form-wrapper {
+    background: #1e293b;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
