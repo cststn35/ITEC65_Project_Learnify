@@ -149,7 +149,7 @@
             </div>
         </div>
     </div>
-    <script src="./script.js"></script>
+    <script src="./assets/js/login-register.js"></script>
 </body>
 
 </html>
