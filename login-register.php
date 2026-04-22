@@ -15,7 +15,8 @@
             <div
                 class="reg-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white">
                 <div class="headings mb-8 text-center">
-                    <img src="./img/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png" class="w-24 h-auto mx-auto">
+                    <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png"
+                        class="w-24 h-auto mx-auto">
                     <div>
                         <h1 class="text-3xl font-bold">SMART STUDY WEBSITE</h1>
                     </div>
@@ -76,7 +77,8 @@
             <div
                 class="login-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white">
                 <div class="headings mb-8 text-center">
-                    <img src="./img/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png" class="w-24 h-auto mx-auto">
+                    <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png"
+                        class="w-24 h-auto mx-auto">
                     <div>
                         <h1 class="text-3xl font-bold">SMART STUDY WEBSITE</h1>
                     </div>
