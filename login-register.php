@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body class="font-[Inter]">
     <div class="wrapper flex relative overflow-hidden bg-[#0F172A]">
         <div class="w-1/2 min-h-screen flex justify-center items-center overflow-hidden">
             <div
