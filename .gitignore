@@ -41,6 +41,11 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Tailwind build output
+dist/
+build/
+public/style.css
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

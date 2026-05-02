@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div class="font-bold"></div>
 </body>
 </html>
