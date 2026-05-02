@@ -28,10 +28,10 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                     <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png"
                         class="w-24 h-auto mx-auto">
                     <div>
-                        <h1 class="text-3xl font-bold">Learnify</h1>
+                        <h1 class="text-3xl font-bold">LEARNIFY</h1>
                     </div>
                     <div>
-                        <p>Join Learnify today!</p>
+                        <p>"Build Knowledge, One Streak at a Time"</p>
                     </div>
                 </div>
                 <form action="./actions/registration-process.php" method="POST" class="w-full space-y-4">
@@ -97,7 +97,7 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                     <h1 class="text-3xl font-bold">LEARNIFY</h1>
                 </div>
                 <div>
-                    <p>Log in to continue</p>
+                    <p>"Where Learning Becomes Habit"</p>
                 </div>
             </div>
             <form action="./actions/login-process.php" method="POST" class="w-full space-y-4">
