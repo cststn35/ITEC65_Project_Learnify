@@ -44,12 +44,12 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                         </label>
                     </div>
                     <div class=" input-box w-full">
-                            <p class="text-sm font-bold mb-1">Email Address</p>
-                            <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
-                                <i class="fa fa-envelope mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                                <input type="email" id="email" name="email" required class="w-full py-1 outline-none"
-                                    placeholder="Enter your email" value=<?= $email ? $email : '' ?>>
-                            </label>
+                        <p class="text-sm font-bold mb-1">Email Address</p>
+                        <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
+                            <i class="fa fa-envelope mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
+                            <input type="email" id="email" name="email" required class="w-full py-1 outline-none"
+                                placeholder="Enter your email" value=<?= $email ? $email : '' ?>>
+                        </label>
                     </div>
                     <div class="input-box w-full">
                         <div class="flex justify-between">
@@ -57,9 +57,10 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                         </div>
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="password" id="password" name="password" required
+                            <input type="password" id="regpassword1" name="password" required
                                 class="w-full py-1 outline-none" placeholder="Enter your password">
-                            <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash text-gray-500 cursor-pointer" id="passToggle2"
+                                aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="input-box w-full">
@@ -68,9 +69,10 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                         </div>
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="password" id="cpassword" name="cpassword" required
+                            <input type="password" id="regpassword2" name="cpassword" required
                                 class="w-full py-1 outline-none" placeholder="Enter your password">
-                            <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash text-gray-500 cursor-pointer" id="passToggle3"
+                                aria-hidden="true"></i>
                         </label>
                     </div>
                     <button
@@ -114,9 +116,9 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                     </div>
                     <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                         <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                        <input type="password" name="password" required class="w-full py-1 outline-none"
-                            placeholder="Enter your password">
-                        <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
+                        <input type="password" name="password" id="loginpassword" required
+                            class="w-full py-1 outline-none" placeholder="Enter your password">
+                        <i class="fa fa-eye-slash text-gray-500 cursor-pointer" id="passToggle" aria-hidden="true"></i>
                     </label>
                 </div>
                 <button
@@ -165,7 +167,6 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                 </button>
             </div>
         </div>
-    </div>
     </div>
     <script src="./assets/js/login-register.js"></script>
 </body>
