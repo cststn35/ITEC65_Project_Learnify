@@ -74,7 +74,7 @@
                 </p>
             </div>
         </div>
-        <!-- login section -->
+        <!-- Login section -->
         <div class="w-1/2 min-h-screen flex justify-center items-center overflow-hidden">
             <div
                 class="login-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white">
