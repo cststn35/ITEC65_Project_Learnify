@@ -22,12 +22,12 @@ if ($email && $password) {
         exit;
     }
 
-    $error = "Invalid username or password.";
-    header("Location: ../login-register.php?error=" . urlencode($error));
+    $_SESSION["login"]["error"] = "Invalid username or password.";
+    header("Location: ../login-register.php");
     exit;
 } else {
-    $error = "Email and password must be both filled";
-    header("Location: ../login-register.php?error=" . urlencode($error));
+    $_SESSION["login"]["error"] = "Email and password must be both filled";
+    header("Location: ../login-register.php");
     exit;
 }
 
