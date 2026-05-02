@@ -8,7 +8,7 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 
 if ($email && $password) {
-    $sql = "SELECT user_id, name, password FROM users WHERE email = :email";
+    $sql = "SELECT user_id, name, password_hash FROM users WHERE email = :email";
     // Prepare and execute query
     $stmt = $pdo->prepare($sql); //Fetch the password of the user
     $stmt->execute(['email' => $email]);
