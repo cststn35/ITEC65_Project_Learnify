@@ -28,5 +28,6 @@ if ($email && $password) {
 } else {
     $error = "Email and password must be both filled";
     header("Location: ../login-register.php?error=" . urlencode($error));
+    exit;
 }
 
