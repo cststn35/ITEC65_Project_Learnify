@@ -12,16 +12,17 @@
 <body class="font-[Inter]">
     <div class="wrapper flex relative overflow-hidden bg-[#0F172A]">
         <div class="w-1/2 min-h-screen flex justify-center items-center overflow-hidden">
+            <!-- Registration section -->
             <div
                 class="reg-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white">
                 <div class="headings mb-8 text-center">
                     <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png"
                         class="w-24 h-auto mx-auto">
                     <div>
-                        <h1 class="text-3xl font-bold">SMART STUDY WEBSITE</h1>
+                        <h1 class="text-3xl font-bold">Learnify</h1>
                     </div>
                     <div>
-                        <p>Join Smart Study today!</p>
+                        <p>Join Learnify today!</p>
                     </div>
                 </div>
                 <form action="" class="w-full space-y-4">
@@ -73,6 +74,7 @@
                 </p>
             </div>
         </div>
+        <!-- login section -->
         <div class="w-1/2 min-h-screen flex justify-center items-center overflow-hidden">
             <div
                 class="login-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white">
@@ -80,7 +82,7 @@
                     <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png"
                         class="w-24 h-auto mx-auto">
                     <div>
-                        <h1 class="text-3xl font-bold">SMART STUDY WEBSITE</h1>
+                        <h1 class="text-3xl font-bold">LEARNIFY</h1>
                     </div>
                     <div>
                         <p>Log in to continue</p>
