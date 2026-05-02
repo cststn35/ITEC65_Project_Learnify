@@ -1,3 +1,12 @@
+<?php
+session_start();
+$overlayActive = $_SESSION['reg'] ?? false;
+$fullName = $_SESSION["registration"]["fullname"] ?? "";
+$email = $_SESSION["registration"]["email"] ?? "";
+$regerror = $_SESSION["registration"]["error"] ?? "";
+$logerror = $_SESSION["login"]["error"] ?? "";
+unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["registration"]["email"], $_SESSION["registration"]["error"], $_SESSION["login"]["error"]); //so that these variables won't persist when refreshed
+?>
 <!doctype html>
 <html>
 
@@ -12,35 +21,34 @@
 <body class="font-[Inter]">
     <div class="wrapper flex relative overflow-hidden bg-[#0F172A]">
         <div class="w-1/2 min-h-screen flex justify-center items-center overflow-hidden">
+            <!-- Registration section -->
             <div
-                class="reg-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white">
+                class="reg-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white <?= $overlayActive ? 'active' : '' ?>">
                 <div class="headings mb-8 text-center">
                     <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png"
                         class="w-24 h-auto mx-auto">
                     <div>
-                        <h1 class="text-3xl font-bold">SMART STUDY WEBSITE</h1>
+                        <h1 class="text-3xl font-bold">LEARNIFY</h1>
                     </div>
                     <div>
-                        <p>Join Smart Study today!</p>
+                        <p>"Build Knowledge, One Streak at a Time"</p>
                     </div>
                 </div>
-                <form action="" class="w-full space-y-4">
+                <form action="./actions/registration-process.php" method="POST" class="w-full space-y-4">
                     <div class="input-box w-full">
                         <p class="text-sm font-bold mb-1">Full Name</p>
-
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-user mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="email" id="email" class="w-full py-1 outline-none"
-                                placeholder="Last Name, First Name, M.I.">
+                            <input type="text" id="fullname" name="fullname" required class="w-full py-1 outline-none"
+                                placeholder="Last Name, First Name, M.I." value="<?= $fullName ? $fullName : '' ?>">
                         </label>
                     </div>
-                    <div class="input-box w-full">
+                    <div class=" input-box w-full">
                         <p class="text-sm font-bold mb-1">Email Address</p>
-
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-envelope mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="email" id="email" class="w-full py-1 outline-none"
-                                placeholder="Enter your email">
+                            <input type="email" id="email" name="email" required class="w-full py-1 outline-none"
+                                placeholder="Enter your email" value=<?= $email ? $email : '' ?>>
                         </label>
                     </div>
                     <div class="input-box w-full">
@@ -49,8 +57,10 @@
                         </div>
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="password" class="w-full py-1 outline-none" placeholder="Enter your password">
-                            <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
+                            <input type="password" id="regpassword1" name="password" required
+                                class="w-full py-1 outline-none" placeholder="Enter your password">
+                            <i class="fa fa-eye-slash text-gray-500 cursor-pointer" id="passToggle2"
+                                aria-hidden="true"></i>
                         </label>
                     </div>
                     <div class="input-box w-full">
@@ -59,95 +69,102 @@
                         </div>
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="password" class="w-full py-1 outline-none" placeholder="Enter your password">
-                            <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
+                            <input type="password" id="regpassword2" name="cpassword" required
+                                class="w-full py-1 outline-none" placeholder="Enter your password">
+                            <i class="fa fa-eye-slash text-gray-500 cursor-pointer" id="passToggle3"
+                                aria-hidden="true"></i>
                         </label>
                     </div>
+                    <button
+                        class="w-full mt-6 bg-blue-600 text-white py-2.5 rounded-md font-semibold shadow-sm hover:bg-blue-700 active:scale-[0.98] transition"
+                        type="submit">
+                        Register
+                    </button>
                 </form>
-                <button
-                    class="w-full mt-6 bg-blue-600 text-white py-2.5 rounded-md font-semibold shadow-sm hover:bg-blue-700 active:scale-[0.98] transition">
-                    Register
-                </button>
-                <p class="text-sm text-red-600 mt-1">
-                    Error message area here
-                </p>
+                <?php if (isset($regerror)): ?>
+                    <p class="text-sm text-red-600 mt-1">
+                        <?php echo $regerror ?>
+                    </p>
+                <?php endif; ?>
             </div>
         </div>
+        <!-- Login section -->
         <div class="w-1/2 min-h-screen flex justify-center items-center overflow-hidden">
-            <div
-                class="login-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white">
-                <div class="headings mb-8 text-center">
-                    <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png"
-                        class="w-24 h-auto mx-auto">
-                    <div>
-                        <h1 class="text-3xl font-bold">SMART STUDY WEBSITE</h1>
-                    </div>
-                    <div>
-                        <p>Log in to continue</p>
-                    </div>
+            <div class="login-wrapper form-wrapper min-h-3/4 w-full max-w-md rounded-lg relative flex flex-col justify-start items-center p-6 md:p-8 text-white <?= $overlayActive ? 'active' : '' ?>"">
+                <div class=" headings mb-8 text-center">
+                <img src="./assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png" class="w-24 h-auto mx-auto">
+                <div>
+                    <h1 class="text-3xl font-bold">LEARNIFY</h1>
                 </div>
-                <form action="" class="w-full space-y-4">
-                    <div class="input-box w-full">
-                        <p class="text-sm font-bold mb-1">Email Address</p>
-
-                        <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
-                            <i class="fa fa-envelope mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="email" id="email" class="w-full py-1 outline-none"
-                                placeholder="Enter your email">
-                        </label>
+                <div>
+                    <p>"Where Learning Becomes Habit"</p>
+                </div>
+            </div>
+            <form action="./actions/login-process.php" method="POST" class="w-full space-y-4">
+                <div class="input-box w-full">
+                    <p class="text-sm font-bold mb-1">Email Address</p>
+                    <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
+                        <i class="fa fa-envelope mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
+                        <input type="email" id="email" name="email" required class="w-full py-1 outline-none"
+                            placeholder="Enter your email">
+                    </label>
+                </div>
+                <div class="input-box w-full">
+                    <div class="flex justify-between">
+                        <p class="text-sm font-bold">Password</p>
+                        <p class="text-sm">Forgot password?</p>
                     </div>
-                    <div class="input-box w-full">
-                        <div class="flex justify-between">
-                            <p class="text-sm font-bold">Password</p>
-                            <p class="text-sm">Forgot password?</p>
-                        </div>
-                        <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
-                            <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="password" class="w-full py-1 outline-none" placeholder="Enter your password">
-                            <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
-                        </label>
-                    </div>
-                </form>
+                    <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
+                        <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
+                        <input type="password" name="password" id="loginpassword" required
+                            class="w-full py-1 outline-none" placeholder="Enter your password">
+                        <i class="fa fa-eye-slash text-gray-500 cursor-pointer" id="passToggle" aria-hidden="true"></i>
+                    </label>
+                </div>
                 <button
-                    class="w-full mt-6 bg-blue-600 text-white py-2.5 rounded-md font-semibold shadow-sm hover:bg-blue-700 active:scale-[0.98] transition">
+                    class="w-full mt-6 bg-blue-600 text-white py-2.5 rounded-md font-semibold shadow-sm hover:bg-blue-700 active:scale-[0.98] transition"
+                    type="submit">
                     Login
                 </button>
+            </form>
+            <?php if (isset($logerror)): ?>
                 <p class="text-sm text-red-600 mt-1">
-                    Error message area here
+                    <?php echo $logerror ?>
                 </p>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div id="overlay"
+        class="min-h-screen w-full absolute flex justify-center items-center z-10 <?= $overlayActive ? 'active' : '' ?>">
+        <div class="w-1/2 text-center z-20">
+            <div class="text-center">
+                <h1
+                    class="text-7xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-200 via-sky-400 to-blue-500 bg-clip-text text-transparent">
+                    Welcome Back!
+                </h1>
+                <p class="text-white mt-3 text-2xl">
+                    Already have an account?
+                </p>
+                <button
+                    class="clickme px-6 py-2 border border-white text-white rounded-md font-semibold transition hover:bg-blue-500 hover:text-white mt-5">
+                    Login here
+                </button>
             </div>
         </div>
-
-        <div id="overlay" class="min-h-screen w-full absolute flex justify-center items-center z-10">
-            <div class="w-1/2 text-center z-20">
-                <div class="text-center">
-                    <h1
-                        class="text-7xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-200 via-sky-400 to-blue-500 bg-clip-text text-transparent">
-                        Welcome Back!
-                    </h1>
-                    <p class="text-white mt-3 text-2xl">
-                        Already have an account?
-                    </p>
-                    <button
-                        class="clickme px-6 py-2 border border-white text-white rounded-md font-semibold transition hover:bg-blue-500 hover:text-white mt-5">
-                        Login here
-                    </button>
-                </div>
-            </div>
-            <div class="w-1/2 text-center z-20">
-                <div class="text-center">
-                    <h1
-                        class="text-7xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-200 via-sky-400 to-blue-500 bg-clip-text text-transparent">
-                        Hello, Welcome!
-                    </h1>
-                    <p class="text-white mt-3 text-2xl">
-                        Don't have an account yet?
-                    </p>
-                    <button
-                        class="clickme px-6 py-2 border border-white text-white rounded-md font-semibold transition hover:bg-blue-500 hover:text-white mt-5">
-                        Register here
-                    </button>
-                </div>
+        <div class="w-1/2 text-center z-20">
+            <div class="text-center">
+                <h1
+                    class="text-7xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-200 via-sky-400 to-blue-500 bg-clip-text text-transparent">
+                    Hello, Welcome!
+                </h1>
+                <p class="text-white mt-3 text-2xl">
+                    Don't have an account yet?
+                </p>
+                <button
+                    class="clickme px-6 py-2 border border-white text-white rounded-md font-semibold transition hover:bg-blue-500 hover:text-white mt-5">
+                    Register here
+                </button>
             </div>
         </div>
     </div>

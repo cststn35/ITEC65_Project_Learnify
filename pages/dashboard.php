@@ -1,3 +1,4 @@
+<?php include_once("../actions/auth.php");?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include_once("../config/meta-head.php") ?>

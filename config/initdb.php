@@ -34,11 +34,15 @@ runQuery(
     $pdo,
     "
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL UNIQUE,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    daily_goal_hours INT DEFAULT 2,
+    xp INT DEFAULT 0,
+    current_streak INT DEFAULT 0,
+    longest_streak INT DEFAULT 0,
+    last_study_date DATE NULL,
+    daily_goal_minutes INT DEFAULT 120,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 "
