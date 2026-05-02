@@ -88,10 +88,9 @@
                         <p>Log in to continue</p>
                     </div>
                 </div>
-                <form action="" class="w-full space-y-4">
+                <form action="./actions/login-process.php" method="POST" class="w-full space-y-4">
                     <div class="input-box w-full">
                         <p class="text-sm font-bold mb-1">Email Address</p>
-
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-envelope mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
                             <input type="email" id="email" class="w-full py-1 outline-none"
