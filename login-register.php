@@ -25,22 +25,20 @@
                         <p>Join Learnify today!</p>
                     </div>
                 </div>
-                <form action="" class="w-full space-y-4">
+                <form action="./actions/registration-process.php" method="POST" class="w-full space-y-4">
                     <div class="input-box w-full">
                         <p class="text-sm font-bold mb-1">Full Name</p>
-
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-user mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="email" id="email" class="w-full py-1 outline-none"
+                            <input type="text" id="fullname" name="fullname" required class="w-full py-1 outline-none"
                                 placeholder="Last Name, First Name, M.I.">
                         </label>
                     </div>
                     <div class="input-box w-full">
                         <p class="text-sm font-bold mb-1">Email Address</p>
-
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-envelope mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="email" id="email" class="w-full py-1 outline-none"
+                            <input type="email" id="email" name="email" required class="w-full py-1 outline-none"
                                 placeholder="Enter your email">
                         </label>
                     </div>
@@ -50,7 +48,8 @@
                         </div>
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="password" class="w-full py-1 outline-none" placeholder="Enter your password">
+                            <input type="password" id="password" name="password" required class="w-full py-1 outline-none"
+                                placeholder="Enter your password">
                             <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
                         </label>
                     </div>
@@ -60,18 +59,22 @@
                         </div>
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="password" class="w-full py-1 outline-none" placeholder="Enter your password">
+                            <input type="password" id="cpassword" name="cpassword" required class="w-full py-1 outline-none"
+                                placeholder="Enter your password">
                             <i class="fa fa-eye-slash text-gray-500" aria-hidden="true"></i>
                         </label>
                     </div>
+                    <button
+                        class="w-full mt-6 bg-blue-600 text-white py-2.5 rounded-md font-semibold shadow-sm hover:bg-blue-700 active:scale-[0.98] transition"
+                        type="submit">
+                        Register
+                    </button>
                 </form>
-                <button
-                    class="w-full mt-6 bg-blue-600 text-white py-2.5 rounded-md font-semibold shadow-sm hover:bg-blue-700 active:scale-[0.98] transition">
-                    Register
-                </button>
-                <p class="text-sm text-red-600 mt-1">
-                    Error message area here
-                </p>
+                <?php if (isset($_GET["error"])): ?>
+                    <p class="text-sm text-red-600 mt-1">
+                        <?php echo $_GET["error"] ?>
+                    </p>
+                <?php endif; ?>
             </div>
         </div>
         <!-- Login section -->
