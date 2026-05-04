@@ -23,7 +23,7 @@
                     <i class='bx bx-home text-2xl'></i>
                 </span>
                 <span class="ml-2 font-bold">
-                    <?= $pageTitle ?>
+                    Dashboard
                 </span>
             </a>
         </li>
@@ -86,7 +86,9 @@
 </div>
 <!-- topbar -->
 <div class="md:col-start-2 bg-slate-700 flex justify-between items-center py-2 px-3 md:py-4 md:px-6">
-    <span class="text-xl md:text-2xl font-bold text-white">Dashboard</span>
+    <span class="text-xl md:text-2xl font-bold text-white">
+        <?= $pageTitle ?>
+    </span>
     <span class="flex items-center gap-1 md:gap-4">
         <!-- Streak -->
         <div
