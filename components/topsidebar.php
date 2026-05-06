@@ -1,88 +1,114 @@
 <!-- sidebar -->
 <div id="sidebar"
-    class="h-screen fixed md:relative md:row-start-1 md:row-span-2 bg-slate-900 z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-    <div class="h-[60px] px-3 md:p-4 flex items-center">
-        <span>
-            <img src="../assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png" alt="Logo" width="50"
-                class="p-0">
-        </span>
-        <span>
-            <h1 class="font-bold text-white">Smart Study App</h1>
-            <p class="text-sm text-white">Learn Smarter</p>
-        </span>
-        <span id="chevron-right" class="md:hidden flex items-center">
-            <i class='bx bx-chevron-left text-4xl text-white ml-5'></i>
-        </span>
+    class="flex flex-col justify-between h-screen fixed md:relative md:row-start-1 md:row-span-2 bg-slate-900 z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+    <div>
+        <div class="h-[60px] px-3 md:p-4 flex items-center">
+            <span>
+                <img src="../assets/images/-ssc_logo_1-d20a0c9e86d0b38d5dd3807b924e1bbb.png" alt="Logo" width="50"
+                    class="p-0">
+            </span>
+            <span>
+                <h1 class="font-bold text-white">Smart Study App</h1>
+                <p class="text-sm text-white">Learn Smarter</p>
+            </span>
+            <span id="chevron-right" class="md:hidden flex items-center">
+                <i class='bx bx-chevron-left text-4xl text-white ml-5'></i>
+            </span>
+        </div>
+        <hr class="border-gray-600" />
+        <ul class="mt-4">
+            <li class="w-[90%] mx-auto my-3">
+                <a href="../pages/dashboard.php"
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    <span class="w-[50px] h-[50px] flex items-center justify-center">
+                        <i class='bx bx-home text-2xl'></i>
+                    </span>
+                    <span class="ml-2 font-bold">
+                        Dashboard
+                    </span>
+                </a>
+            </li>
+            <li class="w-[90%] mx-auto my-3">
+                <a href="#"
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    <span class="w-[50px] h-[50px] flex items-center justify-center">
+                        <i class='bx bx-timer text-2xl'></i>
+                    </span>
+                    <span class="ml-2 font-bold">
+                        Study Sessions
+                    </span>
+                </a>
+            </li>
+            <li class="w-[90%] mx-auto my-3">
+                <a href="../pages/tasks.php"
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    <span class="w-[50px] h-[50px] flex items-center justify-center">
+                        <i class='bx bx-check-square text-2xl'></i>
+                    </span>
+                    <span class="ml-2 font-bold">
+                        Tasks
+                    </span>
+                </a>
+            </li>
+            <li class="w-[90%] mx-auto my-3">
+                <a href="../pages/courses.php"
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    <span class="w-[50px] h-[50px] flex items-center justify-center">
+                        <i class='bx bx-book-open text-2xl'></i>
+                    </span>
+                    <span class="ml-2 font-bold">
+                        Courses
+                    </span>
+                </a>
+            </li>
+            <li class="w-[90%] mx-auto my-3">
+                <a href="#"
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    <span class="w-[50px] h-[50px] flex items-center justify-center">
+                        <i class='bx bx-bar-chart-alt-2 text-2xl'></i>
+                    </span>
+                    <span class="ml-2 font-bold">
+                        Analytics
+                    </span>
+                </a>
+            </li>
+            <li class="w-[90%] mx-auto my-3">
+                <a href="#"
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    <span class="w-[50px] h-[50px] flex items-center justify-center">
+                        <i class='bx bx-star text-2xl'></i>
+                    </span>
+                    <span class="ml-2 font-bold">
+                        Smart Coach
+                    </span>
+                </a>
+            </li>
+            <li class="w-[90%] mx-auto my-3">
+                <a href="#"
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    <span class="w-[50px] h-[50px] flex items-center justify-center">
+                        <i class='bx bx-badge text-2xl'></i>
+                    </span>
+                    <span class="ml-2 font-bold">
+                        Badges
+                    </span>
+                </a>
+            </li>
+        </ul>
     </div>
-    <hr class="border-gray-600" />
-    <ul class="mt-4">
-        <li class="w-[90%] mx-auto my-3">
-            <a href="#"
-                class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
-                <span class="w-[50px] h-[50px] flex items-center justify-center">
-                    <i class='bx bx-home text-2xl'></i>
-                </span>
-                <span class="ml-2 font-bold">
-                    Dashboard
-                </span>
-            </a>
-        </li>
-        <li class="w-[90%] mx-auto my-3">
-            <a href="#"
-                class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
-                <span class="w-[50px] h-[50px] flex items-center justify-center">
-                    <i class='bx bx-timer text-2xl'></i>
-                </span>
-                <span class="ml-2 font-bold">
-                    Study Sessions
-                </span>
-            </a>
-        </li>
-        <li class="w-[90%] mx-auto my-3">
-            <a href="#"
-                class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
-                <span class="w-[50px] h-[50px] flex items-center justify-center">
-                    <i class='bx bx-check-square text-2xl'></i>
-                </span>
-                <span class="ml-2 font-bold">
-                    Tasks
-                </span>
-            </a>
-        </li>
-        <li class="w-[90%] mx-auto my-3">
-            <a href="#"
-                class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
-                <span class="w-[50px] h-[50px] flex items-center justify-center">
-                    <i class='bx bx-book-open text-2xl'></i>
-                </span>
-                <span class="ml-2 font-bold">
-                    Courses
-                </span>
-            </a>
-        </li>
-        <li class="w-[90%] mx-auto my-3">
-            <a href="#"
-                class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
-                <span class="w-[50px] h-[50px] flex items-center justify-center">
-                    <i class='bx bx-bar-chart-alt-2 text-2xl'></i>
-                </span>
-                <span class="ml-2 font-bold">
-                    Analytics
-                </span>
-            </a>
-        </li>
-        <li class="w-[90%] mx-auto my-3">
-            <a href="#"
-                class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
-                <span class="w-[50px] h-[50px] flex items-center justify-center">
-                    <i class='bx bx-star text-2xl'></i>
-                </span>
-                <span class="ml-2 font-bold">
-                    Smart Coach
-                </span>
-            </a>
-        </li>
-    </ul>
+    <div>
+        <hr class="border-gray-600" />
+        <div class="h-[60px] px-3 md:p-4 flex items-center gap-2">
+            <span>
+                <img src="../assets/images/semester.png" alt="Logo" width="50"
+                    class="p-0">
+            </span>
+            <span>
+                <h1 class="font-bold text-white">2nd Semester</h1>
+                <p class="text-sm text-white">S.Y. 2025-2026</p>
+            </span>
+        </div>
+    </div>
 </div>
 <!-- topbar -->
 <div class="md:col-start-2 bg-slate-700 flex justify-between items-center py-2 px-3 md:py-4 md:px-6">
