@@ -47,7 +47,7 @@
                             <div class="titleInput">
                                 <label for="title" class="mb-2 text-slate-900 font-medium text-base inline-block">Title
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="text" id="title" placeholder="e.g. Study Math Chapter 3"
+                                <input type="text" id="title" placeholder="e.g. Study Math Chapter 3" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="descriptionInput">
@@ -62,7 +62,7 @@
                                 <label for="subject"
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Subject
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <select name="subject" id="subject"
+                                <select name="subject" id="subject" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select a subject</option>
                                     <option value="">Math</option>
@@ -73,7 +73,7 @@
                                 <label for="deadline"
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Deadline
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="date" id="deadline" placeholder="Add notes about this task"
+                                <input type="date" id="deadline" required placeholder="Add notes about this task"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="timeInput">
@@ -90,7 +90,7 @@
                             <button type="button" id="cancelBtn"
                                 class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Cancel</button>
-                            <button type="button"
+                            <button type="submit"
                                 class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Create Task</button>
                         </div>
