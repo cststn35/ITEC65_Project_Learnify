@@ -17,7 +17,7 @@
     <hr class="border-gray-600" />
     <ul class="mt-4">
         <li class="w-[90%] mx-auto my-3">
-            <a href="#"
+            <a href="../pages/dashboard.php"
                 class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
                 <span class="w-[50px] h-[50px] flex items-center justify-center">
                     <i class='bx bx-home text-2xl'></i>
