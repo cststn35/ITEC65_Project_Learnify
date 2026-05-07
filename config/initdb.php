@@ -65,7 +65,31 @@ CREATE TABLE IF NOT EXISTS semesters (
 "
 );
 
-
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS subjects (
+    subject_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    description TEXT NULL,
+    color ENUM(
+        'red',
+        'orange',
+        'yellow',
+        'green',
+        'blue',
+        'indigo',
+        'violet'
+    ) NULL,
+    is_archived BOOLEAN NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+);
+"
+);
 
 runQuery(
     $pdo,
