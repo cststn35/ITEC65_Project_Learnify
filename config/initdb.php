@@ -54,7 +54,8 @@ runQuery(
 CREATE TABLE IF NOT EXISTS semesters (
     semester_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    name VARCHAR(100) NOT NULL,
+    semester_name VARCHAR(100) NOT NULL,
+    school_year VARCHAR(100) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT 0,
