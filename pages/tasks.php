@@ -77,6 +77,18 @@
                                 <input type="date" id="deadline" required placeholder="Add notes about this task"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
+                            <div class="priorityInput">
+                                <label for="priority"
+                                    class="mb-2 text-slate-900 font-medium text-base inline-block">Priority Level
+                                    <span class="text-red-500 font-bold">*</span></label>
+                                <select name="priority" id="priority" required
+                                    class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
+                                    <option value="" disabled hidden selected>Select priority level</option>
+                                    <option value="">Low</option>
+                                    <option value="">Medium</option>
+                                    <option value="">High</option>
+                                </select>
+                            </div>
                             <div class="timeInput">
                                 <label for="time"
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Estimated Time To
