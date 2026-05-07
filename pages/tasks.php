@@ -169,6 +169,7 @@
                         <!-- task 1 -->
                         <div
                             class="one-card bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 flex flex-col gap-3">
+                            <!-- heading -->
                             <div class="flex flex-col gap-3">
                                 <div class="flex gap-2">
                                     <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
@@ -186,7 +187,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <!-- pills -->
                                 <div>
                                     <span
                                         class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
@@ -197,7 +198,7 @@
                                         🔴 High
                                     </span>
                                 </div>
-
+                                <!-- buttons -->
                                 <div class="flex gap-2">
                                     <button
                                         class="px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-md transition-colors flex gap-2">
@@ -210,6 +211,36 @@
                                         <i class='bx bx-check text-xl'></i>
                                         <span>Mark as Done</span>
                                     </button>
+                                    <!-- kebab button -->
+                                    <div class="relative task-card">
+
+                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
+                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+
+                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
+                                        </button>
+
+                                        <!-- Dropdown Menu -->
+                                        <ul data-dropdown
+                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-edit text-xl'></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-trash text-xl'></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -257,6 +288,36 @@
                                         <i class='bx bx-check text-xl'></i>
                                         <span>Mark as Done</span>
                                     </button>
+                                    <!-- kebab button -->
+                                    <div class="relative task-card">
+
+                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
+                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+
+                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
+                                        </button>
+
+                                        <!-- Dropdown Menu -->
+                                        <ul data-dropdown
+                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-edit text-xl'></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-trash text-xl'></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -304,6 +365,36 @@
                                         <i class='bx bx-check text-xl'></i>
                                         <span>Mark as Done</span>
                                     </button>
+                                    <!-- kebab button -->
+                                    <div class="relative task-card">
+
+                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
+                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+
+                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
+                                        </button>
+
+                                        <!-- Dropdown Menu -->
+                                        <ul data-dropdown
+                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-edit text-xl'></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-trash text-xl'></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -351,6 +442,36 @@
                                         <i class='bx bx-check text-xl'></i>
                                         <span>Mark as Done</span>
                                     </button>
+                                    <!-- kebab button -->
+                                    <div class="relative task-card">
+
+                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
+                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+
+                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
+                                        </button>
+
+                                        <!-- Dropdown Menu -->
+                                        <ul data-dropdown
+                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-edit text-xl'></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#"
+                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
+                                                    <i class='bx bx-trash text-xl'></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -360,6 +481,8 @@
             </div>
         </main>
     </div>
+
+    <div class="action-modals"></div>
 
     <script src="../assets/js/tasks.js"></script>
 </body>
