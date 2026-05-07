@@ -48,5 +48,49 @@ CREATE TABLE IF NOT EXISTS users (
 "
 );
 
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS semesters (
+    semester_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+"
+);
+
+
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS tasks (
+    tasks_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    deadline DATETIME NULL,
+    priority ENUM('low', 'medium', 'high') NOT NULL DEFAULT 'medium',
+    estimated_minutes INT NULL,
+    status ENUM('pending', 'completed') NOT NULL DEFAULT 'pending',
+    completed_at DATETIME NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_archived BOOLEAN NOT NULL DEFAULT 0,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id),
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+);
+"
+);
+
 echo "Database initialized successfully.";
 
