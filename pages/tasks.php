@@ -13,7 +13,8 @@
             <div class="flex justify-between">
                 <h1 class="font-bold text-2xl">TASKS</h1>
                 <button type="button"
-                    class="px-3.5 py-2 text-white text-sm font-semibold cursor-pointer bg-[#333] hover:bg-[#222] border border-[#333] rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#444] flex items-center gap-2" id="openModal">
+                    class="px-3.5 py-2 text-white text-sm font-semibold cursor-pointer bg-[#333] hover:bg-[#222] border border-[#333] rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#444] flex items-center gap-2"
+                    id="openModal">
                     <i class='bx bx-plus text-sm md:text-base'></i>
                     <span class="text-sm md:text-base">Add Task</span>
                 </button>
@@ -103,18 +104,19 @@
                 <div class="flex flex-col flex-1 min-h-0">
                     <div
                         class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto mt-6 p-4 sm:p-6 flex flex-col gap-3">
-                        <div class="flex flex-wrap gap-3">
+                        <div class="flex flex-wrap gap-3 border-b border-slate-200 pb-4">
                             <select
                                 class="px-3.5 py-2 text-slate-900 text-sm rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 <option value="">All Subjects</option>
                             </select>
-                            <select
+                            <!-- <select
                                 class="px-3.5 py-2 text-slate-900 text-sm rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 <option value="">All Semesters</option>
-                            </select>
+                            </select> -->
                             <select
                                 class="px-3.5 py-2 text-slate-900 text-sm rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                <option value="">Sort by Subject</option>
+                                <option value="">Sort by Due Date</option>
+                                <option value="">Sort by Priority</option>
                             </select>
                         </div>
 
@@ -124,7 +126,21 @@
                         data-[active=true]:bg-indigo-600
                         data-[active=true]:text-white
                         data-[active=true]:shadow-sm">
+                                All
+                            </button>
+                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                        bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
+                        data-[active=true]:bg-indigo-600
+                        data-[active=true]:text-white
+                        data-[active=true]:shadow-sm">
                                 Pending
+                            </button>
+                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                        bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
+                        data-[active=true]:bg-indigo-600
+                        data-[active=true]:text-white
+                        data-[active=true]:shadow-sm">
+                                Due soon
                             </button>
 
                             <button class="px-4 py-2 text-sm rounded-lg transition-colors
@@ -133,6 +149,13 @@
                         data-[active=true]:text-white
                         data-[active=true]:shadow-sm">
                                 Completed
+                            </button>
+                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                        bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
+                        data-[active=true]:bg-indigo-600
+                        data-[active=true]:text-white
+                        data-[active=true]:shadow-sm">
+                                Overdue
                             </button>
                         </div>
                     </div>
@@ -166,8 +189,12 @@
 
                                 <div>
                                     <span
-                                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
+                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
                                         Completed
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-100 text-red-700 border border-red-200 text-xs font-medium">
+                                        🔴 High
                                     </span>
                                 </div>
 
@@ -209,9 +236,12 @@
 
                                 <div>
                                     <span
-                                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-yellow-100 text-yellow-700 border border-yellow-200">
+                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-yellow-100 text-yellow-700 border border-yellow-200">
                                         Due soon
-
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-amber-100 text-amber-700 border border-amber-200 text-xs font-medium">
+                                        🟡 Medium
                                     </span>
                                 </div>
 
@@ -253,8 +283,12 @@
 
                                 <div>
                                     <span
-                                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-red-100 text-red-700 border border-red-200">
+                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-red-100 text-red-700 border border-red-200">
                                         Overdue
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-medium">
+                                        🟢 Low
                                     </span>
                                 </div>
 
@@ -296,8 +330,12 @@
 
                                 <div>
                                     <span
-                                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-gray-100 text-gray-700 border border-gray-200">
+                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-gray-100 text-gray-700 border border-gray-200">
                                         Pending
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium">
+                                        🟢 Low
                                     </span>
                                 </div>
 
