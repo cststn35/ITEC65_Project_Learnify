@@ -66,8 +66,6 @@
                                 <select name="subject" id="subject" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select a subject</option>
-                                    <option value="">Math</option>
-                                    <option value="">Science</option>
                                 </select>
                             </div>
                             <div class="deadlineInput">
@@ -190,8 +188,9 @@
                                             <h1 class="font-bold text-xl">Study Math</h1>
                                         </div>
                                         <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i
-                                                    class='bx bx-book-open'></i><span>Math</span></div>
+                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
+                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Math</span>
+                                            </div>
                                             <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
                                                     May 10</span></div>
                                             <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>45
@@ -267,8 +266,9 @@
                                             <h1 class="font-bold text-xl">Study Physics</h1>
                                         </div>
                                         <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i
-                                                    class='bx bx-book-open'></i><span>Physics</span></div>
+                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
+                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Physics</span>
+                                            </div>
                                             <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
                                                     May 12</span></div>
                                             <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>46
@@ -344,8 +344,9 @@
                                             <h1 class="font-bold text-xl">Study Arts</h1>
                                         </div>
                                         <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i
-                                                    class='bx bx-book-open'></i><span>Art Appreciation</span></div>
+                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
+                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Art
+                                                    Appreciation</span></div>
                                             <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
                                                     May 14</span></div>
                                             <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>48
@@ -421,8 +422,9 @@
                                             <h1 class="font-bold text-xl">Study Database</h1>
                                         </div>
                                         <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i
-                                                    class='bx bx-book-open'></i><span>Database System</span></div>
+                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
+                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Database
+                                                    System</span></div>
                                             <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
                                                     May 20</span></div>
                                             <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>55
@@ -496,7 +498,11 @@
 
     <div class="action-modals"></div>
 
-    <script src="../assets/js/tasks.js"></script>
+    <script>const userID = <?= $_SESSION['user_id'] ?></script>
+    <script src="../assets/js/tasks/fetch_subjects.js"></script>
+    <script src="../assets/js/tasks/deadline_restrictor.js"></script>
+    <script src="../assets/js/tasks/add_task_modal.js"></script>
+    <script src="../assets/js/tasks/kebab_button.js"></script>
 </body>
 
 </html>
