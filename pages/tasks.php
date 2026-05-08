@@ -9,7 +9,7 @@
         $pageTitle = "Tasks";
         include_once("../components/topsidebar.php")
             ?>
-        <main class="bg-gray-200 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] flex flex-col overflow-hidden">
+        <main class="bg-gray-200 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] h-full flex flex-col overflow-hidden">
             <div class="flex justify-between">
                 <h1 class="font-bold text-2xl">TASKS</h1>
                 <button type="button"
@@ -43,12 +43,12 @@
                         </button>
                     </div>
 
-                    <form action="">
+                    <form id="task-form">
                         <div class="my-6 space-y-6">
                             <div class="titleInput">
                                 <label for="title" class="mb-2 text-slate-900 font-medium text-base inline-block">Title
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="text" id="title" placeholder="e.g. Study Math Chapter 3" required
+                                <input type="text" id="title" name="title" placeholder="e.g. Study Math Chapter 3" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="descriptionInput">
@@ -56,7 +56,7 @@
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Short
                                     Description
                                     <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
-                                <input type="text" id="description" placeholder="Add notes about this task"
+                                <input type="text" id="description" name="description" placeholder="Add notes about this task"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="subjectInput">
@@ -72,7 +72,7 @@
                                 <label for="deadline"
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Deadline
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="date" id="deadline" required placeholder="Add notes about this task"
+                                <input type="date" id="deadline" name="deadline" required placeholder="Add notes about this task"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="priorityInput">
@@ -82,9 +82,9 @@
                                 <select name="priority" id="priority" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select priority level</option>
-                                    <option value="">Low</option>
-                                    <option value="">Medium</option>
-                                    <option value="">High</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
                                 </select>
                             </div>
                             <div class="timeInput">
@@ -92,7 +92,7 @@
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Estimated Time To
                                     Accomplish (in minutes)
                                     <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
-                                <input type="number" id="time" placeholder="e.g. 10"
+                                <input type="number" id="time" name="time" placeholder="e.g. 10"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <button type="button" id="cancelBtn"
                                 class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Cancel</button>
-                            <button type="submit"
+                            <button type="submit" id="task-submit"
                                 class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Create Task</button>
                         </div>
@@ -176,333 +176,19 @@
                     [&::-webkit-scrollbar-thumb]:bg-gray-300
                     dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                     dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                        <!-- task 1 -->
-                        <div
-                            class="one-card bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 flex flex-col gap-3">
-                            <!-- heading -->
-                            <div class="flex flex-col gap-3">
-                                <div class="flex gap-2">
-                                    <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
-                                    <div class="flex flex-col gap-2">
-                                        <div>
-                                            <h1 class="font-bold text-xl">Study Math</h1>
-                                        </div>
-                                        <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
-                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Math</span>
-                                            </div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
-                                                    May 10</span></div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>45
-                                                    min</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- pills -->
-                                <div>
-                                    <span
-                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
-                                        Completed
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-100 text-red-700 border border-red-200 text-xs font-medium">
-                                        🔴 High
-                                    </span>
-                                </div>
-                                <!-- buttons -->
-                                <div class="flex gap-2">
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-play text-xl'></i>
-                                        <span>Start Study</span>
-                                    </button>
-
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-green-600 hover:bg-green-700 border border-green-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-check text-xl'></i>
-                                        <span>Mark as Done</span>
-                                    </button>
-                                    <!-- kebab button -->
-                                    <div class="relative task-card">
-
-                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
-                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-
-                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
-                                        </button>
-
-                                        <!-- Dropdown Menu -->
-                                        <ul data-dropdown
-                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-edit text-xl'></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-trash text-xl'></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- task 2 -->
-                        <div
-                            class="one-card bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 flex flex-col gap-3">
-                            <div class="flex flex-col gap-3">
-                                <div class="flex gap-2">
-                                    <div class="text-center text-4xl"><i class='bx bxs-book text-blue-700'></i></div>
-                                    <div class="flex flex-col gap-2">
-                                        <div>
-                                            <h1 class="font-bold text-xl">Study Physics</h1>
-                                        </div>
-                                        <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
-                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Physics</span>
-                                            </div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
-                                                    May 12</span></div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>46
-                                                    min</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <span
-                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-yellow-100 text-yellow-700 border border-yellow-200">
-                                        Due soon
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-amber-100 text-amber-700 border border-amber-200 text-xs font-medium">
-                                        🟡 Medium
-                                    </span>
-                                </div>
-
-                                <div class="flex gap-2">
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-play text-xl'></i>
-                                        <span>Start Study</span>
-                                    </button>
-
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-green-600 hover:bg-green-700 border border-green-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-check text-xl'></i>
-                                        <span>Mark as Done</span>
-                                    </button>
-                                    <!-- kebab button -->
-                                    <div class="relative task-card">
-
-                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
-                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-
-                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
-                                        </button>
-
-                                        <!-- Dropdown Menu -->
-                                        <ul data-dropdown
-                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-edit text-xl'></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-trash text-xl'></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- task 3 -->
-                        <div
-                            class="one-card bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 flex flex-col gap-3">
-                            <div class="flex flex-col gap-3">
-                                <div class="flex gap-2">
-                                    <div class="text-center text-4xl"><i class='bx bxs-book text-violet-700'></i></div>
-                                    <div class="flex flex-col gap-2">
-                                        <div>
-                                            <h1 class="font-bold text-xl">Study Arts</h1>
-                                        </div>
-                                        <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
-                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Art
-                                                    Appreciation</span></div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
-                                                    May 14</span></div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>48
-                                                    min</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <span
-                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-red-100 text-red-700 border border-red-200">
-                                        Overdue
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-medium">
-                                        🟢 Low
-                                    </span>
-                                </div>
-
-                                <div class="flex gap-2">
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-play text-xl'></i>
-                                        <span>Start Study</span>
-                                    </button>
-
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-green-600 hover:bg-green-700 border border-green-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-check text-xl'></i>
-                                        <span>Mark as Done</span>
-                                    </button>
-                                    <!-- kebab button -->
-                                    <div class="relative task-card">
-
-                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
-                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-
-                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
-                                        </button>
-
-                                        <!-- Dropdown Menu -->
-                                        <ul data-dropdown
-                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-edit text-xl'></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-trash text-xl'></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- task 4 -->
-                        <div
-                            class="one-card bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 flex flex-col gap-3">
-                            <div class="flex flex-col gap-3">
-                                <div class="flex gap-2">
-                                    <div class="text-center text-4xl"><i class='bx bxs-book text-pink-700'></i></div>
-                                    <div class="flex flex-col gap-2">
-                                        <div>
-                                            <h1 class="font-bold text-xl">Study Database</h1>
-                                        </div>
-                                        <div class="flex gap-3 text-gray-600">
-                                            <div class="flex items-center gap-1"><i class='bx bx-book-open'></i><span
-                                                    class="truncate w-10 md:w-auto md:whitespace-normal md:overflow-visible">Database
-                                                    System</span></div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-calendar'></i><span>Due
-                                                    May 20</span></div>
-                                            <div class="flex items-center gap-1"><i class='bx bx-time'></i><span>55
-                                                    min</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <span
-                                        class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-gray-100 text-gray-700 border border-gray-200">
-                                        Pending
-                                    </span>
-                                    <span
-                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium">
-                                        🟢 Low
-                                    </span>
-                                </div>
-
-                                <div class="flex gap-2">
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-play text-xl'></i>
-                                        <span>Start Study</span>
-                                    </button>
-
-                                    <button
-                                        class="px-3.5 py-2 text-white text-sm font-semibold bg-green-600 hover:bg-green-700 border border-green-600 rounded-md transition-colors flex gap-2">
-                                        <i class='bx bx-check text-xl'></i>
-                                        <span>Mark as Done</span>
-                                    </button>
-                                    <!-- kebab button -->
-                                    <div class="relative task-card">
-
-                                        <button type="button" data-action="dropdown-toggle" aria-haspopup="true"
-                                            class="h-full px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md flex items-center gap-2 cursor-pointer bg-slate-200 border border-slate-100 transition-colors hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-
-                                            <i class="fa-solid fa-ellipsis-vertical text-base"></i>
-                                        </button>
-
-                                        <!-- Dropdown Menu -->
-                                        <ul data-dropdown
-                                            class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-edit text-xl'></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#"
-                                                    class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
-                                                    <i class='bx bx-trash text-xl'></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- tasks are placed here dynamically -->
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <div class="action-modals"></div>
-
     <script>const userID = <?= $_SESSION['user_id'] ?></script>
     <script src="../assets/js/tasks/fetch_subjects.js"></script>
     <script src="../assets/js/tasks/deadline_restrictor.js"></script>
-    <script src="../assets/js/tasks/add_task_modal.js"></script>
     <script src="../assets/js/tasks/kebab_button.js"></script>
+    <script src="../assets/js/tasks/fetch_task.js"></script>
+    <script src="../assets/js/tasks/add_task_modal.js"></script>
 </body>
 
 </html>

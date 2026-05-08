@@ -13,10 +13,18 @@ include("../config/db.php");
 
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $fullName = isset($_POST["fullname"]) ? trim(filter_var($_POST["fullname"]), FILTER_SANITIZE_SPECIAL_CHARS) : "";
-        $email = isset($_POST["email"]) ? trim(filter_var($_POST["email"]), FILTER_VALIDATE_EMAIL) : "";
-        $password = isset($_POST["password"]) ? trim(filter_var($_POST["password"]), FILTER_SANITIZE_SPECIAL_CHARS) : "";
-        $cpassword = isset($_POST["cpassword"]) ? trim(filter_var($_POST["cpassword"]), FILTER_SANITIZE_SPECIAL_CHARS) : "";
+        $fullName = isset($_POST["fullname"])
+            ? trim(filter_var($_POST["fullname"], FILTER_SANITIZE_SPECIAL_CHARS))
+            : "";
+        $email = isset($_POST["email"])
+            ? trim(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
+            : "";
+        $password = isset($_POST["password"])
+            ? trim(filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS))
+            : "";
+        $cpassword = isset($_POST["cpassword"])
+            ? trim(filter_var($_POST["cpassword"], FILTER_SANITIZE_SPECIAL_CHARS))
+            : "";
 
         if (empty($fullName) && empty($email) && empty($fullName) && empty($cpassword)) {
             $_SESSION["registration"]["error"] = "All fields must be filled.";

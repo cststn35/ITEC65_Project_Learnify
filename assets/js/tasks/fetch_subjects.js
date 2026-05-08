@@ -18,7 +18,7 @@ async function fetchSubjects(userID) {
 
             data.data.forEach(subject=>{
                 subjectInput.innerHTML += 
-                `<option value=${subject.subject_id}>${subject.name}</option>`
+                `<option value="${subject.subject_id}">${subject.name}</option>`;
             });
 
 
