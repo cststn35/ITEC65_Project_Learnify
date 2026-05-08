@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     description TEXT NULL,
     deadline DATETIME NULL,
     priority ENUM('low', 'medium', 'high') NOT NULL DEFAULT 'medium',
-    estimated_minutes INT NULL,
+    estimated_seconds INT NULL,
     status ENUM('pending', 'completed') NOT NULL DEFAULT 'pending',
     completed_at DATETIME NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
