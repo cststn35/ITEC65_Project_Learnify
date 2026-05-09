@@ -12,7 +12,9 @@ try {
             ? trim($_GET["tasks_id"])
             : "";
 
-        $semesterID = 1; // mockup only
+        $semesterID = isset($_GET["semesterID"])
+            ? trim($_GET["semesterID"])
+            : "";
 
         $title = isset($_POST["title"])
             ? trim(filter_var($_POST["title"], FILTER_SANITIZE_SPECIAL_CHARS))
