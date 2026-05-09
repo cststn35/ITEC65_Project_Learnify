@@ -20,16 +20,16 @@
                 </button>
             </div>
 
-            <!-- add task overlay -->
+            <!-- add/edit task overlay -->
             <div id="modalOverlay"
                 class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] hidden">
 
                 <div role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
-                    class="w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
+                    class="task-form-container w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
                     <div class="flex items-center pb-3 border-b border-slate-300">
                         <h3 id="modal-title"
                             class="text-slate-900 text-lg font-semibold flex-1 flex items-center gap-2"><i
-                                class='bx bxs-plus-square text-2xl'></i>Create Task
+                                class='bx bxs-plus-square text-2xl'></i><span>Create Task</span>
                         </h3>
 
                         <button type="button" id="closeModal" aria-label="Close modal"
@@ -72,7 +72,7 @@
                                 <label for="deadline"
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Deadline
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="date" id="deadline" name="deadline" required placeholder="Add notes about this task"
+                                <input type="date" id="deadline" name="deadline" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="priorityInput">
@@ -82,9 +82,9 @@
                                 <select name="priority" id="priority" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select priority level</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
                                 </select>
                             </div>
                             <div class="timeInput">
@@ -189,6 +189,8 @@
     <script src="../assets/js/tasks/kebab_button.js"></script>
     <script src="../assets/js/tasks/fetch_task.js"></script>
     <script src="../assets/js/tasks/add_task_modal.js"></script>
+    <script src="../assets/js/tasks/edit_task.js"></script>
+    <script src="../assets/js/tasks/delete_task.js"></script>
 </body>
 
 </html>
