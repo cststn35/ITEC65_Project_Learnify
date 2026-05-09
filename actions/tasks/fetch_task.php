@@ -9,7 +9,35 @@ try {
 
     $semesterID = 1; // mockup only
 
-    $sql = "SELECT 
+    $tasksID = isset($_GET["tasks_id"])
+        ? trim($_GET["tasks_id"])
+        : "";
+
+    if ($tasksID) { //fetching for editing
+        $sql = "SELECT 
+            t.tasks_id, 
+            t.user_id, 
+            t.subject_id, 
+            t.semester_id, 
+            t.title, 
+            t.description, 
+            t.deadline, 
+            t.priority, 
+            t.estimated_seconds
+        FROM tasks t 
+        INNER JOIN subjects s 
+            ON t.subject_id = s.subject_id 
+        WHERE t.user_id = :userID 
+            AND t.semester_id = :semesterID
+            AND t.tasks_id = :tasksID
+            AND t.is_archived = 0";
+        $params = [
+            'userID' => $userID,
+            'semesterID' => $semesterID,
+            'tasksID' => $tasksID
+        ];
+    } else { //fetching for tasks rendering
+        $sql = "SELECT 
             t.tasks_id, 
             t.user_id, 
             t.subject_id, 
@@ -27,11 +55,13 @@ try {
             ON t.subject_id = s.subject_id 
         WHERE t.user_id = :userID 
             AND t.semester_id = :semesterID 
-            AND t.is_archived = 0";
-    $params = [
-        'userID' => $userID,
-        'semesterID' => $semesterID
-    ];
+            AND t.is_archived = 0
+        ORDER BY t.tasks_id DESC";
+        $params = [
+            'userID' => $userID,
+            'semesterID' => $semesterID
+        ];
+    }
 
     $result = runQuery($pdo, $sql, $params, true);
 

@@ -18,6 +18,7 @@ function closeModal() {
     overlay.classList.add("hidden");
     document.body.style.overflow = "";
     openBtn.focus();
+    resetFormAppearance();
 }
 
 closeBtn.onclick = cancelBtn.onclick = closeModal;
@@ -54,9 +55,12 @@ document.addEventListener("keydown", (e) => {
 //js for adding task
 const taskForm = document.getElementById("task-form");
 
-taskForm.addEventListener("submit", async (e) => {
+taskForm.addEventListener("submit",submitCreatedTask);
+
+async function submitCreatedTask(e){
     // stop normal form submission first
     e.preventDefault();
+    console.log("Will i get triggered too?")
 
     // confirmation alert
     const result = await Swal.fire({
@@ -95,5 +99,5 @@ taskForm.addEventListener("submit", async (e) => {
             });
         }
     }
-});
+}
 
