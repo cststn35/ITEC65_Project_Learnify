@@ -110,8 +110,7 @@ function renderTasks(data){
                         </div>
 
                         <div class="flex items-center gap-1">
-                            <i class='bx bx-time'></i>
-                            <span>${targetTime} mins</span>
+                            ${targetTime !== 0 ? `<i class='bx bx-time'></i><span>${targetTime} mins</span>`:""}
                         </div>
                     </div>
                 </div>
@@ -151,7 +150,7 @@ function renderTasks(data){
                         class="hidden absolute right-0 mt-2 p-2 min-w-48 w-full text-slate-800 text-sm font-medium bg-white border border-slate-300 rounded-md shadow-lg z-20 overflow-hidden">
 
                         <li>
-                            <a href="#"
+                            <a onclick='editTask(${taskID},${userID})'
                                 class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
                                 <i class='bx bx-edit text-xl'></i>
                                 Edit
@@ -159,7 +158,7 @@ function renderTasks(data){
                         </li>
 
                         <li>
-                            <a href="#"
+                            <a onclick='deleteTask(${taskID},${userID})'
                                 class="w-full p-2 flex items-center gap-2 rounded-md hover:bg-slate-100">
                                 <i class='bx bx-trash text-xl'></i>
                                 Delete
