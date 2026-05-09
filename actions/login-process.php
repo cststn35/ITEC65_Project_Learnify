@@ -18,6 +18,7 @@ if ($email && $password) {
         $_SESSION['user_id'] = $user['user_id'];
         $name = $user["name"];
         $_SESSION['name'] = $name;
+        $_SESSION['semester_id'] = 1;
         header("Location: ../pages/dashboard.php");
         exit;
     }
