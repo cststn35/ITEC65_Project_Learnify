@@ -15,7 +15,7 @@ async function deleteTask(taskID,userID){
 }
 
 async function delete_task_db(taskID,userID){
-    const response = await fetch(`/${BASE_URL}/actions/tasks/delete_task.php?userID=${userID}&tasks_id=${taskID}`);
+    const response = await fetch(`/${BASE_URL}/actions/tasks/delete_task.php?userID=${userID}&tasks_id=${taskID}&semesterID=${semesterID}`);
     const data = await response.json();
     if(data.success){
         Swal.fire({
