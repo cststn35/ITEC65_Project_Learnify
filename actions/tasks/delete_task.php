@@ -12,7 +12,9 @@ try {
             ? trim($_GET["tasks_id"])
             : "";
 
-        $semesterID = 1; // mockup only
+        $semesterID = isset($_GET["semesterID"])
+            ? trim($_GET["semesterID"])
+            : "";
 
         $sql = "UPDATE tasks
         SET is_archived = 1
