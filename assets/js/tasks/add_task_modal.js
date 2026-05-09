@@ -77,7 +77,7 @@ async function submitCreatedTask(e){
     // if user clicks yes
     if (result.isConfirmed) {
         const formData = new FormData(taskForm);
-        const response = await fetch(`/${BASE_URL}/actions/tasks/create_task.php?userID=${userID}`,{
+        const response = await fetch(`/${BASE_URL}/actions/tasks/create_task.php?userID=${userID}&semesterID=${semesterID}`,{
             method: "POST",
             body: formData
         });

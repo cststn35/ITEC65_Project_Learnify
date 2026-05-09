@@ -76,13 +76,13 @@ CREATE TABLE IF NOT EXISTS subjects (
     name VARCHAR(150) NOT NULL,
     description TEXT NULL,
     color ENUM(
-        'red',
-        'orange',
-        'yellow',
-        'green',
-        'blue',
-        'indigo',
-        'violet'
+        'red-700',
+        'orange-500',
+        'yellow-400',
+        'green-700',
+        'blue-700',
+        'purple-500',
+        'violet-700'
     ) NULL,
     is_archived BOOLEAN NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

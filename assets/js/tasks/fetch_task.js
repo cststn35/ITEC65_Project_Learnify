@@ -1,7 +1,7 @@
 const taskContainer = document.querySelector(".tasks-container");
 
 async function fetch_task(source){
-    const response = await fetch(`/${BASE_URL}/actions/tasks/fetch_task.php?userID=${userID}`);
+    const response = await fetch(`/${BASE_URL}/actions/tasks/fetch_task.php?userID=${userID}&semesterID=${semesterID}`);
     const data = await response.json();
     //biggest challenge of rendering
     if(data.success){
@@ -88,7 +88,7 @@ function renderTasks(data){
             <div class="flex gap-2">
                 
                 <div class="text-center text-4xl">
-                    <i class='bx bxs-book text-${color}-700'></i>
+                    <i class='bx bxs-book text-${color}'></i>
                 </div>
 
                 <div class="flex flex-col gap-2">

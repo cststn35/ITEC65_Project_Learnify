@@ -8,25 +8,25 @@ try {
             ? trim($_GET["userID"])
             : "";
 
-        $tasksID = isset($_GET["tasks_id"])
-            ? trim($_GET["tasks_id"])
+        $courseID = isset($_GET["course_id"])
+            ? trim($_GET["course_id"])
             : "";
 
-        $semesterID = isset($_GET["semesterID"])
-            ? trim($_GET["semesterID"])
+        $semesterID = isset($_GET["semester_id"])
+            ? trim($_GET["semester_id"])
             : "";
 
-        $sql = "UPDATE tasks
+        $sql = "UPDATE subjects
         SET is_archived = 1
         WHERE user_id = :userID 
             AND semester_id = :semesterID
-            AND tasks_id = :tasksID
+            AND subject_id = :subjectID
             AND is_archived = 0";
 
         $params = [
             "userID" => $userID,
             "semesterID" => $semesterID,
-            "tasksID" => $tasksID
+            "subjectID" => $courseID
         ];
 
         $result = runQuery($pdo, $sql, $params);

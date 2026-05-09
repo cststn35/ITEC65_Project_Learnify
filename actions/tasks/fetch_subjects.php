@@ -5,7 +5,7 @@ require_once __DIR__ . '/../../config/runQuery.php';
 $userID = $_GET['userID'];
 
 try {
-    $sql = "SELECT * FROM subjects WHERE user_id = :userID";
+    $sql = "SELECT * FROM subjects WHERE user_id = :userID AND is_archived = 0";
     $params = [
         'userID' => $userID
     ];

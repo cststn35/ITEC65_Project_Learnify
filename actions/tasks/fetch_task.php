@@ -7,7 +7,9 @@ try {
         ? trim($_GET["userID"])
         : "";
 
-    $semesterID = 1; // mockup only
+    $semesterID = isset($_GET["semesterID"])
+        ? trim($_GET["semesterID"])
+        : "";
 
     $tasksID = isset($_GET["tasks_id"])
         ? trim($_GET["tasks_id"])
@@ -49,13 +51,15 @@ try {
             t.estimated_seconds, 
             t.status, 
             s.color,
-            s.name
+            s.name,
+            s.is_archived
         FROM tasks t 
         INNER JOIN subjects s 
             ON t.subject_id = s.subject_id 
         WHERE t.user_id = :userID 
             AND t.semester_id = :semesterID 
             AND t.is_archived = 0
+            AND s.is_archived = 0
         ORDER BY t.tasks_id DESC";
         $params = [
             'userID' => $userID,

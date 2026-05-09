@@ -19,11 +19,11 @@
                 class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] hidden">
 
                 <div role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
-                    class="w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
+                    class="course-form-container w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
                     <div class="flex items-center pb-3 border-b border-slate-300">
                         <h3 id="modal-title"
                             class="text-slate-900 text-lg font-semibold flex-1 flex items-center gap-2"><i
-                                class='bx bxs-book text-2xl'></i>Add New Subject
+                                class='bx bxs-book text-2xl'></i><span>Add New Subject</span>
                         </h3>
 
                         <button type="button" id="closeModal" aria-label="Close modal"
@@ -37,7 +37,7 @@
                         </button>
                     </div>
 
-                    <form action="">
+                    <form id="course-form-container">
                         <div class="my-6 space-y-6">
                             <div class="iconColor">
                                 <label for="title" class="mb-2 text-slate-900 font-medium text-base inline-block">Icon
@@ -46,38 +46,38 @@
                                 <div class="flex flex-wrap justify-center items-center gap-3">
                                     <button
                                         class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
-                                        id="blue" onclick="changeBorder('blue')" type="button"><i
+                                        id="blue-700" onclick="changeBorder('blue-700')" type="button"><i
                                             class='bx bxs-book text-2xl text-blue-700'></i></button>
                                     <button
                                         class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
-                                        id="red" onclick="changeBorder('red')" type="button"><i
+                                        id="red-700" onclick="changeBorder('red-700')" type="button"><i
                                             class='bx bxs-book text-2xl text-red-700'></i></button>
                                     <button
                                         class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
-                                        id="orange" onclick="changeBorder('orange')" type="button"><i
+                                        id="orange-500" onclick="changeBorder('orange-500')" type="button"><i
                                             class='bx bxs-book text-2xl text-orange-500'></i></button>
                                     <button
                                         class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
-                                        id="yellow" onclick="changeBorder('yellow')" type="button"><i
+                                        id="yellow-400" onclick="changeBorder('yellow-400')" type="button"><i
                                             class='bx bxs-book text-2xl text-yellow-400'></i></button>
                                     <button
                                         class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
-                                        id="green" onclick="changeBorder('green')" type="button"><i
+                                        id="green-700" onclick="changeBorder('green-700')" type="button"><i
                                             class='bx bxs-book text-2xl text-green-700'></i></button>
                                     <button
                                         class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
-                                        id="purple" onclick="changeBorder('purple')" type="button"><i
+                                        id="purple-500" onclick="changeBorder('purple-500')" type="button"><i
                                             class='bx bxs-book text-2xl text-purple-500'></i></button>
                                     <button
                                         class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
-                                        id="violet" onclick="changeBorder('violet')" type="button"><i
+                                        id="violet-700" onclick="changeBorder('violet-700')" type="button"><i
                                             class='bx bxs-book text-2xl text-violet-700'></i></button>
                                 </div>
                             </div>
                             <div class="courseInput">
                                 <label for="course"
-                                    class="mb-2 text-slate-900 font-medium text-base inline-block">Subject/Course Title <span
-                                        class="text-red-500 font-bold">*</span>
+                                    class="mb-2 text-slate-900 font-medium text-base inline-block">Subject/Course Title
+                                    <span class="text-red-500 font-bold">*</span>
                                 </label>
                                 <input type="text" id="course" name="course"
                                     placeholder="e.g. Web Systems and Technologies" required
@@ -88,7 +88,7 @@
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Short
                                     Description
                                     <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
-                                <input type="text" id="description" placeholder="Brief description of the course..."
+                                <input type="text" id="description" name="description" placeholder="Brief description of the course..."
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                             <button type="button" id="cancelBtn"
                                 class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Cancel</button>
-                            <button type="submit"
+                            <button type="submit" id="course-submit"
                                 class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Create Subject</button>
                         </div>
@@ -128,278 +128,31 @@
             <div
                 class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto mt-6 p-4 sm:p-6 justify-center md:justify-start flex gap-3">
                 <div class="border-r border-gray-300 pr-4 flex items-center justify-center gap-1"><i
-                        class='bx bx-book-open text-lg text-blue-600'></i><span>Total:
+                        class='bx bx-book-open text-lg text-blue-600'></i><span id="total-sub">Total:
                         12</span></div>
                 <div class="border-r border-gray-300 pr-4 flex items-center justify-center gap-1"><i
-                        class='bx bxs-circle text-sm text-green-600'></i><span>Active:
+                        class='bx bxs-circle text-sm text-green-600'></i><span id="total-active">Active:
                         10</span></div>
                 <div class=" pr-4 flex items-center justify-center gap-1"><i
-                        class='bx bx-archive-in text-lg text-red-600'></i><span>Archived:
+                        class='bx bx-archive-in text-lg text-red-600'></i><span id="total-archived">Archived:
                         2</span></div>
             </div>
             <!-- grids of subjects -->
             <div
-                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full mx-auto mt-6 flex-1 min-h-0 overflow-y-auto">
+                class="course-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full mx-auto mt-6 flex-1 min-h-0 overflow-y-auto">
                 <!-- one grid item -->
-                <div class="bg-white border border-slate-200 shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4">
-                    <!-- heading -->
-                    <div class="flex gap-2">
-                        <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
-                        <div class="flex flex-col">
-                            <div>
-                                <h1 class="font-bold text-xl">Data Structures and Algorithm</h1>
-                            </div>
-                            <div class="flex gap-3 text-gray-600 text-sm">
-                                <p>Intro to arrays, trees, graphs</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- active tasks -->
-                    <div class="text-sm text-gray-600 flex gap-2">
-                        <span><i class='bx bx-task'></i></span>
-                        <span>Pending Tasks: 12</span>
-                    </div>
-                    <!-- status -->
-                    <span
-                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
-                        Active
-                    </span>
-                    <!-- buttons -->
-                    <div class="flex gap-2">
-                        <button
-                            class="flex-1 flex justify-center items-center px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-lg transition-colors gap-2">
-                            <i class='fa-regular fa-eye'></i>
-                            <span>View</span>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-edit text-lg text-gray-600'></i>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-trash text-lg text-gray-600'></i>
-                        </button>
-                    </div>
-
-                </div>
-
-                <div class="bg-white border border-slate-200 shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4">
-                    <!-- heading -->
-                    <div class="flex gap-2">
-                        <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
-                        <div class="flex flex-col">
-                            <div>
-                                <h1 class="font-bold text-xl">Data Structures and Algorithm</h1>
-                            </div>
-                            <div class="flex gap-3 text-gray-600 text-sm">
-                                <p>Intro to arrays, trees, graphs</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- active tasks -->
-                    <div class="text-sm text-gray-600 flex gap-2">
-                        <span><i class='bx bx-task'></i></span>
-                        <span>Pending Tasks: 12</span>
-                    </div>
-                    <!-- status -->
-                    <span
-                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
-                        Active
-                    </span>
-                    <!-- buttons -->
-                    <div class="flex gap-2">
-                        <button
-                            class="flex-1 flex justify-center items-center px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-lg transition-colors gap-2">
-                            <i class='fa-regular fa-eye'></i>
-                            <span>View</span>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-edit text-lg text-gray-600'></i>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-trash text-lg text-gray-600'></i>
-                        </button>
-                    </div>
-
-                </div>
-
-                <div class="bg-white border border-slate-200 shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4">
-                    <!-- heading -->
-                    <div class="flex gap-2">
-                        <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
-                        <div class="flex flex-col">
-                            <div>
-                                <h1 class="font-bold text-xl">Data Structures and Algorithm</h1>
-                            </div>
-                            <div class="flex gap-3 text-gray-600 text-sm">
-                                <p>Intro to arrays, trees, graphs</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- active tasks -->
-                    <div class="text-sm text-gray-600 flex gap-2">
-                        <span><i class='bx bx-task'></i></span>
-                        <span>Pending Tasks: 12</span>
-                    </div>
-                    <!-- status -->
-                    <span
-                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
-                        Active
-                    </span>
-                    <!-- buttons -->
-                    <div class="flex gap-2">
-                        <button
-                            class="flex-1 flex justify-center items-center px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-lg transition-colors gap-2">
-                            <i class='fa-regular fa-eye'></i>
-                            <span>View</span>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-edit text-lg text-gray-600'></i>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-trash text-lg text-gray-600'></i>
-                        </button>
-                    </div>
-
-                </div>
-
-                <div class="bg-white border border-slate-200 shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4">
-                    <!-- heading -->
-                    <div class="flex gap-2">
-                        <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
-                        <div class="flex flex-col">
-                            <div>
-                                <h1 class="font-bold text-xl">Data Structures and Algorithm</h1>
-                            </div>
-                            <div class="flex gap-3 text-gray-600 text-sm">
-                                <p>Intro to arrays, trees, graphs</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- active tasks -->
-                    <div class="text-sm text-gray-600 flex gap-2">
-                        <span><i class='bx bx-task'></i></span>
-                        <span>Pending Tasks: 12</span>
-                    </div>
-                    <!-- status -->
-                    <span
-                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
-                        Active
-                    </span>
-                    <!-- buttons -->
-                    <div class="flex gap-2">
-                        <button
-                            class="flex-1 flex justify-center items-center px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-lg transition-colors gap-2">
-                            <i class='fa-regular fa-eye'></i>
-                            <span>View</span>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-edit text-lg text-gray-600'></i>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-trash text-lg text-gray-600'></i>
-                        </button>
-                    </div>
-
-                </div>
-
-                <div class="bg-white border border-slate-200 shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4">
-                    <!-- heading -->
-                    <div class="flex gap-2">
-                        <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
-                        <div class="flex flex-col">
-                            <div>
-                                <h1 class="font-bold text-xl">Data Structures and Algorithm</h1>
-                            </div>
-                            <div class="flex gap-3 text-gray-600 text-sm">
-                                <p>Intro to arrays, trees, graphs</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- active tasks -->
-                    <div class="text-sm text-gray-600 flex gap-2">
-                        <span><i class='bx bx-task'></i></span>
-                        <span>Pending Tasks: 12</span>
-                    </div>
-                    <!-- status -->
-                    <span
-                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
-                        Active
-                    </span>
-                    <!-- buttons -->
-                    <div class="flex gap-2">
-                        <button
-                            class="flex-1 flex justify-center items-center px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-lg transition-colors gap-2">
-                            <i class='fa-regular fa-eye'></i>
-                            <span>View</span>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-edit text-lg text-gray-600'></i>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-trash text-lg text-gray-600'></i>
-                        </button>
-                    </div>
-
-                </div>
-
-                <div class="bg-white border border-slate-200 shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4">
-                    <!-- heading -->
-                    <div class="flex gap-2">
-                        <div class="text-center text-4xl"><i class='bx bxs-book text-red-700'></i></div>
-                        <div class="flex flex-col">
-                            <div>
-                                <h1 class="font-bold text-xl">Data Structures and Algorithm</h1>
-                            </div>
-                            <div class="flex gap-3 text-gray-600 text-sm">
-                                <p>Intro to arrays, trees, graphs</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- active tasks -->
-                    <div class="text-sm text-gray-600 flex gap-2">
-                        <span><i class='bx bx-task'></i></span>
-                        <span>Pending Tasks: 12</span>
-                    </div>
-                    <!-- status -->
-                    <span
-                        class="px-2 py-1 rounded-xl text-sm font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">
-                        Active
-                    </span>
-                    <!-- buttons -->
-                    <div class="flex gap-2">
-                        <button
-                            class="flex-1 flex justify-center items-center px-3.5 py-2 text-white text-sm font-semibold bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-lg transition-colors gap-2">
-                            <i class='fa-regular fa-eye'></i>
-                            <span>View</span>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-edit text-lg text-gray-600'></i>
-                        </button>
-                        <button
-                            class="px-3 py-2 text-white text-sm font-semibold bg-gray-300 hover:bg-gray-400 border border-gray-300 rounded-lg transition-colors flex items-center gap-2">
-                            <i class='bx bx-trash text-lg text-gray-600'></i>
-                        </button>
-                    </div>
-
-                </div>
             </div>
-
-
-
-
         </main>
     </div>
-    <script src="../assets/js/courses.js"></script>
+    <script>
+        const BASE_URL = window.location.pathname.split("/")[1];
+        const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+        const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
+    </script>
+    <script src="../assets/js/courses/add_course_modal.js"></script>
+    <script src="../assets/js/courses/fetch_courses.js"></script>
+    <script src="../assets/js/courses/edit_course.js"></script>
+    <script src="../assets/js/courses/delete_course.js"></script>
 </body>
 
 </html>

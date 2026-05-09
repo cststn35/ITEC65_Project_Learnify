@@ -1,3 +1,4 @@
+let selectedColor = "";
 function changeBorder(color){
     const allIcons = document.querySelectorAll(".icon");
 
@@ -5,8 +6,6 @@ function changeBorder(color){
     allIcons.forEach(icon => {
         icon.style.backgroundColor = "";
         icon.style.borderColor = "#E2E8F0";
-        // #3b82f6 border-blue-500
-        //#E2E8F0 border-slate-200
     });
 
     const iconItem = document.getElementById(color);
@@ -14,7 +13,7 @@ function changeBorder(color){
     iconItem.style.backgroundColor = "#EFF6FF";
     iconItem.style.borderColor = "#3b82f6";
 
-    const selectedColor = color //database purposes
+    selectedColor = color //database purposes
 }
 
 //code for modal functionalities (open, close, create) from readymadeui
@@ -36,6 +35,7 @@ function closeModal() {
     overlay.classList.add("hidden");
     document.body.style.overflow = "";
     openBtn.focus();
+    resetFormAppearance();
 }
 
 closeBtn.onclick = cancelBtn.onclick = closeModal;
@@ -67,3 +67,60 @@ document.addEventListener("keydown", (e) => {
         }
     }
 });
+
+//js for adding course
+const courseForm = document.getElementById("course-form-container");
+
+courseForm.addEventListener("submit",submitCreatedCourse);
+
+async function submitCreatedCourse(e){
+    // stop normal form submission first
+    e.preventDefault();
+    if(selectedColor==""){
+        Swal.fire({
+            icon: "error",
+            title: "Missing field!",
+            text: "Don't forget to select icon color"
+        });
+        return;
+    }
+
+    // confirmation alert
+    const result = await Swal.fire({
+        title: "Create Subject",
+        text: "Do you want to save this subject?",
+        icon: "question",
+
+        showCancelButton: true,
+
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel"
+    });
+
+    // if user clicks yes
+    if (result.isConfirmed) {
+        const formData = new FormData(courseForm);
+        formData.append('color',selectedColor);
+        const response = await fetch(`/${BASE_URL}/actions/courses/create_courses.php?userID=${userID}&semesterID=${semesterID}`,{
+            method: "POST",
+            body: formData
+        });
+        const data = await response.json();
+        if(data.success){
+            Swal.fire({
+                icon: "success",
+                title: "Created!",
+                text: "The subject has been successfully created"
+            });
+
+            fetch_courses("from swal");
+            courseForm.reset();
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Failed",
+                text: data.error
+            });
+        }
+    }
+}
