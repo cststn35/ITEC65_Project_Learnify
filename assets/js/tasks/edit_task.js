@@ -8,7 +8,7 @@ function editTask(taskID,userID){
 }
 
 async function fetch_task_edit(taskID,userID){
-    const response = await fetch(`/${BASE_URL}/actions/tasks/fetch_task.php?userID=${userID}&tasks_id=${taskID}`);
+    const response = await fetch(`/${BASE_URL}/actions/tasks/fetch_task.php?userID=${userID}&tasks_id=${taskID}&semesterID=${semesterID}`);
     const data = await response.json();
     if(data.success){
         openEditModal(data.data[0]);
@@ -75,7 +75,7 @@ async function submitEditedTask(e){
     //if user clicks yes
     if (result.isConfirmed) {
         const formData = new FormData(formContainer);
-        const response = await fetch(`/${BASE_URL}/actions/tasks/edit_task.php?userID=${user_id}&tasks_id=${task_id}`,{
+        const response = await fetch(`/${BASE_URL}/actions/tasks/edit_task.php?userID=${user_id}&tasks_id=${task_id}&semesterID=${semesterID}`,{
             method: "POST",
             body: formData
         });
