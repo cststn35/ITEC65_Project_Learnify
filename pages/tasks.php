@@ -183,7 +183,10 @@
         </main>
     </div>
 
-    <script>const userID = <?= $_SESSION['user_id'] ?></script>
+    <script>
+        const userID = <?= json_encode($_SESSION['user_id']) ?>;
+        const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
+    </script>
     <script src="../assets/js/tasks/fetch_subjects.js"></script>
     <script src="../assets/js/tasks/deadline_restrictor.js"></script>
     <script src="../assets/js/tasks/kebab_button.js"></script>
