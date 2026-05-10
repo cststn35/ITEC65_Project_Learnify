@@ -27,12 +27,15 @@ const descriptionInput = courseFormContainer.querySelector(".descriptionInput in
 
 function openEditModal(data){
     //obtaining the values needed for the form
+    console.log("trigger");
     const title = data.name;
     const desc = data.description;
     const color = data.color;
 
     //edit the contents first, setting create course modal into edit course modal
-    modalOverlay.classList.toggle("hidden");
+    modalOverlay.classList.remove("opacity-0");
+    modalOverlay.classList.remove("pointer-events-none");
+    modalOverlay.classList.remove("scale-95");
     formHeading.textContent = "Edit Subject";
     formLogo.classList.replace('bxs-plus-square','bx-edit');
     button.textContent = "Edit Subject";
@@ -77,7 +80,9 @@ async function submitEditedCourse(e){
                 text: "The task has been successfully edited"
             });
             fetch_courses("from swal of edit");
-            modalOverlay.classList.toggle("hidden");
+                modalOverlay.classList.add("opacity-0");
+                modalOverlay.classList.add("pointer-events-none");
+                modalOverlay.classList.add("scale-95");
             resetFormAppearance();
         } else {
             Swal.fire({

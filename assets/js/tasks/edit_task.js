@@ -39,7 +39,9 @@ function openEditModal(data){
     const time = data.estimated_seconds !== null ? parseInt(data.estimated_seconds)/60 : 0;
 
     //edit the contents first, setting create task modal into edit task modal
-    modalOverlay.classList.toggle("hidden");
+    modalOverlay.classList.remove("opacity-0");
+    modalOverlay.classList.remove("pointer-events-none");
+    modalOverlay.classList.remove("scale-95");
     formHeading.textContent = "Edit Task";
     formLogo.classList.replace('bxs-plus-square','bx-edit');
     button.textContent = "Edit Task";
@@ -87,7 +89,9 @@ async function submitEditedTask(e){
                 text: "The task has been successfully edited"
             });
             fetch_task("from swal of edit");
-            modalOverlay.classList.toggle("hidden");
+            modalOverlay.classList.add("opacity-0");
+            modalOverlay.classList.add("pointer-events-none");
+            modalOverlay.classList.add("scale-95");
             resetFormAppearance();
         } else {
             Swal.fire({

@@ -8,14 +8,18 @@ const sumite = document.getElementById("task-submit");
 
 // Open modal and lock body scroll
 openBtn.onclick = () => {
-    overlay.classList.remove("hidden");
+    overlay.classList.remove("opacity-0");
+    overlay.classList.remove("pointer-events-none");
+    overlay.classList.remove("scale-95");
     document.body.style.overflow = "hidden";
     dialog.focus();
 };
 
 // Close modal and restore focus/scroll
 function closeModal() {
-    overlay.classList.add("hidden");
+    overlay.classList.add("opacity-0");
+    overlay.classList.add("pointer-events-none");
+    overlay.classList.add("scale-95");
     document.body.style.overflow = "";
     openBtn.focus();
     resetFormAppearance();

@@ -29,7 +29,7 @@
                 </a>
             </li>
             <li class="w-[90%] mx-auto my-3">
-                <a href="#"
+                <a href="../pages/study-session.php"
                     class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-timer text-2xl'></i>
