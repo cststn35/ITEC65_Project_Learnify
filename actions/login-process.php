@@ -4,8 +4,12 @@ session_start();
 include("../config/db.php");
 
 // Get form data
-$email = $_POST['email'];
-$password = $_POST['password'];
+$email = isset($_POST["email"])
+    ? trim(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
+    : "";
+$password = isset($_POST["password"])
+    ? trim(filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS))
+    : "";
 
 if ($email && $password) {
     $sql = "SELECT user_id, name, password_hash FROM users WHERE email = :email";
