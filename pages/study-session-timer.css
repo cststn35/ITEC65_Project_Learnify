@@ -1,0 +1,38 @@
+.circle-wrapper {
+    position: relative;
+    width: 440px;
+    height: 440px;
+}
+
+.svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.bg-circle {
+    fill: none;
+    stroke: #333;
+    stroke-width: 12;
+}
+
+.progress-circle {
+    fill: none;
+    stroke: #4f9dff;
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 1256.64; /*formula is 2 * pi * r*/
+    stroke-dashoffset: 1256.64; /*decreases as time goes on*/
+    transition: stroke-dashoffset 0.2s linear;
+}
+
+.time {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3.5rem;
+    font-weight: bold;
+}
