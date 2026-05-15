@@ -10,6 +10,213 @@
         include_once("../components/topsidebar.php")
             ?>
         <main class="bg-gray-200 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] flex flex-col overflow-y-auto">
+            <!-- end study session modal overlay -->
+            <!-- opacity-0 pointer-events-none scale-95 -->
+            <div id="modalOverlay"
+                class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] transition-all opacity-0 pointer-events-none scale-95">
+
+                <div role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
+                    class="end-session-container w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
+                    <div class="flex items-center pb-3 border-b border-slate-300">
+                        <h3 id="modal-title"
+                            class="text-slate-900 text-lg font-semibold flex-1 flex items-center gap-2"><i
+                                class='bx bx-alarm-exclamation text-2xl'></i><span>End Study Session?</span>
+                        </h3>
+
+                        <button type="button" id="closeModal" aria-label="Close modal"
+                            class="ml-auto flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="size-3 cursor-pointer fill-slate-500 hover:fill-red-600" aria-hidden="true"
+                                viewBox="0 0 329.269 329">
+                                <path
+                                    d="M194.8 164.77 323.013 36.555c8.343-8.34 8.343-21.825 0-30.164-8.34-8.34-21.825-8.34-30.164 0L164.633 134.605 36.422 6.391c-8.344-8.34-21.824-8.34-30.164 0-8.344 8.34-8.344 21.824 0 30.164l128.21 128.215L6.259 292.984c-8.344 8.34-8.344 21.825 0 30.164a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25l128.21-128.214 128.216 128.214a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25 8.343-8.34 8.343-21.824 0-30.164zm0 0" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="content py-5 space-y-5">
+                        <div class="flex gap-4">
+                            <div
+                                class="rounded-md bg-slate-200 border border-slate-300 flex flex-col justify-center items-center gap-2 p-5 flex-1">
+                                <div class="text-slate-700">Studied</div>
+                                <div class="text-3xl font-bold">0</div>
+                                <div class="text-sm text-slate-700">minutes</div>
+                            </div>
+                            <div
+                                class="rounded-md bg-slate-200 border border-slate-300 flex flex-col justify-center items-center gap-2 p-5 flex-1">
+                                <div class="text-slate-700">Goal</div>
+                                <div class="text-3xl font-bold">20</div>
+                                <div class="text-sm text-slate-700">minutes</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between">
+                                <span>Progress</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="rounded-md w-full bg-slate-200 h-3">
+                                <div class="rounded-md w-[50%] bg-blue-600 h-3"></div>
+                            </div>
+                        </div>
+                        <div class="rounded-md bg-amber-100 border border-amber-300 p-5 text-center text-yellow-800">
+                            You're x minutes away from your goal. You can still continue!
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
+                        <button type="button" id="cancelBtn"
+                            class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                            Cancel</button>
+                        <button type="submit" id="task-submit"
+                            class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-red-600 border border-red-600 transition-colors hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
+                            End Session</button>
+                    </div>
+                </div>
+            </div>
+            <!-- session completed overlay -->
+            <div id="modalOverlay"
+                class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] transition-all opacity-0 pointer-events-none scale-95">
+
+                <div role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
+                    class="complete-session-container w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
+                    <div class="flex items-center pb-3 border-b border-slate-300">
+                        <h3 id="modal-title"
+                            class="text-slate-900 text-lg font-semibold flex-1 flex items-center gap-2"><i
+                                class='bx bx-check-circle text-2xl text-green-600'></i><span>Session Completed!
+                                🎇🎊</span>
+                        </h3>
+
+                        <button type="button" id="closeModal" aria-label="Close modal"
+                            class="ml-auto flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="size-3 cursor-pointer fill-slate-500 hover:fill-red-600" aria-hidden="true"
+                                viewBox="0 0 329.269 329">
+                                <path
+                                    d="M194.8 164.77 323.013 36.555c8.343-8.34 8.343-21.825 0-30.164-8.34-8.34-21.825-8.34-30.164 0L164.633 134.605 36.422 6.391c-8.344-8.34-21.824-8.34-30.164 0-8.344 8.34-8.344 21.824 0 30.164l128.21 128.215L6.259 292.984c-8.344 8.34-8.344 21.825 0 30.164a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25l128.21-128.214 128.216 128.214a21.27 21.27 0 0 0 15.082 6.25c5.46 0 10.922-2.09 15.082-6.25 8.343-8.34 8.343-21.824 0-30.164zm0 0" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="content pt-5 space-y-5">
+                        <div class="flex gap-4">
+                            <div
+                                class="rounded-md bg-slate-200 border border-slate-300 flex flex-col justify-center items-center gap-2 p-5 flex-1">
+                                <div class="text-slate-700 flex items-center gap-2"><i
+                                        class='bx bx-time text-xl text-blue-600'></i>Studied</div>
+                                <div class="text-3xl font-bold">0</div>
+                                <div class="text-sm text-slate-700">minutes</div>
+                            </div>
+                            <div
+                                class="rounded-md bg-slate-200 border border-slate-300 flex flex-col justify-center items-center gap-2 p-5 flex-1">
+                                <div class="text-slate-700 flex items-center gap-2"><i
+                                        class='bx bx-time text-xl text-blue-600'></i>Goal</div>
+                                <div class="text-3xl font-bold">20</div>
+                                <div class="text-sm text-slate-700">minutes</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div
+                                class="rounded-md bg-yellow-100 border border-yellow-300 flex flex-col justify-center items-center gap-2 p-5 flex-1">
+                                <div class="text-slate-700 flex items-center gap-2"><i
+                                        class='bx bx-pause-circle text-2xl text-orange-400'></i>Paused</div>
+                                <div class="text-3xl font-bold">0</div>
+                                <div class="text-sm text-slate-700">minutes</div>
+                            </div>
+                            <div
+                                class="rounded-md bg-yellow-100 border border-yellow-300 flex flex-col justify-center items-center gap-2 p-5 flex-1">
+                                <div class="text-slate-700 flex items-center gap-2"><i
+                                        class="fa-solid fa-bolt text-yellow-500 text-xl"></i>XP Earned</div>
+                                <div class="text-3xl font-bold">+25</div>
+                                <div class="text-sm text-slate-700">experience</div>
+                            </div>
+                        </div>
+                        <!-- <div>
+                            <div class="flex justify-between">
+                                <span>Progress</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="rounded-md w-full bg-slate-200 h-3">
+                                <div class="rounded-md w-[50%] bg-blue-600 h-3"></div>
+                            </div>
+                        </div> -->
+
+                        <!-- yes quiz -->
+                        <div
+                            class="rounded-md bg-green-100 border border-green-300 p-5 text-center text-yellow-800 flex flex-col gap-2 hidden">
+                            <div>Your quiz is ready! Test your knowledge now!</div>
+                            <div class="flex justify-center gap-2">
+                                <button type="submit" id="task-submit"
+                                    class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-green-600 border border-green-600 transition-colors hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500">
+                                    Take Quiz</button>
+                                <button type="button" id="cancelBtn"
+                                    class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                    Later</button>
+                            </div>
+                        </div>
+                        <!-- upload quiz -->
+                        <div class="uploadInput w-full rounded-md bg-blue-100 border border-blue-200 p-5 space-y-3">
+                            <div>
+                                <span class="font-semibold">Number of Questions</span>
+                                <div class="flex gap-3">
+                                    <button
+                                        class="number five px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                        type="button" onclick="chooseNumber('five')">5</button>
+                                    <button
+                                        class="number ten px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                        type="button" onclick="chooseNumber('ten')">10</button>
+                                    <button
+                                        class="number fifteen px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                        type="button" onclick="chooseNumber('fifteen')">15</button>
+                                    <button
+                                        class="number twenty px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                        type="button" onclick="chooseNumber('twenty')">20</button>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <span class="font-semibold">Upload Learning Materials (PDF, DOCX, TXT)</span>
+                                <div class="bg-white border-2 border-dashed border-slate-300 rounded-md p-4 flex justify-center items-center gap-2 cursor-pointer"
+                                    onclick="triggerUpload()">
+                                    <span class="flex items-center"><i
+                                            class='bx bx-upload text-slate-500 text-2xl'></i></span>
+                                    <span class="upload-text">Click to Upload</span>
+                                    <input type="file" hidden class="file-input" accept=".pdf, .docx, .txt">
+                                </div>
+                                <div class="upload-status rounded-md border border-slate-300 bg-white p-4 hidden">
+                                    <div>
+                                        <span>Selected: </span>
+                                        <span class="selected-file font-semibold"></span>
+                                    </div>
+                                    <div>
+                                        <span>Quiz Generation Status: </span>
+                                        <span class="font-semibold">Generated</span>
+                                    </div>
+                                    <div class="flex justify-center gap-3 mt-3">
+                                        <button type="submit" id="task-submit"
+                                            class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-green-600 border border-green-600 transition-colors hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500">
+                                            Take Quiz</button>
+                                        <button type="button" id="cancelBtn"
+                                            class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                            Later</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
+                        <button type="button" id="cancelBtn"
+                            class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                            Cancel</button>
+                        <button type="submit" id="task-submit"
+                            class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-red-600 border border-red-600 transition-colors hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
+                            End Session</button>
+                    </div> -->
+                </div>
+            </div>
+
+
+
             <div class="w-full max-w-7xl mx-auto space-y-5">
                 <!-- header -->
                 <div class="bg-white w-full flex justify-center items-center p-7 rounded-lg shadow-md">
@@ -36,7 +243,7 @@
                 </div>
                 <!-- timer itself -->
                 <div
-                    class="bg-gradient-to-r from-[#0A2A88] to-[#59CDE9] w-full h-140 rounded-lg flex justify-center items-center flex-col space-y-1">
+                    class="timer-container relative bg-gradient-to-r from-[#0A2A88] to-[#59CDE9] w-full h-140 rounded-lg flex justify-center items-center flex-col space-y-1">
                     <div class="circle-wrapper">
                         <svg width="440" height="440" class="svg">
                             <circle class="bg-circle" cx="220" cy="220" r="200"></circle>
@@ -71,6 +278,9 @@
                     </div>
                     <div class="resume bg-white/10 backdrop-blur-md rounded-xl p-3 text-slate-200 hidden">
                         ▶️Take your break. Resume when ready
+                    </div>
+                    <div class="absolute right-5 bottom-5 cursor-pointer" onclick="triggerFullscreen()">
+                        <i class='bx bx-fullscreen text-3xl text-slate-100 font-bold'></i>
                     </div>
                 </div>
                 <div class="bg-white shadow-md rounded-md p-6 space-y-1">
@@ -144,80 +354,8 @@
         const BASE_URL = window.location.pathname.split("/")[1];
         const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
-
-        const progressCircle =
-            document.querySelector(".progress-circle");
-
-        const timeDisplay =
-            document.getElementById("time");
-
-        const radius = 200;
-        const circumference =
-            2 * Math.PI * radius;
-
-        progressCircle.style.strokeDasharray =
-            circumference;
-
-        let elapsed = 0;
-        let timer = null;
-        let isRunning = false;
-
-        const maxSeconds = 10;
-        // full circle every 60 seconds
-
-        function updateTimer() {
-            elapsed++;
-
-            const minutes =
-                Math.floor(elapsed / 60);
-
-            const seconds =
-                elapsed % 60;
-
-            timeDisplay.textContent =
-                `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
-            const progress =
-                (elapsed % maxSeconds) / maxSeconds;
-
-            const offset =
-                circumference -
-                (progress * circumference);
-
-            progressCircle.style.strokeDashoffset =
-                offset;
-        }
-
-        function startTimer() {
-            if (isRunning) return;
-
-            isRunning = true;
-
-            timer = setInterval(
-                updateTimer,
-                1000
-            );
-        }
-
-        function pauseTimer() {
-            clearInterval(timer);
-            isRunning = false;
-        }
-
-        function resetTimer() {
-            clearInterval(timer);
-            isRunning = false;
-
-            elapsed = 0;
-
-            timeDisplay.textContent =
-                "00:00";
-
-            progressCircle.style.strokeDashoffset =
-                circumference;
-        }
     </script>
-    <script src="../assets/js/sessions/add_session_modal.js"></script>
+    <script src="../assets/js/sessions/study-session-timer.js"></script>
 </body>
 
 </html>

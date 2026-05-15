@@ -116,46 +116,49 @@
                                 </div>
                             </div>
 
-                            <div
-                                class="uploadInput w-full rounded-md bg-blue-100 border border-blue-200 p-5 space-y-3 hidden">
-                                <div>
-                                    <span class="font-semibold">Number of Questions</span>
-                                    <div class="flex gap-3">
-                                        <button
-                                            class="number five px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
-                                            type="button" onclick="chooseNumber('five')">5</button>
-                                        <button
-                                            class="number ten px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
-                                            type="button" onclick="chooseNumber('ten')">10</button>
-                                        <button
-                                            class="number fifteen px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
-                                            type="button" onclick="chooseNumber('fifteen')">15</button>
-                                        <button
-                                            class="number twenty px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
-                                            type="button" onclick="chooseNumber('twenty')">20</button>
-                                    </div>
-                                </div>
-                                <div class="space-y-3">
-                                    <span class="font-semibold">Upload Learning Materials (PDF, DOCX, TXT)</span>
-                                    <div class="bg-white border-2 border-dashed border-slate-300 rounded-md p-4 flex justify-center items-center gap-2 cursor-pointer"
-                                        onclick="triggerUpload()">
-                                        <span class="flex items-center"><i
-                                                class='bx bx-upload text-slate-500 text-2xl'></i></span>
-                                        <span class="upload-text">Click to Upload</span>
-                                        <input type="file" hidden class="file-input" accept=".pdf, .docx, .txt">
-                                    </div>
-                                    <div class="upload-status rounded-md border border-slate-300 bg-white p-4 hidden">
-                                        <div>
-                                            <span>Selected: </span>
-                                            <span class="selected-file font-semibold"></span>
-                                        </div>
-                                        <div>
-                                            <span>Quiz Generation Status: </span>
-                                            <span class="font-semibold">Generated</span>
+                            <form class="upload-input-form">
+                                <div
+                                    class="uploadInput w-full rounded-md bg-blue-100 border border-blue-200 p-5 space-y-3 hidden">
+                                    <div>
+                                        <span class="font-semibold">Number of Questions</span>
+                                        <div class="flex gap-3">
+                                            <button
+                                                class="number five px-4 py-2 border-2 border-slate-30g0 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                                type="button" onclick="chooseNumber('five')">5</button>
+                                            <button
+                                                class="number ten px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                                type="button" onclick="chooseNumber('ten')">10</button>
+                                            <button
+                                                class="number fifteen px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                                type="button" onclick="chooseNumber('fifteen')">15</button>
+                                            <!-- <button
+                                                class="number twenty px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                                type="button" onclick="chooseNumber('twenty')">20</button> -->
                                         </div>
                                     </div>
+                                    <div class="space-y-3">
+                                        <span class="font-semibold">Upload Learning Materials (PDF, DOCX, TXT)</span>
+                                        <div class="bg-white border-2 border-dashed border-slate-300 rounded-md p-4 flex justify-center items-center gap-2 cursor-pointer"
+                                            onclick="triggerUpload()">
+                                            <span class="flex items-center"><i
+                                                    class='bx bx-upload text-slate-500 text-2xl'></i></span>
+                                            <span class="upload-text">Click to Upload</span>
+                                            <input type="file" hidden class="file-input" accept=".pdf, .docx, .txt">
+                                        </div>
+                                        <div
+                                            class="upload-status rounded-md border border-slate-300 bg-white p-4 hidden">
+                                            <div>
+                                                <span>Selected: </span>
+                                                <span class="selected-file font-semibold"></span>
+                                            </div>
+                                            <div>
+                                                <span>Quiz Generation Status: </span>
+                                                <span class="font-semibold generation-status">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
 
                         <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
@@ -164,7 +167,7 @@
                                 Cancel</button>
                             <button type="submit" id="task-submit"
                                 class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                Create Task</button>
+                                Create Session</button>
                         </div>
                     </form>
                 </div>
