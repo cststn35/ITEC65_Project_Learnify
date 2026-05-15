@@ -117,5 +117,84 @@ CREATE TABLE IF NOT EXISTS tasks (
 "
 );
 
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS sessions (
+    session_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    task_id INT NULL,
+    subject_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    target_duration_minutes INT NOT NULL,
+    start_time DATETIME NOT NULL,
+    pause_start_time DATETIME NULL,
+    end_time DATETIME NULL,
+    total_pause_seconds INT DEFAULT 0,
+    actual_duration_seconds INT NULL,
+    status ENUM('active', 'paused', 'completed', 'abandoned')
+        DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (task_id)
+        REFERENCES tasks(tasks_id)
+        ON DELETE SET NULL,
+
+    FOREIGN KEY (subject_id)
+        REFERENCES subjects(subject_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (semester_id)
+        REFERENCES semesters(semester_id)
+        ON DELETE CASCADE
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS quizzes (
+    quiz_id INT AUTO_INCREMENT PRIMARY KEY,
+    session_id INT NULL,
+    score INT DEFAULT 0,
+    total_questions INT NOT NULL,
+    duration_taken_seconds INT DEFAULT 0,
+    status ENUM('in_progress', 'completed', 'abandoned')
+        DEFAULT 'in_progress',
+    xp_earned INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (session_id)
+    REFERENCES sessions(session_id)
+    ON DELETE SET NULL
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_id INT,
+    question TEXT NOT NULL,
+    choice_a TEXT NOT NULL,
+    choice_b TEXT NOT NULL,
+    choice_c TEXT NOT NULL,
+    choice_d TEXT NOT NULL,
+    correct_answer TEXT NOT NULL,
+
+    FOREIGN KEY (quiz_id)
+    REFERENCES quizzes(quiz_id)
+    ON DELETE CASCADE
+);
+"
+);
+
 echo "Database initialized successfully.";
 
