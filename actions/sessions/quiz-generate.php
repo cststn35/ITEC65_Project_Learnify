@@ -1,4 +1,5 @@
 <?php
+session_start();
 header("Content-Type: application/json");
 require_once __DIR__ . '/../../config/runQuery.php';
 
@@ -231,19 +232,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit;
     }
 
-    //upload questions into database
-    $result = runQuery($pdo, "
-    INSERT INTO quizzes (session_id)
-    VALUES (:session_id);
-", [
-        "session_id" => 1,
-    ]);
 
-    $quizID = $pdo->lastInsertId();
-
-    $sql = "INSERT INTO questions (quiz_id, question, choice_a, choice_b, choice_c, choice_d, correct_answer)
-VALUES (:quiz_id, :question, :choice_a, :choice_b, :choice_c, :choice_d, :correct_answer)";
-
+    unset($_SESSION["quizzes"]); //to avoid appending old questions
+    //store questions first in the php session, will save it to db once the study session is created
     foreach ($quiz as $q) {
         if (
             !isset($q["question"]) ||
@@ -254,8 +245,7 @@ VALUES (:quiz_id, :question, :choice_a, :choice_b, :choice_c, :choice_d, :correc
             continue;
         }
 
-        $params = [
-            "quiz_id" => $quizID,
+        $_SESSION["quizzes"][] = [
             "question" => $q["question"],
             "choice_a" => $q["choices"][0],
             "choice_b" => $q["choices"][1],
@@ -263,21 +253,12 @@ VALUES (:quiz_id, :question, :choice_a, :choice_b, :choice_c, :choice_d, :correc
             "choice_d" => $q["choices"][3],
             "correct_answer" => $q["answer"]
         ];
-
-        $result = runQuery($pdo, $sql, $params);
-
-        if (!($result->rowCount() > 0)) {
-            echo json_encode([
-                "success" => false,
-            ]);
-            exit;
-        }
     }
 
-    //sucess response
+    //success response
     echo json_encode([
         "success" => true,
-        "quiz" => $quiz
+        "quiz" => $_SESSION["quizzes"]
     ]);
 }
 

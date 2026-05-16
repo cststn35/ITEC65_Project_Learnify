@@ -9,7 +9,8 @@
         $pageTitle = "Tasks";
         include_once("../components/topsidebar.php")
             ?>
-        <main class="bg-gray-200 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] h-full flex flex-col overflow-hidden">
+        <main
+            class="bg-gray-200 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] h-full flex flex-col overflow-hidden">
             <div class="flex justify-between">
                 <h1 class="font-bold text-2xl">TASKS</h1>
                 <button type="button"
@@ -48,7 +49,8 @@
                             <div class="titleInput">
                                 <label for="title" class="mb-2 text-slate-900 font-medium text-base inline-block">Title
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="text" id="title" name="title" placeholder="e.g. Study Math Chapter 3" required
+                                <input type="text" id="title" name="title" placeholder="e.g. Study Math Chapter 3"
+                                    required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="descriptionInput">
@@ -56,7 +58,8 @@
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Short
                                     Description
                                     <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
-                                <input type="text" id="description" name="description" placeholder="Add notes about this task"
+                                <input type="text" id="description" name="description"
+                                    placeholder="Add notes about this task"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="subjectInput">
@@ -184,6 +187,7 @@
     </div>
 
     <script>
+        const BASE_URL = window.location.pathname.split("/")[1];
         const userID = <?= json_encode($_SESSION['user_id']) ?>;
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
     </script>

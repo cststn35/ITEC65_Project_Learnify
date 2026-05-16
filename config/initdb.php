@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS sessions (
     task_id INT NULL,
     subject_id INT NOT NULL,
     semester_id INT NOT NULL,
+    title VARCHAR(100) NOT NULL,
     target_duration_minutes INT NOT NULL,
     start_time DATETIME NOT NULL,
     pause_start_time DATETIME NULL,
@@ -134,6 +135,8 @@ CREATE TABLE IF NOT EXISTS sessions (
     actual_duration_seconds INT NULL,
     status ENUM('active', 'paused', 'completed', 'abandoned')
         DEFAULT 'active',
+    question_count INT DEFAULT 0,
+    file_name VARCHAR(100) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id)
