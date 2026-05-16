@@ -3,11 +3,13 @@ header("Content-Type: application/json");
 require_once __DIR__ . '/../../config/runQuery.php';
 
 $userID = $_GET['userID'];
+$semesterID = $_GET['semester_id'];
 
 try {
-    $sql = "SELECT * FROM subjects WHERE user_id = :userID AND is_archived = 0";
+    $sql = "SELECT * FROM subjects WHERE user_id = :userID AND semester_id = :semesterID AND is_archived = 0";
     $params = [
-        'userID' => $userID
+        'userID' => $userID,
+        'semesterID' => $semesterID
     ];
     $result = runQuery($pdo, $sql, $params, true);
 
