@@ -1,10 +1,8 @@
-const BASE_URL = window.location.pathname.split("/")[1];
-
 async function fetchSubjects(userID) {
     console.log(userID);
     const subjectInput = document.getElementById("subject");
     try {
-        const response = await fetch(`/${BASE_URL}/actions/tasks/fetch_subjects.php?userID=${userID}`);
+        const response = await fetch(`/${BASE_URL}/actions/tasks/fetch_subjects.php?userID=${userID}&semester_id=${semesterID}`);
 
         // check HTTP status first
         if (!response.ok) {
