@@ -220,21 +220,23 @@
             <div class="w-full max-w-7xl mx-auto space-y-5">
                 <!-- header -->
                 <div class="bg-white w-full flex justify-center items-center p-7 rounded-lg shadow-md">
-                    <span class="font-bold text-xl md:text-2xl">Demistifying React.js Hooks</span>
+                    <span class="font-bold text-xl md:text-2xl title-tab">Demistifying React.js Hooks</span>
                 </div>
                 <!-- task card -->
                 <div class="bg-white w-full flex justify-evenly items-center p-3 md:p-7 rounded-lg shadow-md">
                     <div class="flex flex-col items-center text-xs md:text-base">
                         <div class="text-xs md:text-sm text-slate-600">Subject</div>
-                        <div>Physics</div>
+                        <div class="subjectName">Physics</div>
                     </div>
                     <div class="flex flex-col items-center text-xs md:text-base">
                         <div class="text-xs  md:text-sm text-slate-600">Task</div>
-                        <div>General Study</div>
+                        <div class="taskName">General Study</div>
                     </div>
                     <div class="flex flex-col items-center text-xs md:text-base">
                         <div class="text-xs  md:text-sm text-slate-600">Goal Duration</div>
-                        <div>15 minutes</div>
+                        <div>
+                            <span class="goalDuration"></span><span> minutes</span>
+                        </div>
                     </div>
                     <div class="flex flex-col items-center text-xs md:text-base">
                         <div class="text-xs md:text-sm text-slate-600">Status</div>
@@ -260,7 +262,8 @@
                                 <span>Goal:</span>
                             </div>
                             <div>
-                                15 minutes
+                                <span class="goal-planned-duration"></span>
+                                <span> minutes</span>
                             </div>
                         </div>
                         <div>|</div>
@@ -270,11 +273,15 @@
                                 <span>Remaining:</span>
                             </div>
                             <div>
-                                15 minutes
+                                <span class="remaining-min"></span>
+                                <span> minutes</span>
                             </div>
                         </div>
                         <div>|</div>
-                        <div>14% Complete</div>
+                        <div>
+                            <span>Percentage: </span>
+                            <span class="progreso-2"></span>
+                        </div>
                     </div>
                     <div class="resume bg-white/10 backdrop-blur-md rounded-xl p-3 text-slate-200 hidden">
                         ▶️Take your break. Resume when ready
@@ -289,22 +296,22 @@
                         <div
                             class="flex flex-col justify-center items-center rounded-md bg-slate-100 gap-2 px-8 py-4 flex-1">
                             <div class="text-sm text-slate-700">Planned Duration</div>
-                            <div class="text-lg">15 mins</div>
+                            <div class="text-lg"><span class="planned-duration"></span><span> minutes</span></div>
                         </div>
                         <div
                             class="flex flex-col justify-center items-center rounded-md bg-green-100 gap-2 px-8 py-4 flex-1">
                             <div class="text-sm text-slate-700">Studied Minutes</div>
-                            <div class="text-lg">15 mins</div>
+                            <div class="text-lg"><span class="elapsed-minutes"></span><span> minutes</span></div>
                         </div>
                         <div
                             class="flex flex-col justify-center items-center rounded-md bg-yellow-50 gap-2 px-8 py-4 flex-1">
                             <div class="text-sm text-slate-700">Paused Minutes</div>
-                            <div class="text-lg">15 mins</div>
+                            <div class="text-lg"><span class="paused-minutes"></span><span> minutes</span></div>
                         </div>
                         <div
                             class="flex flex-col justify-center items-center rounded-md bg-gray-100 gap-2 px-8 py-4 flex-1">
                             <div class="text-sm text-slate-700">Progress</div>
-                            <div class="text-lg">50%</div>
+                            <div class="text-lg progreso">0%</div>
                         </div>
                     </div>
                 </div>
@@ -333,12 +340,14 @@
                         <div class="bg-white p-5 rounded-md shadow-md flex-1">
                             <h1 class="font-bold">Quiz Status</h1>
                             <div class="space-y-1">
-                                <div class="space-x-2"><i class='bx bxs-file-doc'></i><span>Lesson 10. Digital Self
+                                <div class="space-x-2"><i class='bx bxs-file-doc'></i><span class="fileName">Lesson 10.
+                                        Digital Self
                                         (highlighted).pdf</span>
                                 </div>
-                                <div class="space-x-2"><i class='bx bx-check-square'></i><span>Quiz Prepared ✔</span>
+                                <div class="space-x-2"><i class='bx bx-check-square'></i><span class="quizStatus">Quiz
+                                        Prepared ✔</span>
                                 </div>
-                                <div><span>10 questions generated</span>
+                                <div><span class="questionsCount">10 questions generated</span>
                                 </div>
                             </div>
                         </div>
@@ -354,8 +363,12 @@
         const BASE_URL = window.location.pathname.split("/")[1];
         const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
+        const sessionID = <?= json_encode($_SESSION['session_id'] ?? null) ?>;
+        const questions = <?= json_encode($_SESSION["quizzes"] ?? null) ?>;
+        const toUploadTODB = questions != null ? true : false;
     </script>
     <script src="../assets/js/sessions/study-session-timer.js"></script>
+    <script src="../assets/js/sessions/fetch_session_info.js"></script>
 </body>
 
 </html>

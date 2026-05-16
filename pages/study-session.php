@@ -60,9 +60,10 @@
                                 <label for="description"
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Task
                                     <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
-                                <select name="task" id="task"
+                                <select name="task" id="tasks"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select a task (optional)</option>
+                                    <option value="N/A">N/A</option>
                                 </select>
                             </div>
                             <div class="subjectInput">
@@ -78,7 +79,7 @@
                                 <label for="time" class="mb-2 text-slate-900 font-medium text-base inline-block">Planned
                                     Duration (in minutes)
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="number" id="time" name="time" placeholder="e.g. 10"
+                                <input type="number" id="time" name="time" placeholder="e.g. 10" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="questionInput">
@@ -116,56 +117,53 @@
                                 </div>
                             </div>
 
-                            <form class="upload-input-form">
-                                <div
-                                    class="uploadInput w-full rounded-md bg-blue-100 border border-blue-200 p-5 space-y-3 hidden">
-                                    <div>
-                                        <span class="font-semibold">Number of Questions</span>
-                                        <div class="flex gap-3">
-                                            <button
-                                                class="number five px-4 py-2 border-2 border-slate-30g0 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
-                                                type="button" onclick="chooseNumber('five')">5</button>
-                                            <button
-                                                class="number ten px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
-                                                type="button" onclick="chooseNumber('ten')">10</button>
-                                            <button
-                                                class="number fifteen px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
-                                                type="button" onclick="chooseNumber('fifteen')">15</button>
-                                            <!-- <button
+                            <div
+                                class="uploadInput w-full rounded-md bg-blue-100 border border-blue-200 p-5 space-y-3 hidden">
+                                <div>
+                                    <span class="font-semibold">Number of Questions</span>
+                                    <div class="flex gap-3">
+                                        <button
+                                            class="number five px-4 py-2 border-2 border-slate-30g0 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                            type="button" onclick="chooseNumber('five')">5</button>
+                                        <button
+                                            class="number ten px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                            type="button" onclick="chooseNumber('ten')">10</button>
+                                        <button
+                                            class="number fifteen px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
+                                            type="button" onclick="chooseNumber('fifteen')">15</button>
+                                        <!-- <button
                                                 class="number twenty px-4 py-2 border-2 border-slate-300 rounded-md bg-white flex-1 font-bold transition ease-in 0.25s hover:border-blue-400"
                                                 type="button" onclick="chooseNumber('twenty')">20</button> -->
-                                        </div>
                                     </div>
-                                    <div class="space-y-3">
-                                        <span class="font-semibold">Upload Learning Materials (PDF, DOCX, TXT)</span>
-                                        <div class="bg-white border-2 border-dashed border-slate-300 rounded-md p-4 flex justify-center items-center gap-2 cursor-pointer"
-                                            onclick="triggerUpload()">
-                                            <span class="flex items-center"><i
-                                                    class='bx bx-upload text-slate-500 text-2xl'></i></span>
-                                            <span class="upload-text">Click to Upload</span>
-                                            <input type="file" hidden class="file-input" accept=".pdf, .docx, .txt">
+                                </div>
+                                <div class="space-y-3">
+                                    <span class="font-semibold">Upload Learning Materials (PDF, DOCX, TXT)</span>
+                                    <div class="bg-white border-2 border-dashed border-slate-300 rounded-md p-4 flex justify-center items-center gap-2 cursor-pointer"
+                                        onclick="triggerUpload()">
+                                        <span class="flex items-center"><i
+                                                class='bx bx-upload text-slate-500 text-2xl'></i></span>
+                                        <span class="upload-text">Click to Upload</span>
+                                        <input type="file" hidden class="file-input" accept=".pdf, .docx, .txt">
+                                    </div>
+                                    <div class="upload-status rounded-md border border-slate-300 bg-white p-4 hidden">
+                                        <div>
+                                            <span>Selected: </span>
+                                            <span class="selected-file font-semibold"></span>
                                         </div>
-                                        <div
-                                            class="upload-status rounded-md border border-slate-300 bg-white p-4 hidden">
-                                            <div>
-                                                <span>Selected: </span>
-                                                <span class="selected-file font-semibold"></span>
-                                            </div>
-                                            <div>
-                                                <span>Quiz Generation Status: </span>
-                                                <span class="font-semibold generation-status">Loading...</span>
-                                            </div>
+                                        <div>
+                                            <span>Quiz Generation Status: </span>
+                                            <span class="font-semibold generation-status">Loading...</span>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
 
                         <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
                             <button type="button" id="cancelBtn"
                                 class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Cancel</button>
-                            <button type="submit" id="task-submit"
+                            <button type="submit" id="session-submit"
                                 class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                                 Create Session</button>
                         </div>
@@ -415,6 +413,8 @@
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
     </script>
     <script src="../assets/js/sessions/add_session_modal.js"></script>
+    <script src="../assets/js/tasks/fetch_subjects.js"></script>
+    <script src="../assets/js/sessions/fetch_tasks_sessions.js"></script>
 </body>
 
 </html>
