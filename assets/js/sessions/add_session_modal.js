@@ -1,5 +1,8 @@
 let selectedAnswer = "";
 let selectedNumber = "";
+let quizGenerationStatus = "";
+let isSessionOngoing = false;
+
 function changeBorder(choice) {
   console.log(choice);
   const allChoices = document.querySelectorAll(".answer");
@@ -29,6 +32,10 @@ function changeBorder(choice) {
 
   if (choice == ".yes-answer") {
     uploadInput.classList.remove("hidden");
+  }
+
+  if (choice == ".no-answer" || ".later-answer") {
+    quizGenerationStatus = "";
   }
 
   selectedAnswer = choice; //database purposes
@@ -95,15 +102,28 @@ async function uploadFilePHP() {
       },
     );
     const data = await response.json();
-    console.log(data);
     if (data.success) {
       generationStatus.textContent = "Successful!";
+      quizGenerationStatus = true;
     } else {
       generationStatus.textContent = "Failed! Try again";
+      quizGenerationStatus = false;
     }
   } catch (error) {
     console.error("Upload failed:", error);
     generationStatus.textContent = "Failed! Try again";
+    quizGenerationStatus = false;
+  }
+}
+
+async function checkOngoingSession() {
+  isSessionOngoing = false;
+  const response = await fetch(
+    `/${BASE_URL}/actions/sessions/check_ongoing_session.php?userID=${userID}&semesterID=${semesterID}`,
+  );
+  const data = await response.json();
+  if (data.success) {
+    isSessionOngoing = data.isOngoing;
   }
 }
 
@@ -115,12 +135,28 @@ const overlay = document.getElementById("modalOverlay");
 const dialog = overlay.querySelector("[role='dialog']");
 
 // Open modal and lock body scroll
-openBtn.onclick = () => {
-  overlay.classList.remove("opacity-0");
-  overlay.classList.remove("pointer-events-none");
-  overlay.classList.remove("scale-95");
-  document.body.style.overflow = "hidden";
-  dialog.focus();
+openBtn.onclick = async () => {
+  await checkOngoingSession();
+  if (!isSessionOngoing) {
+    overlay.classList.remove("opacity-0");
+    overlay.classList.remove("pointer-events-none");
+    overlay.classList.remove("scale-95");
+    document.body.style.overflow = "hidden";
+    dialog.focus();
+  } else {
+    const result = await Swal.fire({
+      title: "Ongoing Session Detected",
+      text: "Do you want to continue this session?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      window.location.href = "study-session-timer.php";
+    }
+  }
 };
 
 // Close modal and restore focus/scroll
@@ -130,7 +166,6 @@ function closeModal() {
   overlay.classList.add("scale-95");
   document.body.style.overflow = "";
   openBtn.focus();
-  resetFormAppearance();
 }
 
 closeBtn.onclick = cancelBtn.onclick = closeModal;
@@ -165,59 +200,98 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// //js for adding course
-// const courseForm = document.getElementById("course-form-container");
+//js for adding sessions
+const sessionForm = document.getElementById("session-form");
 
-// courseForm.addEventListener("submit",submitCreatedCourse);
+sessionForm.addEventListener("submit", submitCreatedSession);
 
-// async function submitCreatedCourse(e){
-//     // stop normal form submission first
-//     e.preventDefault();
-//     if(selectedColor==""){
-//         Swal.fire({
-//             icon: "error",
-//             title: "Missing field!",
-//             text: "Don't forget to select icon color"
-//         });
-//         return;
-//     }
+async function submitCreatedSession(e) {
+  // stop normal form submission first
+  e.preventDefault();
 
-//     // confirmation alert
-//     const result = await Swal.fire({
-//         title: "Create Subject",
-//         text: "Do you want to save this subject?",
-//         icon: "question",
+  console.log("trigger");
 
-//         showCancelButton: true,
+  if (!quizGenerationStatus && quizGenerationStatus != "") {
+    Swal.fire({
+      icon: "error",
+      title: "Error generating quiz!",
+      text: "Please retry again",
+    });
+    return;
+  }
 
-//         confirmButtonText: "Yes",
-//         cancelButtonText: "Cancel"
-//     });
+  if (selectedAnswer == "") {
+    Swal.fire({
+      icon: "error",
+      title: "Missing field!",
+      text: "Don't forget to answer your quiz decision!",
+    });
+    return;
+  }
 
-//     // if user clicks yes
-//     if (result.isConfirmed) {
-//         const formData = new FormData(courseForm);
-//         formData.append('color',selectedColor);
-//         const response = await fetch(`/${BASE_URL}/actions/courses/create_courses.php?userID=${userID}&semesterID=${semesterID}`,{
-//             method: "POST",
-//             body: formData
-//         });
-//         const data = await response.json();
-//         if(data.success){
-//             Swal.fire({
-//                 icon: "success",
-//                 title: "Created!",
-//                 text: "The subject has been successfully created"
-//             });
+  // confirmation alert
+  const result = await Swal.fire({
+    title: "Create Session?",
+    text: "Do you want to create this session?",
+    icon: "question",
 
-//             fetch_courses("from swal");
-//             courseForm.reset();
-//         } else {
-//             Swal.fire({
-//                 icon: "error",
-//                 title: "Failed",
-//                 text: data.error
-//             });
-//         }
-//     }
-// }
+    showCancelButton: true,
+
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+  });
+
+  // if user clicks yes
+  if (result.isConfirmed) {
+    const formData = new FormData(sessionForm);
+
+    if (selectedNumber == "") {
+      selectedNumber = 0;
+    } else {
+      if (selectedNumber == "five") {
+        selectedNumber = 5;
+      } else if (selectedNumber == "ten") {
+        selectedNumber = 10;
+      } else {
+        selectedNumber = 15;
+      }
+    }
+
+    let file_name;
+
+    if (fileInput.files.length == 0) {
+      file_name = "";
+    } else {
+      file_name = fileInput.files[0].name;
+    }
+    formData.append("question_count", selectedNumber);
+    formData.append("file_name", file_name);
+    const response = await fetch(
+      `/${BASE_URL}/actions/sessions/create_session.php?userID=${userID}&semesterID=${semesterID}`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+    const data = await response.json();
+    if (data.success) {
+      const result = await Swal.fire({
+        title: "Session Created!",
+        text: "Do you want to go to this session now?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel",
+      });
+      if (result.isConfirmed) {
+        window.location.href = "study-session-timer.php";
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: data.error,
+      });
+    }
+  }
+}
