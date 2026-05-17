@@ -10,7 +10,6 @@ async function fetchSessionInfo(sesID) {
     }
 
     const data = await response.json();
-
     if (data.success) {
       renderData(data.data[0]);
     } else {
@@ -26,6 +25,8 @@ function isValidDateTime(dt) {
 }
 
 function renderData(data) {
+  quiz_decision = data.quiz_decision;
+  console.log(data.quiz_decision);
   start_time = isValidDateTime(data.start_time) ? data.start_time : null;
 
   pause_start_time = isValidDateTime(data.pause_start_time)
@@ -79,13 +80,13 @@ async function uploadQuestionsTODB() {
   const response = await fetch(
     `/${BASE_URL}/actions/sessions/upload-questions.php?sessionID=${sessionID}`,
   );
-  const data = await response.text();
+  const data = await response.json();
   console.log(data);
-  // if (data.success) {
-  //   console.log("questions uploaded");
-  // } else {
-  //   console.log("try again");
-  // }
+  if (data.success) {
+    console.log("questions uploaded");
+  } else {
+    console.log("try again");
+  }
 }
 
 if (toUploadTODB) {

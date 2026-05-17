@@ -2,8 +2,9 @@ let selectedAnswer = "";
 let selectedNumber = "";
 let quizGenerationStatus = "";
 let isSessionOngoing = false;
+const submitBtn = document.getElementById("session-submit");
 
-function changeBorder(choice) {
+async function changeBorder(choice) {
   console.log(choice);
   const allChoices = document.querySelectorAll(".answer");
   const uploadInput = document.querySelector(".uploadInput");
@@ -35,10 +36,20 @@ function changeBorder(choice) {
   }
 
   if (choice == ".no-answer" || ".later-answer") {
+    console.log("i select no");
     quizGenerationStatus = "";
+    await unsetQuizzes();
   }
 
   selectedAnswer = choice; //database purposes
+}
+
+async function unsetQuizzes() {
+  const response = await fetch(
+    `/${BASE_URL}/actions/sessions/unset_session_quizzes.php`,
+  );
+  const data = await response.json();
+  console.log(data.status);
 }
 
 const fileInput = document.querySelector(".file-input");
@@ -65,6 +76,7 @@ fileInput.addEventListener("change", () => {
     console.log("File uploaded");
     uploadText.textContent = "Change file";
     generationStatus.textContent = "Loading...";
+    submitBtn.disabled = true;
     const fileName = fileInput.files[0].name;
     uploadStatus.classList.remove("hidden");
     selectedFile.textContent = fileName;
@@ -105,9 +117,11 @@ async function uploadFilePHP() {
     if (data.success) {
       generationStatus.textContent = "Successful!";
       quizGenerationStatus = true;
+      submitBtn.disabled = false;
     } else {
       generationStatus.textContent = "Failed! Try again";
       quizGenerationStatus = false;
+      submitBtn.disabled = true;
     }
   } catch (error) {
     console.error("Upload failed:", error);
@@ -264,8 +278,18 @@ async function submitCreatedSession(e) {
     } else {
       file_name = fileInput.files[0].name;
     }
+
+    if (selectedAnswer == ".yes-answer") {
+      selectedAnswer = "yes";
+    } else if (selectedAnswer == ".no-answer") {
+      selectedAnswer = "no";
+    } else {
+      selectedAnswer = "later";
+    }
+
     formData.append("question_count", selectedNumber);
     formData.append("file_name", file_name);
+    formData.append("quizDecision", selectedAnswer);
     const response = await fetch(
       `/${BASE_URL}/actions/sessions/create_session.php?userID=${userID}&semesterID=${semesterID}`,
       {
