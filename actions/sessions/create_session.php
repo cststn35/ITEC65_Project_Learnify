@@ -32,6 +32,9 @@ try {
         $fileName = isset($_POST["file_name"])
             ? trim(filter_var($_POST["file_name"], FILTER_SANITIZE_SPECIAL_CHARS))
             : "";
+        $quizDecision = isset($_POST["quizDecision"])
+            ? trim(filter_var($_POST["quizDecision"], FILTER_SANITIZE_SPECIAL_CHARS))
+            : "";
 
         $sql = "INSERT INTO sessions (
             title,
@@ -41,7 +44,8 @@ try {
             semester_id,
             target_duration_minutes,
             question_count,
-            file_name
+            file_name,
+            quiz_decision
         )
         VALUES (
             :title,
@@ -51,7 +55,8 @@ try {
             :semester_id,
             :target_time,
             :question_count,
-            :file_name
+            :file_name,
+            :quiz_decision
         )";
 
         $params = [
@@ -62,7 +67,8 @@ try {
             'target_time' => $time,
             'title' => $title,
             'question_count' => $questionCount,
-            'file_name' => $fileName
+            'file_name' => $fileName,
+            'quiz_decision' => $quizDecision
         ];
 
         $result = runQuery($pdo, $sql, $params);
