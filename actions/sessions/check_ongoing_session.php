@@ -1,4 +1,5 @@
 <?php
+session_start();
 header("Content-Type: application/json");
 require_once __DIR__ . '/../../config/runQuery.php';
 
@@ -25,6 +26,9 @@ try {
                 'isOngoing' => false
             ]);
         } else {
+            if (!isset($_SESSION['session_id'])) {
+                $_SESSION['session_id'] = $result[0]['session_id'];
+            }
             echo json_encode([
                 'success' => true,
                 'isOngoing' => true
