@@ -38,6 +38,7 @@ try {
         if (empty($result)) {
             echo json_encode([
                 'success' => false,
+                'data' => $result
             ]);
         } else {
             echo json_encode([
