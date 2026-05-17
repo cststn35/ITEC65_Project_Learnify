@@ -137,6 +137,7 @@ CREATE TABLE IF NOT EXISTS sessions (
         DEFAULT 'active',
     question_count INT DEFAULT 0,
     file_name VARCHAR(100) NULL,
+    quiz_decision VARCHAR(20) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id)
