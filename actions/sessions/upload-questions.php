@@ -55,6 +55,10 @@ VALUES (:quiz_id, :question, :choice_a, :choice_b, :choice_c, :choice_d, :correc
             }
 
             unset($_SESSION["quizzes"]);
+            unset($_SESSION["quiz_id"]);
+            if (!isset($_SESSION["quiz_id"])) {
+                $_SESSION['quiz_id'] = $quizID;
+            }
             echo json_encode([
                 'success' => true,
             ]);
