@@ -2,6 +2,7 @@ let selectedAnswer = "";
 let selectedNumber = "";
 let quizGenerationStatus = "";
 let isSessionOngoing = false;
+let isQuizActive = false;
 const submitBtn = document.getElementById("session-submit");
 
 async function changeBorder(choice) {
@@ -141,6 +142,17 @@ async function checkOngoingSession() {
   }
 }
 
+async function checkActiveQuiz() {
+  isQuizActive = false;
+  const response = await fetch(
+    `/${BASE_URL}/actions/sessions/check_ongoing_quiz.php?userID=${userID}&semesterID=${semesterID}`,
+  );
+  const data = await response.json();
+  if (data.success) {
+    isQuizActive = data.isOngoing;
+  }
+}
+
 //code for modal functionalities (open, close, create) from readymadeui
 const openBtn = document.getElementById("openModal");
 const closeBtn = document.getElementById("closeModal");
@@ -151,13 +163,7 @@ const dialog = overlay.querySelector("[role='dialog']");
 // Open modal and lock body scroll
 openBtn.onclick = async () => {
   await checkOngoingSession();
-  if (!isSessionOngoing) {
-    overlay.classList.remove("opacity-0");
-    overlay.classList.remove("pointer-events-none");
-    overlay.classList.remove("scale-95");
-    document.body.style.overflow = "hidden";
-    dialog.focus();
-  } else {
+  if (isSessionOngoing) {
     const result = await Swal.fire({
       title: "Ongoing Session Detected",
       text: "Do you want to continue this session?",
@@ -170,7 +176,33 @@ openBtn.onclick = async () => {
     if (result.isConfirmed) {
       window.location.href = "study-session-timer.php";
     }
+
+    return;
   }
+
+  await checkActiveQuiz();
+  if (isQuizActive) {
+    const result = await Swal.fire({
+      title: "Unanswered Quiz Detected",
+      text: "Do you want to answer this quiz now?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      window.location.href = "study-session-quiz.php";
+    }
+
+    return;
+  }
+
+  overlay.classList.remove("opacity-0");
+  overlay.classList.remove("pointer-events-none");
+  overlay.classList.remove("scale-95");
+  document.body.style.overflow = "hidden";
+  dialog.focus();
 };
 
 // Close modal and restore focus/scroll
