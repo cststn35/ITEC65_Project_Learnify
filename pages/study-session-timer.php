@@ -161,6 +161,8 @@
                         <!-- upload quiz -->
                         <div
                             class="later-quiz uploadInput w-full rounded-md bg-blue-100 border border-blue-200 p-5 space-y-3 hidden">
+                            <h1 class="font-semibold text-center">Upload Your Quiz <small
+                                    class="text-gray-800">(optional)</small></h1>
                             <div>
                                 <span class="font-semibold">Number of Questions</span>
                                 <div class="flex gap-3">
@@ -202,6 +204,11 @@
                                             Later</button>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="flex justify-end close-btn-end">
+                                <button type="button" id="cancelBtnEnd"
+                                    class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-red-500 border border-red-300 transition-colors hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                    Close and End Session Now</button>
                             </div>
                         </div>
                         <div class="complete hidden">
