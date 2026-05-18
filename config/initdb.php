@@ -192,6 +192,7 @@ CREATE TABLE IF NOT EXISTS questions (
     choice_c TEXT NOT NULL,
     choice_d TEXT NOT NULL,
     correct_answer TEXT NOT NULL,
+    my_answer TEXT NULL,
 
     FOREIGN KEY (quiz_id)
     REFERENCES quizzes(quiz_id)
