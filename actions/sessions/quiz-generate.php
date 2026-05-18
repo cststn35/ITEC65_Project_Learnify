@@ -2,9 +2,15 @@
 session_start();
 header("Content-Type: application/json");
 require_once __DIR__ . '/../../config/runQuery.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+$dotenv->required('GEMINI_API_KEY');
 
-$apiKey = 'AIzaSyCURFdGVkMxDCbw6MXxGG3xwZqZs9C42l8'; //free key lang naman, saka kona asikasuhin ung .env
+use Smalot\PdfParser\Parser;
+
+$apiKey = $_ENV['GEMINI_API_KEY'];
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $count = $_POST["count"] ?? "five";
@@ -53,13 +59,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //extraction via pdf
     if ($ext === "pdf") {
+        try {
+            $parser = new Parser();
 
-        // safer shell command
-        $safePath = escapeshellarg($file["tmp_name"]);
+            // parse PDF directly from temp file
+            $pdf = $parser->parseFile($file["tmp_name"]);
 
-        $text = shell_exec(
-            "pdftotext $safePath -"
-        );
+            // extract text
+            $text = $pdf->getText();
+
+            // basic cleanup
+            $text = preg_replace('/\s+/', ' ', $text);
+            $text = trim($text);
+
+        } catch (Exception $e) {
+            echo json_encode([
+                "success" => false,
+                "error" => "Could not extract text"
+            ]);
+        }
     }
 
     //extraction via docx
@@ -81,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
-    //validate extracted text
+    //validate extracted text (extra measure)
     $text = trim($text);
 
     if (empty($text)) {
