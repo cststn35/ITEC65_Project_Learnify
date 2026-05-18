@@ -26,6 +26,7 @@ try {
                 'isOngoing' => false
             ]);
         } else {
+            unset($_SESSION['session_id']); 
             if (!isset($_SESSION['session_id'])) {
                 $_SESSION['session_id'] = $result[0]['session_id'];
             }
