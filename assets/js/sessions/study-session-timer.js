@@ -317,6 +317,7 @@ function triggerUpload() {
 
 const generationStatus = document.querySelector(".generation-status");
 const quizButtons = document.querySelector(".quiz-buttons");
+const noTalaga = document.querySelector(".close-btn-end"); //in ask later option
 
 fileInput.addEventListener("change", () => {
   if (!quizButtons.classList.contains("hidden")) {
@@ -351,8 +352,12 @@ async function uploadFilePHP() {
     if (data.success) {
       generationStatus.textContent = "Successful!";
       quizButtons.classList.remove("hidden");
+      noTalaga.classList.add("hidden");
     } else {
       generationStatus.textContent = "Failed! Try again";
+      if (noTalaga.classList.contains("hidden")) {
+        noTalaga.classList.remove("hidden");
+      }
     }
   } catch (error) {
     console.error("Upload failed:", error);
@@ -372,6 +377,11 @@ takeQuiz.addEventListener("click", async () => {
 
 laterNalang.addEventListener("click", async () => {
   await uploadQuestionsTODB();
+  await logEndTime();
+  window.location.href = "study-session.php";
+});
+
+noTalaga.addEventListener("click", async () => {
   await logEndTime();
   window.location.href = "study-session.php";
 });
