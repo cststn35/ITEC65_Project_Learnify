@@ -486,7 +486,7 @@
         const startStudy = <?= json_encode($_SESSION['start_study'] ?? null) ?>;
     </script>
     <script src="../assets/js/sessions/add_session_modal.js"></script>
-    <script src="../assets/js/tasks/fetch_subjects.js"></script>
+    <script src="../assets/js/tasks/fetch_subjects_2.js"></script>
     <script src="../assets/js/sessions/fetch_tasks_sessions.js"></script>
 </body>
 
