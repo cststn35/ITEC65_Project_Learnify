@@ -145,6 +145,24 @@ async function exitQuizNow() {
   }
 }
 
+const abandon = document.getElementById("abandon-quiz");
+abandon.onclick = abandonQuiz;
+async function abandonQuiz() {
+  const fd = new FormData();
+  fd.append("quizID", quizID);
+  const response = await fetch(
+    `/${BASE_URL}/actions/sessions/abandon_quiz.php`,
+    {
+      method: "POST",
+      body: fd,
+    },
+  );
+  const data = await response.json();
+  if (data.success) {
+    window.location.href = "study-session.php";
+  }
+}
+
 //code for modal functionalities (open, close, create) from readymadeui
 const closeBtn = document.getElementById("closeModal");
 const cancelBtn = document.getElementById("cancelBtn");
