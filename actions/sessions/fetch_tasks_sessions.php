@@ -6,7 +6,7 @@ $userID = $_GET['userID'];
 $semesterID = $_GET['semester_id'];
 
 try {
-    $sql = "SELECT * FROM tasks WHERE user_id = :userID AND semester_id = :semesterID AND is_archived = 0";
+    $sql = "SELECT * FROM tasks WHERE user_id = :userID AND semester_id = :semesterID AND is_archived = 0 AND status = 'pending'";
     $params = [
         'userID' => $userID,
         'semesterID' => $semesterID
