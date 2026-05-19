@@ -54,7 +54,7 @@
                         <button type="button" id="cancelBtn"
                             class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                             Continue Quiz</button>
-                        <button type="submit" id="task-submit"
+                        <button type="submit" id="abandon-quiz"
                             class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-red-600 border border-red-600 transition-colors hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500">
                             Exit Anyway</button>
                     </div>
@@ -124,7 +124,7 @@
             <div
                 class="mt-6 w-full max-w-4xl bg-white shadow-md p-5 mx-auto rounded-md flex justify-between items-center">
                 <button type="button"
-                    class="exit-quiz rounded-md bg-white px-3.5 py-2 border border-red-400 cursor-pointer text-xs md:text-base text-red-500 font-semibold">Exit
+                    class="exit-quiz rounded-md bg-white px-3.5 py-2 border border-red-400 cursor-pointer text-xs md:text-base text-red-500 font-semibold">Abandon
                     Quiz</button>
                 <span class="text-center all-answered hidden">All questions answered</span>
                 <button type="button"

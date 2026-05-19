@@ -22,6 +22,7 @@
             </div>
 
             <!-- add/edit task overlay -->
+            <!-- opacity-0 pointer-events-none scale-95 -->
             <div id="modalOverlay"
                 class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] opacity-0 pointer-events-none scale-95 transition-all">
 
@@ -70,6 +71,78 @@
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select a subject</option>
                                 </select>
+                                <span
+                                    class="create-subject text-sm flex justify-end underline text-blue-600 cursor-pointer">Create
+                                    Subject</span>
+                            </div>
+                            <!-- inline subject addition form -->
+                            <div id="course-form-container" class="hidden">
+                                <div class="my-6 space-y-6">
+                                    <div class="iconColor">
+                                        <label for="title"
+                                            class="mb-2 text-slate-900 font-medium text-base inline-block">Icon
+                                            Color
+                                            <span class="text-red-500 font-bold">*</span></label>
+                                        <div class="flex flex-wrap justify-center items-center gap-3">
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="blue-700" onclick="changeBorder('blue-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-blue-700'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="red-700" onclick="changeBorder('red-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-red-700'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="orange-500" onclick="changeBorder('orange-500')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-orange-500'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="yellow-400" onclick="changeBorder('yellow-400')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-yellow-400'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="green-700" onclick="changeBorder('green-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-green-700'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="purple-500" onclick="changeBorder('purple-500')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-purple-500'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="violet-700" onclick="changeBorder('violet-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-violet-700'></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="courseInput">
+                                        <label for="course"
+                                            class="mb-2 text-slate-900 font-medium text-base inline-block">Subject/Course
+                                            Title
+                                            <span class="text-red-500 font-bold">*</span>
+                                        </label>
+                                        <input type="text" id="course" name="course"
+                                            placeholder="e.g. Web Systems and Technologies"
+                                            class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
+                                    </div>
+                                    <div class="descriptionInput">
+                                        <label for="description"
+                                            class="mb-2 text-slate-900 font-medium text-base inline-block">Short
+                                            Description
+                                            <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
+                                        <input type="text" id="description-sub" name="description"
+                                            placeholder="Brief description of the course..."
+                                            class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
+                                    <button type="button" id="cancelBtn2"
+                                        class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                        Cancel</button>
+                                    <button type="button" id="course-submit"
+                                        class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                        Create Subject</button>
+                                </div>
                             </div>
                             <div class="deadlineInput">
                                 <label for="deadline"
@@ -118,56 +191,52 @@
                     <div
                         class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto mt-6 p-4 sm:p-6 flex flex-col gap-3">
                         <div class="flex flex-wrap gap-3 border-b border-slate-200 pb-4">
-                            <select
+                            <select id="subject-filter"
                                 class="px-3.5 py-2 text-slate-900 text-sm rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                <option value="">All Subjects</option>
+                                <option value="all-subjects">All Subjects</option>
                             </select>
-                            <!-- <select
+                            <select id="urgency-filter"
                                 class="px-3.5 py-2 text-slate-900 text-sm rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                <option value="">All Semesters</option>
-                            </select> -->
-                            <select
-                                class="px-3.5 py-2 text-slate-900 text-sm rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                <option value="">Sort by Due Date</option>
-                                <option value="">Sort by Priority</option>
+                                <option value="due-date">Sort by Due Date</option>
+                                <option value="priority">Sort by Priority</option>
                             </select>
                         </div>
 
                         <div class="flex flex-wrap gap-3">
-                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                            <button class="filter-btn px-4 py-2 text-sm rounded-lg transition-colors
                         bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
                         data-[active=true]:bg-indigo-600
                         data-[active=true]:text-white
-                        data-[active=true]:shadow-sm">
+                        data-[active=true]:shadow-sm" id="all" data-active=true>
                                 All
                             </button>
-                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                            <button class="filter-btn px-4 py-2 text-sm rounded-lg transition-colors
                         bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
                         data-[active=true]:bg-indigo-600
                         data-[active=true]:text-white
-                        data-[active=true]:shadow-sm">
+                        data-[active=true]:shadow-sm" id="pending">
                                 Pending
                             </button>
-                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                            <button class="filter-btn px-4 py-2 text-sm rounded-lg transition-colors
                         bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
                         data-[active=true]:bg-indigo-600
                         data-[active=true]:text-white
-                        data-[active=true]:shadow-sm">
+                        data-[active=true]:shadow-sm" id="due-soon">
                                 Due soon
                             </button>
 
-                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                            <button class="filter-btn px-4 py-2 text-sm rounded-lg transition-colors
                         bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
                         data-[active=true]:bg-indigo-600
                         data-[active=true]:text-white
-                        data-[active=true]:shadow-sm">
+                        data-[active=true]:shadow-sm" id="completed">
                                 Completed
                             </button>
-                            <button class="px-4 py-2 text-sm rounded-lg transition-colors
+                            <button class="filter-btn px-4 py-2 text-sm rounded-lg transition-colors
                         bg-gray-100 text-gray-700 hover:bg-gray-200 font-semibold
                         data-[active=true]:bg-indigo-600
                         data-[active=true]:text-white
-                        data-[active=true]:shadow-sm">
+                        data-[active=true]:shadow-sm" id="overdue">
                                 Overdue
                             </button>
                         </div>
@@ -198,6 +267,10 @@
     <script src="../assets/js/tasks/add_task_modal.js"></script>
     <script src="../assets/js/tasks/edit_task.js"></script>
     <script src="../assets/js/tasks/delete_task.js"></script>
+    <script src="../assets/js/tasks/complete_task.js"></script>
+    <script src="../assets/js/tasks/start_study.js"></script>
+    <script src="../assets/js/tasks/filter_task.js"></script>
+
 </body>
 
 </html>

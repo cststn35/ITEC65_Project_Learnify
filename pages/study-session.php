@@ -26,7 +26,7 @@
             <!-- add study session modal overlay -->
             <!-- opacity-0 pointer-events-none scale-95 -->
             <div id="modalOverlay"
-                class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] transition-all opacity-0 pointer-events-none scale-95">
+                class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] opacity-0 pointer-events-none scale-95 transition-all">
 
                 <div role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
                     class="task-form-container w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
@@ -74,6 +74,78 @@
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select a subject</option>
                                 </select>
+                                <span
+                                    class="create-subject text-sm flex justify-end underline text-blue-600 cursor-pointer">Create
+                                    Subject</span>
+                            </div>
+                            <!-- inline subject addition form -->
+                            <div id="course-form-container" class="hidden">
+                                <div class="my-6 space-y-6">
+                                    <div class="iconColor">
+                                        <label for="title"
+                                            class="mb-2 text-slate-900 font-medium text-base inline-block">Icon
+                                            Color
+                                            <span class="text-red-500 font-bold">*</span></label>
+                                        <div class="flex flex-wrap justify-center items-center gap-3">
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="blue-700" onclick="changeBorder('blue-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-blue-700'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="red-700" onclick="changeBorder('red-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-red-700'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="orange-500" onclick="changeBorder('orange-500')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-orange-500'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="yellow-400" onclick="changeBorder('yellow-400')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-yellow-400'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="green-700" onclick="changeBorder('green-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-green-700'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="purple-500" onclick="changeBorder('purple-500')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-purple-500'></i></button>
+                                            <button
+                                                class="icon p-3 text-2xl rounded-lg border-2 border-slate-200 transition-all hover:scale-110"
+                                                id="violet-700" onclick="changeBorder('violet-700')" type="button"><i
+                                                    class='bx bxs-book text-2xl text-violet-700'></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="courseInput">
+                                        <label for="course"
+                                            class="mb-2 text-slate-900 font-medium text-base inline-block">Subject/Course
+                                            Title
+                                            <span class="text-red-500 font-bold">*</span>
+                                        </label>
+                                        <input type="text" id="course" name="course"
+                                            placeholder="e.g. Web Systems and Technologies"
+                                            class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
+                                    </div>
+                                    <div class="descriptionInput">
+                                        <label for="description"
+                                            class="mb-2 text-slate-900 font-medium text-base inline-block">Short
+                                            Description
+                                            <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
+                                        <input type="text" id="description-sub" name="description"
+                                            placeholder="Brief description of the course..."
+                                            class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
+                                    <button type="button" id="cancelBtn2"
+                                        class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                        Cancel</button>
+                                    <button type="button" id="course-submit"
+                                        class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                                        Create Subject</button>
+                                </div>
                             </div>
                             <div class="timeInput">
                                 <label for="time" class="mb-2 text-slate-900 font-medium text-base inline-block">Planned
@@ -89,7 +161,7 @@
 
                                 <div class="space-y-2">
                                     <div class="answer no-answer flex items-center gap-3 w-full border-3 border-slate-300 rounded-md px-3.5 py-3 hover:border-blue-300 transition ease-in duration-.2"
-                                        onclick="changeBorder('.no-answer')">
+                                        onclick="changeBordera('.no-answer')">
                                         <div
                                             class="border-blue-400 rounded-full w-4 h-4 flex items-center justify-center bg-black">
                                             <div class="rounded-full w-2 h-2 bg-blue-400 hidden"></div>
@@ -98,7 +170,7 @@
                                     </div>
 
                                     <div class="answer yes-answer flex items-center gap-3 w-full border-3 border-slate-300 rounded-md px-3.5 py-3 hover:border-blue-300 transition ease-in duration-.2"
-                                        onclick="changeBorder('.yes-answer')">
+                                        onclick="changeBordera('.yes-answer')">
                                         <div
                                             class="border-blue-400 rounded-full w-4 h-4 flex items-center justify-center bg-black">
                                             <div class="rounded-full w-2 h-2 bg-blue-400 hidden"></div>
@@ -107,7 +179,7 @@
                                     </div>
 
                                     <div class="answer later-answer flex items-center gap-3 w-full border-3 border-slate-300 rounded-md px-3.5 py-3 hover:border-blue-300 transition ease-in duration-.2"
-                                        onclick="changeBorder('.later-answer')">
+                                        onclick="changeBordera('.later-answer')">
                                         <div
                                             class="border-blue-400 rounded-full w-4 h-4 flex items-center justify-center bg-black">
                                             <div class="rounded-full w-2 h-2 bg-blue-400 hidden"></div>
@@ -411,6 +483,7 @@
         const BASE_URL = window.location.pathname.split("/")[1];
         const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
+        const startStudy = <?= json_encode($_SESSION['start_study'] ?? null) ?>;
     </script>
     <script src="../assets/js/sessions/add_session_modal.js"></script>
     <script src="../assets/js/tasks/fetch_subjects.js"></script>
