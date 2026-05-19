@@ -51,6 +51,7 @@ try {
         LEFT JOIN tasks t
             ON s.subject_id = t.subject_id
             AND t.is_archived = 0
+            AND t.status = 'pending'
         WHERE s.user_id = :userID
             AND s.semester_id = :semesterID
             AND s.is_archived = 0
