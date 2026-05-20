@@ -62,7 +62,7 @@
                 </a>
             </li>
             <li class="w-[90%] mx-auto my-3">
-                <a href="#"
+                <a href="../pages/analytics.php"
                     class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-bar-chart-alt-2 text-2xl'></i>
@@ -100,8 +100,7 @@
         <hr class="border-gray-600" />
         <div class="h-[60px] px-3 md:p-4 flex items-center gap-2">
             <span>
-                <img src="../assets/images/semester.png" alt="Logo" width="50"
-                    class="p-0">
+                <img src="../assets/images/semester.png" alt="Logo" width="50" class="p-0">
             </span>
             <span>
                 <h1 class="font-bold text-white">2nd Semester</h1>
