@@ -30,6 +30,7 @@ function runQuery($pdo, $sql, $params = [], $fetch = false)
     }
 }
 
+//OLTP TABLES
 runQuery(
     $pdo,
     "
@@ -197,6 +198,283 @@ CREATE TABLE IF NOT EXISTS questions (
     FOREIGN KEY (quiz_id)
     REFERENCES quizzes(quiz_id)
     ON DELETE CASCADE
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS xp_logs (
+    xp_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    xp_change INT NOT NULL,
+
+    reason ENUM(
+        'TASK_COMPLETE',
+        'TASK_EARLY_BONUS',
+        'TASK_OVERDUE_PENALTY',
+
+        'STUDY_SESSION',
+
+        'DAILY_GOAL_COMPLETE',
+        'DAILY_GOAL_EXCEEDED',
+
+        'STREAK_3_DAYS',
+        'STREAK_7_DAYS',
+        'STREAK_14_DAYS',
+        'STREAK_30_DAYS',
+
+        'TASK_CREATED',
+        'TASK_DELETED',
+
+        'QUIZ_CORRECT_ANSWER',
+        'QUIZ_COMPLETION'
+    ) NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS daily_progress (
+    daily_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    date DATE NOT NULL,
+    total_minutes INT NOT NULL,
+
+    UNIQUE (user_id, semester_id, date),
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS notifications (
+    notif_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    type ENUM(
+        'REMINDER',
+        'DEADLINE',
+        'STREAK',
+        'SYSTEM'
+    ) NOT NULL,
+    is_read TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+"
+);
+
+//DIMENSION TABLES AND FACT TABLES FOR DATA ANALYTICS
+
+//DIMENSION TABLES
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS dim_user (
+    user_sk INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNIQUE,
+    name VARCHAR(255),
+    created_at DATE
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS dim_date (
+    date_sk INT PRIMARY KEY,
+    full_date DATE,
+    day INT,
+    month INT,
+    year INT,
+    week INT,
+    weekday VARCHAR(20)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS dim_subject (
+    subject_sk INT AUTO_INCREMENT PRIMARY KEY,
+    subject_id INT,
+    name VARCHAR(150),
+    semester_id INT
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS dim_semester (
+    semester_sk INT AUTO_INCREMENT PRIMARY KEY,
+    semester_id INT,
+    semester_name VARCHAR(100),
+    school_year VARCHAR(100)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS dim_xp_reason (
+    reason_sk INT AUTO_INCREMENT PRIMARY KEY,
+    reason VARCHAR(50),
+    category VARCHAR(50)
+);
+"
+);
+
+//FACT TABLES
+runQuery(
+    $pdo,
+    "
+CREATE TABLE fact_study_session (
+    session_sk INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_sk INT NOT NULL,
+    subject_sk INT NOT NULL,
+    semester_sk INT NOT NULL,
+    date_sk INT NOT NULL,
+
+    start_hour TINYINT NOT NULL,
+
+    duration_seconds INT,
+    target_duration_minutes INT,
+    pause_seconds INT DEFAULT 0,
+
+    status ENUM(
+        'active',
+        'paused',
+        'completed',
+        'abandoned'
+    ),
+
+    FOREIGN KEY (user_sk)
+        REFERENCES dim_user(user_sk),
+
+    FOREIGN KEY (subject_sk)
+        REFERENCES dim_subject(subject_sk),
+
+    FOREIGN KEY (semester_sk)
+        REFERENCES dim_semester(semester_sk),
+
+    FOREIGN KEY (date_sk)
+        REFERENCES dim_date(date_sk)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS fact_quiz (
+    quiz_sk INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_sk INT,
+    subject_sk INT,
+    semester_sk INT,
+    date_sk INT,
+
+    score INT,
+    total_questions INT,
+    duration_seconds INT,
+    xp_earned INT,
+
+    FOREIGN KEY (user_sk) REFERENCES dim_user(user_sk),
+    FOREIGN KEY (subject_sk) REFERENCES dim_subject(subject_sk),
+    FOREIGN KEY (semester_sk) REFERENCES dim_semester(semester_sk),
+    FOREIGN KEY (date_sk) REFERENCES dim_date(date_sk)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS fact_task (
+    task_sk INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_sk INT,
+    subject_sk INT,
+    semester_sk INT,
+    date_created_sk INT,
+    date_completed_sk INT NULL,
+
+    priority VARCHAR(10),
+    status VARCHAR(20),
+
+    estimated_seconds INT,
+    actual_seconds INT NULL,
+
+    is_late BOOLEAN,
+
+    FOREIGN KEY (user_sk) REFERENCES dim_user(user_sk),
+    FOREIGN KEY (subject_sk) REFERENCES dim_subject(subject_sk),
+    FOREIGN KEY (semester_sk) REFERENCES dim_semester(semester_sk),
+    FOREIGN KEY (date_created_sk) REFERENCES dim_date(date_sk),
+    FOREIGN KEY (date_completed_sk) REFERENCES dim_date(date_sk)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS fact_xp (
+    xp_sk INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_sk INT,
+    semester_sk INT,
+    date_sk INT,
+    reason_sk INT,
+
+    xp_change INT,
+
+    FOREIGN KEY (user_sk) REFERENCES dim_user(user_sk),
+    FOREIGN KEY (semester_sk) REFERENCES dim_semester(semester_sk),
+    FOREIGN KEY (date_sk) REFERENCES dim_date(date_sk),
+    FOREIGN KEY (reason_sk) REFERENCES dim_xp_reason(reason_sk)
+);
+"
+);
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS fact_daily_progress (
+    daily_sk INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_sk INT,
+    semester_sk INT,
+    date_sk INT,
+
+    total_minutes INT,
+
+    FOREIGN KEY (user_sk) REFERENCES dim_user(user_sk),
+    FOREIGN KEY (semester_sk) REFERENCES dim_semester(semester_sk),
+    FOREIGN KEY (date_sk) REFERENCES dim_date(date_sk)
 );
 "
 );
