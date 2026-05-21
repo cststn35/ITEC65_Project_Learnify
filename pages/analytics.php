@@ -1,4 +1,5 @@
 <?php include_once("../actions/auth.php"); ?>
+<?php require_once("../config/runETL.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include_once("../config/meta-head.php") ?>
@@ -161,15 +162,27 @@
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80">
                             <h1 class="font-semibold text-sm">Quiz Trend</h1>
+                            <!-- chart wrapper -->
+                            <div class="relative w-full h-64 p-4">
+                                <canvas id="quizTrendChart"></canvas>
+                            </div>
                         </div>
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80 ">
                             <h1 class="font-semibold text-sm">Subject Mastery</h1>
+                            <!-- chart wrapper -->
+                            <div class="relative w-full h-64 p-4">
+                                <canvas id="subjectMasteryChart"></canvas>
+                            </div>
                         </div>
                     </div>
                     <div
                         class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80 mt-4">
                         <h1 class="font-semibold text-sm">Study Time vs. Quiz Score</h1>
+                        <!-- chart wrapper -->
+                        <div class="relative w-full h-64 p-4">
+                            <canvas id="studyQuizChart"></canvas>
+                        </div>
                     </div>
                 </div>
                 <!-- gamification -->
@@ -179,21 +192,29 @@
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80">
                             <h1 class="font-semibold text-sm">XP Growth</h1>
+                            <!-- chart wrapper -->
+                            <div class="relative w-full h-64 p-4">
+                                <canvas id="xpGrowthChart"></canvas>
+                            </div>
                         </div>
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80 ">
                             <h1 class="font-semibold text-sm">XP Source Breakdown</h1>
+                            <!-- chart wrapper -->
+                            <div class="relative w-full h-64 p-4">
+                                <canvas id="xpBreakdownChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- smart insights -->
-                <div class="space-y-2">
+                <!-- <div class="space-y-2">
                     <h1 class="text-xl font-semibold">Smart Insights</h1>
                     <div class="w-full bg-blue-100 p-5 rounded-md border border-blue-300 flex gap-2">
                         <span class="flex items-center"><i class='bx bx-trending-up text-2xl text-blue-500'></i></span>
                         You study most consistently on weekdays
                     </div>
-                </div>
+                </div> -->
             </div>
 
 
