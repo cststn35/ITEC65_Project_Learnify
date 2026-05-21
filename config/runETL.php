@@ -9,15 +9,13 @@ function runETL($pdo)
     loadDimSubject($pdo);
     loadDimSemester($pdo);
     loadDimXPReason($pdo);
-    loadDimDate($pdo, '2026-01-01', '2027-01-01');
-
     loadFactStudySession($pdo);
     loadFactDailyProgress($pdo);
     loadFactQuiz($pdo);
     loadFactTask($pdo);
     loadFactXP($pdo);
 
-    echo "ETL completed successfully.";
+    // echo "ETL completed successfully.";
 }
 
 runETL($pdo);
