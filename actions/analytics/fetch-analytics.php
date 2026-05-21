@@ -178,13 +178,15 @@ try {
         "quiz_trend" => "
         SELECT
             dd.full_date,
+            dd.weekday,
             ROUND(AVG(score * 100.0 / total_questions), 2) AS avg_score
         FROM fact_quiz fq
         JOIN dim_date dd ON fq.date_sk = dd.date_sk
         JOIN dim_user du ON fq.user_sk = du.user_sk
         JOIN dim_semester ds ON fq.semester_sk = ds.semester_sk
         WHERE du.user_id = :user_id
-        AND ds.semester_id = :semester_id
+        AND ds.semester_id = :semester_id AND
+        dd.full_date >= CURDATE() - INTERVAL 7 DAY
         GROUP BY dd.full_date
         ORDER BY dd.full_date
     ",
@@ -207,21 +209,20 @@ try {
         // 15. STUDY VS QUIZ
         "study_vs_quiz" => "
         SELECT
-            ROUND(fs.duration_seconds / 60, 2) AS study_minutes,
-            ROUND(fq.score * 100.0 / fq.total_questions, 2) AS quiz_percent
-        FROM fact_study_session fs
-        JOIN fact_quiz fq ON fs.subject_sk = fq.subject_sk
-        JOIN dim_user du ON fs.user_sk = du.user_sk
-        JOIN dim_semester ds ON fs.semester_sk = ds.semester_sk
-        WHERE du.user_id = :user_id
-        AND ds.semester_id = :semester_id
-        AND fs.status = 'completed'
+            ROUND(s.actual_duration_seconds / 60, 2) AS study_minutes,
+            ROUND(q.score * 100.0 / q.score, 2) AS quiz_percent
+        FROM quizzes q
+        JOIN sessions s ON q.session_id = s.session_id
+        WHERE s.user_id = :user_id
+        AND s.semester_id = :semester_id
+        AND q.status = 'completed'
     ",
 
         // 16. XP GROWTH
         "xp_growth" => "
         SELECT
             dd.full_date,
+            dd.weekday,
             SUM(fx.xp_change) AS total_xp
         FROM fact_xp fx
         JOIN dim_date dd ON fx.date_sk = dd.date_sk
@@ -229,6 +230,7 @@ try {
         JOIN dim_semester ds ON fx.semester_sk = ds.semester_sk
         WHERE du.user_id = :user_id
         AND ds.semester_id = :semester_id
+        AND dd.full_date >= CURDATE() - INTERVAL 7 DAY
         GROUP BY dd.full_date
         ORDER BY dd.full_date
     ",
