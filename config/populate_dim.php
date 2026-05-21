@@ -47,36 +47,6 @@ function loadDimSemester($pdo)
     $pdo->exec($sql);
 }
 
-function loadDimDate($pdo, $start, $end)
-{
-
-    $current = strtotime($start);
-    $end = strtotime($end);
-
-    while ($current <= $end) {
-
-        $date = date("Y-m-d", $current);
-
-        $sql = "
-            INSERT IGNORE INTO dim_date
-            (date_sk, full_date, day, month, year, week, weekday)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ";
-
-        $pdo->prepare($sql)->execute([
-            (int) date("Ymd", $current),
-            $date,
-            date("d", $current),
-            date("m", $current),
-            date("Y", $current),
-            date("W", $current),
-            date("l", $current)
-        ]);
-
-        $current = strtotime("+1 day", $current);
-    }
-}
-
 function loadDimXPReason($pdo)
 {
 
