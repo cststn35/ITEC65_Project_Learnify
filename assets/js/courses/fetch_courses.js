@@ -45,7 +45,7 @@ function renderCourses(data,data2){
         }
 
     courseContainer.innerHTML += `
-    <div class="bg-white border border-slate-200 shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4 max-h-fit" data-course-id=${subjectID}>
+    <div class="bg-white border-l-6 border-${color} shadow-sm rounded-lg mx-auto p-4 sm:p-6 w-full space-y-4 max-h-fit" data-course-id=${subjectID}>
         <!-- heading -->
         <div class="flex gap-2">
             <div class="text-center text-4xl">
