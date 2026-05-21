@@ -60,6 +60,11 @@ function initializeAnalytics() {
   plannedActualTime();
   sessionCompletionChart();
   taskCompletionChart();
+  quizTrend();
+  subjectMasteryChart();
+  studyQuizChart();
+  xpGrowthChart();
+  xpBreakdownChart();
 }
 
 function initializeKPI() {
@@ -397,7 +402,7 @@ function plannedActualTime() {
       {
         axis: "y",
         label: "Minutes Studied",
-        data: [65, 59],
+        data: [avg_target_minutes, avg_actual_minutes],
         fill: false,
         backgroundColor: [
           "rgba(148, 163, 184, 0.7)",
@@ -429,8 +434,16 @@ function sessionCompletionChart() {
   console.log(session_completion_rate);
   const ctx = document.getElementById("sessionCompletionChart");
 
-  const active = session_completion_rate[0]["total"];
-  const complete = session_completion_rate[1]["total"];
+  let active = 0;
+  let complete = 0;
+
+  session_completion_rate.forEach((status) => {
+    if (status.status == "completed") {
+      complete += status.total;
+    } else {
+      active += status.total;
+    }
+  });
 
   const data = {
     labels: ["Incomplete", "Complete"],
@@ -457,16 +470,14 @@ function sessionCompletionChart() {
 
 function taskCompletionChart() {
   console.log(task_completion);
-  const on_time_percentages =
-    Math.floor(
-      Number(task_completion[0]["on_time_tasks"]) /
-        Number(task_completion[0]["completed_tasks"]),
-    ) * 100;
-  const lates = Math.floor(
-    (Number(task_completion[0]["completed_tasks"]) -
-      Number(task_completion[0]["on_time_tasks"])) /
-      Number(task_completion[0]["completed_tasks"]),
+  const on_time_percentages = Math.floor(
+    (Number(task_completion[0]["on_time_tasks"]) /
+      Number(task_completion[0]["completed_tasks"])) *
+      100,
   );
+  const lates = 100 - on_time_percentages;
+
+  console.log(task_completion[0]["on_time_tasks"]);
 
   const on_time = document.querySelector(".on-time");
   const on_time_percentage = document.querySelector(".on-time-percentage");
@@ -477,6 +488,255 @@ function taskCompletionChart() {
   on_time_percentage.style.width = `${on_time_percentages}%`;
   late.textContent = `${lates}%`;
   late_percentage.style.width = `${lates}%`;
+}
 
-  console.log(late);
+function quizTrend() {
+  console.log(quiz_trend);
+  let datos = new Array(7).fill(0);
+  let index = 0;
+  quiz_trend.forEach((trend) => {
+    switch (trend.weekday) {
+      case "Sunday":
+        index = 6;
+        break;
+      case "Monday":
+        index = 0;
+        break;
+      case "Tuesday":
+        index = 1;
+        break;
+      case "Wednesday":
+        index = 2;
+        break;
+      case "Thursday":
+        index = 3;
+        break;
+      case "Friday":
+        index = 4;
+        break;
+      case "Saturday":
+        index = 5;
+        break;
+      default:
+        break;
+    }
+    datos[index] = trend.avg_score;
+  });
+
+  const ctx = document.getElementById("quizTrendChart");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      datasets: [
+        {
+          label: "Average Quiz Score (%)",
+          data: datos,
+          borderColor: "rgb(75, 192, 192)",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+}
+
+function subjectMasteryChart() {
+  console.log(subject_mastery);
+  let subjects = [];
+  let datos = [];
+  const ctx = document.getElementById("subjectMasteryChart");
+  subject_mastery.forEach((subject) => {
+    subjects.push(subject.name);
+    datos.push(subject.mastery_score);
+  });
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: subjects,
+      datasets: [
+        {
+          label: "Mastery Score (%)",
+          data: datos,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(201, 203, 207, 0.2)",
+          ],
+          borderColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+}
+
+function studyQuizChart() {
+  console.log(studytime_quiz);
+  let datos = [];
+  studytime_quiz.forEach((element) => {
+    datos.push({
+      x: element.study_minutes,
+      y: element.quiz_percent,
+    });
+  });
+  const ctx = document.getElementById("studyQuizChart");
+  const data = {
+    datasets: [
+      {
+        label: "Minutes, Score (%)",
+        data: datos,
+        backgroundColor: "rgba(59, 130, 246, 0.8)",
+      },
+    ],
+  };
+
+  const config = {
+    type: "scatter",
+    data: data,
+    options: {
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Minutes Studied", // X-axis label
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Quiz Score", // Y-axis label
+          },
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  };
+
+  new Chart(ctx, config);
+}
+
+function xpGrowthChart() {
+  console.log(xp_growth);
+  let datos = new Array(7).fill(0);
+  let index = 0;
+  xp_growth.forEach((trend) => {
+    switch (trend.weekday) {
+      case "Sunday":
+        index = 6;
+        break;
+      case "Monday":
+        index = 0;
+        break;
+      case "Tuesday":
+        index = 1;
+        break;
+      case "Wednesday":
+        index = 2;
+        break;
+      case "Thursday":
+        index = 3;
+        break;
+      case "Friday":
+        index = 4;
+        break;
+      case "Saturday":
+        index = 5;
+        break;
+      default:
+        break;
+    }
+    datos[index] = trend.total_xp;
+  });
+
+  const ctx = document.getElementById("xpGrowthChart");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      datasets: [
+        {
+          label: "XP Count",
+          data: datos,
+          borderColor: "rgb(75, 192, 192)",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+}
+
+function xpBreakdownChart() {
+  let STUDY = 0;
+  let TASK = 0;
+  let STREAK = 0;
+  let QUIZ = 0;
+  console.log(xp_breakdown);
+  xp_breakdown.forEach((xp) => {
+    if (xp.category == "STUDY") {
+      STUDY += Number(xp.total_xp);
+    } else if (xp.category == "TASK") {
+      TASK += Number(xp.total_xp);
+    } else if (xp.category == "STREAK") {
+      STREAK += Number(xp.total_xp);
+    } else {
+      QUIZ += Number(xp.total_xp);
+    }
+  });
+
+  const ctx = document.getElementById("xpBreakdownChart");
+
+  const data = {
+    labels: ["Study", "Task", "Streak", "Quiz"],
+    datasets: [
+      {
+        label: "Total Number",
+        data: [STUDY, TASK, STREAK, QUIZ],
+        backgroundColor: [
+          "rgba(59, 130, 246, 0.8)",
+          "rgba(249, 115, 22, 0.8)",
+          "rgba(34, 197, 94, 0.8)",
+          "rgba(139, 92, 246, 0.8)",
+        ],
+        hoverOffset: 4,
+      },
+    ],
+  };
+  const config = {
+    type: "doughnut",
+    data: data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  };
+
+  new Chart(ctx, config);
 }
