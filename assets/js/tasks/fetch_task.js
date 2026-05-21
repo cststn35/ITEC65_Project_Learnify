@@ -86,7 +86,7 @@ function renderTasks(data) {
 
     taskContainer.innerHTML += `
     <div
-        class="one-card bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 flex flex-col gap-3"
+        class="one-card bg-white border-l-6 border-${color} shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 flex flex-col gap-3"
         data-task-id="${taskID}"
     >
         <div class="flex flex-col gap-3">
