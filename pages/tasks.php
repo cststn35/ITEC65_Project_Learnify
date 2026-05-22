@@ -10,7 +10,7 @@
         include_once("../components/topsidebar.php")
             ?>
         <main
-            class="bg-gray-200 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] h-full flex flex-col overflow-hidden">
+            class="bg-slate-100 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] h-full flex flex-col overflow-hidden">
             <div class="flex justify-between">
                 <h1 class="font-bold text-2xl">TASKS</h1>
                 <button type="button"

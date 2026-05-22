@@ -11,7 +11,7 @@
         include_once("../components/topsidebar.php")
             ?>
         <main
-            class="bg-gray-200 col-start-2 p-4 md:p-6 lg:px-30 max-h-[calc(100dvh-60px)] flex flex-col overflow-scroll">
+            class="bg-slate-100 col-start-2 p-4 md:p-6 lg:px-30 max-h-[calc(100dvh-60px)] flex flex-col overflow-scroll">
             <h1 class="text-3xl font-semibold">Analytics</h1>
             <!-- today/semester overview -->
             <div class="space-y-10">

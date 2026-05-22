@@ -11,7 +11,7 @@
         include_once("../components/topsidebar.php")
             ?>
         <main
-            class="bg-gray-200 col-start-2 p-4 md:p-6 lg:px-30 max-h-[calc(100dvh-60px)] flex flex-col overflow-y-scroll space-y-6">
+            class="bg-slate-100 col-start-2 p-4 md:p-6 lg:px-30 max-h-[calc(100dvh-60px)] flex flex-col overflow-y-scroll space-y-6">
             <div class="flex w-full gap-5">
                 <div><span class="bg-purple-800 rounded-2xl p-4 flex items-center justify-center"><i
                             class='bx bx-brain text-3xl text-white'></i></span></div>
