@@ -110,7 +110,7 @@
     </div>
 </div>
 <!-- topbar -->
-<div class="md:col-start-2 bg-slate-700 flex justify-between items-center py-2 px-3 md:py-4 md:px-6">
+<div class="md:col-start-2 bg-slate-800 flex justify-between items-center py-2 px-3 md:py-4 md:px-6">
     <span class="text-xl md:text-2xl font-bold text-white">
         <?= $pageTitle ?>
     </span>
