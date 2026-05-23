@@ -248,7 +248,7 @@
                 </div>
 
                 <div
-                    class="rounded-2xl bg-slate-50 border border-slate-200 flex flex-1 flex-col md:flex-row p-4 gap-4 text-center overflow-auto min-h-100 md:justify-center schedule-cont relative">
+                    class="rounded-2xl bg-slate-50 border border-slate-200 flex flex-1 flex-col md:flex-row p-4 gap-4 text-center overflow-auto min-h-100 schedule-cont relative">
                     <!-- SUNDAY -->
                     <div class="flex flex-col gap-3 min-w-[180px]">
                         <div
@@ -312,7 +312,7 @@
                         <div class="flex flex-col gap-3 saturday araw">
                         </div>
                     </div>
-                    <div class="add-class-message flex-none block md:absolute top-60 text-2xl cursor-pointer text-slate-600"
+                    <div class="add-class-message flex justify-center md:absolute md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 text-2xl cursor-pointer text-slate-600"
                         onclick="openModal()">Add your class schedule here</div>
                 </div>
             </div>
