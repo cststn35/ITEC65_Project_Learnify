@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS users (
     longest_streak INT DEFAULT 0,
     last_study_date DATE NULL,
     daily_goal_minutes INT DEFAULT 120,
+    is_newly_registered INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 "
@@ -280,6 +281,34 @@ CREATE TABLE IF NOT EXISTS notifications (
 );
 "
 );
+
+runQuery(
+    $pdo,
+    "
+CREATE TABLE IF NOT EXISTS schedules (
+    schedule_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    day_of_week TINYINT NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    teacher VARCHAR(100) NULL,
+    room VARCHAR(100) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id),
+
+    FOREIGN KEY (semester_id)
+        REFERENCES semesters(semester_id),
+
+    FOREIGN KEY (subject_id)
+        REFERENCES subjects(subject_id)
+);
+"
+);
+
 
 //DIMENSION TABLES AND FACT TABLES FOR DATA ANALYTICS
 
