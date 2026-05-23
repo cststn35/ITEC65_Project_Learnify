@@ -61,7 +61,7 @@ function renderSchedule(data) {
     let end_time = convertTo12Hour(schedule.end_time);
 
     container.innerHTML += `
-            <div class="bg-white border border-slate-200 border-l-4 border-l-amber-300 shadow-sm rounded-2xl p-4 flex flex-col items-center justify-center
+            <div class="cursor-pointer bg-white border border-slate-200 border-l-4 border-l-amber-300 shadow-sm rounded-2xl p-4 flex flex-col items-center justify-center
     hover:shadow-md hover:-translate-y-0.5 transition-all duration-200" onclick='editSchedule(${schedule.schedule_id})'>
                 <div class="font-semibold text-slate-800 text-sm text-center">
                     ${schedule.name}
