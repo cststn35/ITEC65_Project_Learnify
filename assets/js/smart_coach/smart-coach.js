@@ -72,7 +72,9 @@ function initializeKPI() {
   healthProgress.setAttribute("stroke-dashoffset", offset);
   healthProgress2.textContent = `${study_health}`;
 
-  let consistency_score = Math.floor(Number(consistency[0]["consistency_score"]));
+  let consistency_score = Math.floor(
+    Number(consistency[0]["consistency_score"]),
+  );
   const consistencyProgress = document.querySelector(".consistency-progress");
   const consistencyProgress2 = document.querySelector(
     ".consistency-progress-text",
@@ -101,7 +103,8 @@ function studyConsistency() {
     title = "Low Study Consistency";
     priority = priorities[0];
     message = "You frequently miss your daily study goal.";
-    suggestion = "Aim for smaller but consistent study sessions daily.";
+    suggestion =
+      "Aim for smaller but consistent study sessions daily. If this is your first time, start building one.";
     color = colors[0];
   }
 
@@ -126,6 +129,7 @@ function studyConsistency() {
 }
 
 function academicConsistency() {
+  let quizCount = Number(acadConsistency[0]["quiz_count"]);
   let score = Number(acadConsistency[0]["avg_quiz_score"]);
   const studyConsistencyCont = document.querySelector(".priority-cards");
   if (score >= 85) {
@@ -144,8 +148,17 @@ function academicConsistency() {
     title = "High Academic Risk";
     priority = priorities[0];
     message = "Quiz performance suggests possible learning difficulty.";
-    suggestion = "Review weaker topics and take more practice quizzes.";
+    suggestion =
+      "Review weaker topics and take more practice quizzes. If this is your first time, start taking practice quizzes.";
     color = colors[0];
+  }
+
+  if (quizCount === 0) {
+    title = "No Quizzes Detected Yet";
+    priority = "";
+    message = "";
+    suggestion = "Start taking quizzes to measure your academic performance.";
+    color = "blue";
   }
 
   studyConsistencyCont.innerHTML += `
@@ -239,6 +252,14 @@ function studyPattern() {
     color = colors[0];
   }
 
+  if (avg_target_minutes == 0 && avg_actual_minutes == 0) {
+    title = "No Study Pattern Detected Yet";
+    message = "";
+    suggestion = "Start building your study session first.";
+    priority = "";
+    color = "blue";
+  }
+
   cont.innerHTML += ` <div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 border-l-6 border-${color}-500 space-y-4 w-full">
                         <!-- header -->
                         <div class="flex justify-between">
@@ -289,16 +310,26 @@ function sessionStability() {
   } else {
     title = "Session Abandonment Concern";
     priority = priorities[0];
-    message = "Many sessions are abandoned before completion.";
+    message =
+      "Many sessions are abandoned before completion or no sessions are created yet.";
     suggestion = "Try shorter sessions and study in focused environments.";
     color = colors[0];
   }
+
+  if (score === 0) {
+    title = "No Session Detected Yet";
+    priority = "";
+    message = "";
+    suggestion = "Start taking study session first.";
+    color = "blue";
+  }
+
   cont.innerHTML += `<div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 border-l-6 border-${color}-500 space-y-4 w-full">
                         <div class="flex justify-between">
                             <div class="flex items-center gap-2">
                                 <span class="bg-${color}-800 rounded-xl p-2 flex items-center justify-center"><i
                                         class='fa-solid fa-graduation-cap text-xl text-white'></i></span>
-                                <span class="font-semibold">Session Abandonment</span>
+                                <span class="font-semibold">${title}</span>
                             </div>
                             ${priority}
                         </div>
@@ -316,11 +347,14 @@ function sessionStability() {
 }
 
 function focusWindow() {
-  console.log(focus_time);
   const cont = document.querySelector(".focusCont");
-  let time = Number(focus_time[0]["start_hour"]);
-  let meridiem = time > 11 ? "PM" : "AM";
-  time = Math.abs(time - 12);
+  let time = "",
+    meridiem = "";
+  if (focus_time.length !== 0) {
+    time = Number(focus_time[0]["start_hour"]) || 0;
+    meridiem = time > 11 ? "PM" : "AM";
+    time = Math.abs(time - 12);
+  }
 
   cont.innerHTML += `<div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 border-l-6 border-blue-500 space-y-2">
                     <!-- header -->
@@ -333,30 +367,36 @@ function focusWindow() {
 
                     </div>
                     <!-- comment -->
-                    <div>You focus and perform best around <b>${time} ${meridiem}</b></div>
+                    <div>${focus_time.length === 0 ? "" : `You focus and perform best around <b>${time} ${meridiem}`}</b></div>
                     <hr class="border-t border-gray-300">
                     <div class="flex items-center gap-1">
                         <span><i class='bx bx-bulb'></i></span>
-                        <span class="text-sm">Schedule difficult subjects during this time.</span>
+                        <span class="text-sm">${focus_time.length === 0 ? "Start building your study session first." : "Schedule difficult subjects during this time."}</span>
                     </div>
                 </div>`;
 }
 
 function subjectPerformance() {
   const cont = document.querySelector(".acadCoachCont");
-  let length = subject_performance.length;
-  let weakSub =
-    Number(subject_performance[length - 1]["avg_score"]) <= 75
-      ? subject_performance[length - 1]["subject_name"]
-      : "N/A";
-  let strongSub = subject_performance[0]["subject_name"];
-  let score =
-    Number(subject_performance[length - 1]["avg_score"]) <= 75
-      ? Number(subject_performance[length - 1]["avg_score"])
-      : 0;
-  let score2 = Number(subject_performance[0]["avg_score"]);
-
-  let color = weakSub != "N/A" ? "red" : "gray";
+  let length, weakSub, strongSub, score, score2, color, priority;
+  if (subject_performance.length !== 0) {
+    length = subject_performance.length;
+    weakSub =
+      Number(subject_performance[length - 1]["avg_score"]) <= 75
+        ? subject_performance[length - 1]["subject_name"]
+        : "N/A";
+    strongSub = subject_performance[0]["subject_name"];
+    score =
+      Number(subject_performance[length - 1]["avg_score"]) <= 75
+        ? Number(subject_performance[length - 1]["avg_score"])
+        : 0;
+    score2 = Number(subject_performance[0]["avg_score"]);
+    color = weakSub != "N/A" ? "red" : "gray";
+    priority = weakSub != "N/A" ? priorities[0] : "";
+  } else {
+    color = "blue";
+    priority = "";
+  }
 
   cont.innerHTML += `
   <div class="bg-white shadow-sm rounded-lg p-4 sm:p-6 border-l-6 border-${color}-500 space-y-4 w-full">
@@ -366,30 +406,30 @@ function subjectPerformance() {
                                     class='bx bx-down-arrow-alt text-xl text-white'></i></span>
                             <span class="font-semibold">Subject To Improve</span>
                         </div>
-                        ${weakSub != "N/A" ? priorities[0] : ""}
+                        ${priority}
                     </div>
                     <div>
-                        <div class="font-bold text-2xl">${weakSub}</div>
+                        <div class="font-bold text-2xl">${weakSub || "No subjects/quizzes detected yet"}</div>
                         <div>
                             <div class="flex justify-between">
                                 <span>Quiz Average</span>
-                                <span>${score}%</span>
+                                <span>${score || 0}%</span>
                             </div>
                             <div>
                                 <div class="w-full h-2 bg-slate-400 rounded-lg">
-                                    <div class="w-[${score}%] h-2 bg-red-500 rounded-lg"></div>
+                                    <div class="w-[${score || 0}%] h-2 bg-red-500 rounded-lg"></div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                    <div>${weakSub != "N/A" ? `${weakSub} has the lowest mastery score` : "No weak subject detected (lower than 75%)"}
+                    <div>${weakSub === undefined ? "" : weakSub != "N/A" ? `${weakSub} has the lowest mastery score` : "No weak subject detected (lower than 75%)"}
                     </div>
                     <hr class="border-t border-gray-300">
                     <div class="flex items-center gap-1">
                         <span><i class='bx bx-bulb'></i></span>
                         <span class="text-sm">
-                        ${weakSub != "N/A" ? `Consider reviewing notes and take quizzes after studying for this subject.` : "No concern right now"}
+                        ${weakSub === undefined ? "Start adding subjects and taking quiz first." : weakSub != "N/A" ? `Consider reviewing notes and take quizzes after studying for this subject.` : "No concern right now"}
                         </span>
                     </div>
                 </div>`;
@@ -402,29 +442,29 @@ function subjectPerformance() {
                                     class='bx bx-up-arrow-alt text-xl text-white'></i></span>
                             <span class="font-semibold">Subject Most Mastered</span>
                         </div>
-                        ${priorities[2]}
+                        ${strongSub === undefined ? "" : priorities[2]}
                     </div>
                     <div>
-                        <div class="font-bold text-2xl">${strongSub}</div>
+                        <div class="font-bold text-2xl">${strongSub || "No subjects/quizzes detected yet"}</div>
                         <div>
                             <div class="flex justify-between">
                                 <span>Quiz Average</span>
-                                <span>${score2}%</span>
+                                <span>${score2 || 0}%</span>
                             </div>
                             <div>
                                 <div class="w-full h-2 bg-slate-400 rounded-lg">
-                                    <div class="w-[${score2}%] h-2 bg-green-500 rounded-lg"></div>
+                                    <div class="w-[${score2 || 0}%] h-2 bg-green-500 rounded-lg"></div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                    <div>${strongSub} has the highest mastery score among the subjects.
+                    <div>${strongSub === undefined ? "" : `${strongSub} has the highest mastery score among the subjects.`}
                     </div>
                     <hr class="border-t border-gray-300">
                     <div class="flex items-center gap-1">
                         <span><i class='bx bx-bulb'></i></span>
-                        <span class="text-sm">Continue reinforcing topics and maintain the grit.</span>
+                        <span class="text-sm">${strongSub === undefined ? "Start adding subjects and taking quiz first." : "Continue reinforcing topics and maintain the grit."}</span>
                     </div>
                 </div>`;
 }
