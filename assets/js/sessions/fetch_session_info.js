@@ -25,6 +25,7 @@ function isValidDateTime(dt) {
 }
 
 function renderData(data) {
+  taskID = data.task_id;
   quiz_decision = data.quiz_decision;
   console.log(data.quiz_decision);
   start_time = isValidDateTime(data.start_time) ? data.start_time : null;
