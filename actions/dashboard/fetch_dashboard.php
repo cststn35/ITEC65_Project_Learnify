@@ -114,6 +114,7 @@ try {
         //7. ACADEMIC MASTERY
         'academic_risk' => "
         SELECT
+            COUNT(*) as quiz_count,
             ROUND(AVG(score/total_questions) * 100, 2) AS avg_quiz_score
         FROM fact_quiz
         WHERE user_sk = :user_id
