@@ -72,9 +72,9 @@ function initializeKPI() {
   const quizAvg = document.querySelector(".quiz-average");
   const tasksDone = document.querySelector(".tasks-done");
   const streaks = document.querySelector(".streak-count");
-  studyTime.textContent = `${study_time} Hour(s)`;
-  quizAvg.textContent = `${quiz_average}%`;
-  tasksDone.textContent = `${tasks_done[0]["completed_tasks"]}/${tasks_done[0]["total_tasks"]}`;
+  studyTime.textContent = `${study_time ?? 0} Hour(s)`;
+  quizAvg.textContent = `${quiz_average ?? 0}%`;
+  tasksDone.textContent = `${tasks_done[0]["completed_tasks"] ?? 0}/${tasks_done[0]["total_tasks"]}`;
   streaks.textContent = `${streak[0]["current_streak"]} Day(s)`;
   console.log(study_time);
   console.log(quiz_average);
@@ -188,14 +188,14 @@ function studySubjectChart() {
 }
 
 function consistencyChart() {
-  let percentage = study_consistency[0]["consistency_score"] / 100;
+  let percentage = study_consistency[0]["consistency_score"] ?? 0 / 100;
   let radius = 16;
   let circumference = 2 * Math.PI * radius;
   let offset = circumference * (1 - percentage);
   const chart = document.getElementById("consistencyProgress");
   chart.setAttribute("stroke-dashoffset", offset);
   document.getElementById("percentage").textContent =
-    `${study_consistency[0]["consistency_score"]}%`;
+    `${study_consistency[0]["consistency_score"] ?? 0}%`;
 }
 
 function peakStudyChart() {
@@ -471,20 +471,25 @@ function sessionCompletionChart() {
 function taskCompletionChart() {
   console.log(task_completion);
   const on_time_percentages = Math.floor(
-    (Number(task_completion[0]["on_time_tasks"]) /
-      Number(task_completion[0]["completed_tasks"])) *
+    ((Number(task_completion[0]["on_time_tasks"]) || 0) /
+      (Number(task_completion[0]["completed_tasks"]) || 1)) *
       100,
   );
-  const lates = 100 - on_time_percentages;
 
-  console.log(task_completion[0]["on_time_tasks"]);
+  let lates = 0;
+  console.log(on_time_percentages);
+  if ((Number(task_completion[0]["completed_tasks"]) || 0) === 0) {
+    lates = 0;
+  } else {
+    lates = 100 - on_time_percentages;
+  }
 
   const on_time = document.querySelector(".on-time");
   const on_time_percentage = document.querySelector(".on-time-percentage");
   const late = document.querySelector(".late");
   const late_percentage = document.querySelector(".late-percentage");
 
-  on_time.textContent = `${on_time_percentages}%`;
+  on_time.textContent = `${on_time_percentages ?? 0}%`;
   on_time_percentage.style.width = `${on_time_percentages}%`;
   late.textContent = `${lates}%`;
   late_percentage.style.width = `${lates}%`;
