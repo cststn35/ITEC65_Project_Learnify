@@ -20,6 +20,18 @@ async function delete_task_db(taskID, userID) {
   );
   const data = await response.json();
   if (data.success) {
+    //log first the xp, deduction of xp
+    let xp_earned = -2;
+    const fd2 = new FormData();
+    fd2.append("userID", userID);
+    fd2.append("semesterID", semesterID);
+    fd2.append("reason", "TASK_DELETED");
+    fd2.append("xp", xp_earned);
+    await fetch(`/${BASE_URL}/actions/log_xp.php`, {
+      method: "POST",
+      body: fd2,
+    });
+
     Swal.fire({
       icon: "success",
       title: "Deleted!",
