@@ -9,7 +9,8 @@
         $pageTitle = "Study Sessions";
         include_once("../components/topsidebar.php")
             ?>
-        <main class="bg-slate-100 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] flex flex-col overflow-hidden">
+        <main
+            class="bg-slate-100 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] flex flex-col overflow-hidden">
             <!-- headings and buttons -->
             <div class="flex justify-between">
                 <div>
@@ -151,7 +152,7 @@
                                 <label for="time" class="mb-2 text-slate-900 font-medium text-base inline-block">Planned
                                     Duration (in minutes)
                                     <span class="text-red-500 font-bold">*</span></label>
-                                <input type="number" id="time" name="time" placeholder="e.g. 10" required
+                                <input type="number" min="1" id="time" name="time" placeholder="e.g. 10" required
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                             <div class="questionInput">

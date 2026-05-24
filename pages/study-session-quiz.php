@@ -9,7 +9,8 @@
         $pageTitle = "Study Sessions";
         include_once("../components/topsidebar.php")
             ?>
-        <main class="bg-slate-100 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] flex flex-col overflow-y-auto">
+        <main
+            class="bg-slate-100 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] flex flex-col overflow-y-auto">
             <!-- warning modal -->
             <!-- opacity-0 pointer-events-none scale-95 -->
             <div id="modalOverlay"
@@ -61,8 +62,9 @@
                 </div>
             </div>
             <!-- result show -->
+            <!-- opacity-0 pointer-events-none scale-95 -->
             <div id="resultOverlay"
-                class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] transition-all opacity-0 pointer-events-none scale-95">
+                class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] opacity-0 pointer-events-none scale-95 transition-all">
 
                 <div role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
                     class="end-session-container w-full max-w-xl bg-white border border-slate-100 shadow-lg rounded-lg relative max-h-[95vh] overflow-y-auto outline-none p-4 md:p-6">
@@ -75,7 +77,14 @@
 
                     <div class="answer-cont content py-5">
                         <div class="score-cont text-center text-5xl text-black font-bold py-5">100/100</div>
-                        <h1>Review your answers (TAKE A SCREENSHOT):</h1>
+                        <div class="flex justify-center">
+                            <div
+                                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200 text-sm font-semibold shadow-sm">
+                                <i class="bx bx-star text-base"></i>
+                                <span class="xp-earned-quiz">+12 XP</span>
+                            </div>
+                        </div>
+                        <h1>Review your answers:</h1>
                     </div>
 
                     <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">

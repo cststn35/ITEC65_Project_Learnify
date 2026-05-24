@@ -131,7 +131,7 @@
                                 class="rounded-md bg-yellow-100 border border-yellow-300 flex flex-col justify-center items-center gap-2 p-5 flex-1">
                                 <div class="text-slate-700 flex items-center gap-2"><i
                                         class="fa-solid fa-bolt text-yellow-500 text-xl"></i>XP Earned</div>
-                                <div class="text-3xl font-bold">+25</div>
+                                <div class="text-3xl font-bold xp-earned">+25</div>
                                 <div class="text-sm text-slate-700">experience</div>
                             </div>
                         </div>

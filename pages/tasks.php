@@ -168,7 +168,7 @@
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Estimated Time To
                                     Accomplish (in minutes)
                                     <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
-                                <input type="number" id="time" name="time" placeholder="e.g. 10"
+                                <input type="number" min="1" id="time" name="time" placeholder="e.g. 10"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
                         </div>

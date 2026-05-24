@@ -248,7 +248,7 @@
                 </div>
 
                 <div
-                    class="rounded-2xl bg-slate-50 border border-slate-200 flex flex-1 flex-col md:flex-row p-4 gap-4 text-center overflow-auto min-h-100 schedule-cont relative">
+                    class="rounded-2xl bg-slate-50 border border-slate-200 flex flex-1 flex-col md:flex-row p-4 gap-4 text-center overflow-x-auto min-h-100 schedule-cont relative">
                     <!-- SUNDAY -->
                     <div class="flex flex-col gap-3 min-w-[180px]">
                         <div
