@@ -64,6 +64,7 @@ async function fetchData() {
 fetchData();
 
 function initializeAnalytics() {
+  console.log("ok");
   initializeGreeting();
   todayStudy();
   currentStreak();
@@ -172,6 +173,7 @@ function currentStreak() {
 }
 
 function pendingTasks() {
+  const all_tasks_count = Number(pending_tasks["all_tasks"] ?? 0);
   const pending_tasks_count = Number(pending_tasks["pending_tasks"] ?? 0);
   const high_priority_count = Number(pending_tasks["highprio_tasks"] ?? 0);
 
@@ -200,6 +202,11 @@ function pendingTasks() {
   } else {
     message = `🚀 Time to start making progress!`;
     color = "text-red-500";
+  }
+
+  if (all_tasks_count === 0) {
+    message = `No tasks detected yet.`;
+    color = "black";
   }
 
   priorityMessage.textContent = message;
@@ -233,8 +240,7 @@ function startStudySession() {
 }
 
 function upcomingTasks() {
-  console.log(upcoming_tasks);
-  if (upcoming_tasks == null) {
+  if (upcoming_tasks === null) {
     return;
   }
   const taskContainer = document.getElementById("tasks-container");
@@ -285,34 +291,36 @@ function upcomingTasks() {
 function studyTrendChart() {
   let datos = new Array(7).fill(0);
   let index = 0;
-  study_trend.forEach((trend) => {
-    switch (trend.weekday) {
-      case "Sunday":
-        index = 6;
-        break;
-      case "Monday":
-        index = 0;
-        break;
-      case "Tuesday":
-        index = 1;
-        break;
-      case "Wednesday":
-        index = 2;
-        break;
-      case "Thursday":
-        index = 3;
-        break;
-      case "Friday":
-        index = 4;
-        break;
-      case "Saturday":
-        index = 5;
-        break;
-      default:
-        break;
-    }
-    datos[index] = trend.total_minutes;
-  });
+  if (study_trend !== null) {
+    study_trend.forEach((trend) => {
+      switch (trend.weekday) {
+        case "Sunday":
+          index = 6;
+          break;
+        case "Monday":
+          index = 0;
+          break;
+        case "Tuesday":
+          index = 1;
+          break;
+        case "Wednesday":
+          index = 2;
+          break;
+        case "Thursday":
+          index = 3;
+          break;
+        case "Friday":
+          index = 4;
+          break;
+        case "Saturday":
+          index = 5;
+          break;
+        default:
+          break;
+      }
+      datos[index] = trend.total_minutes;
+    });
+  }
 
   const ctx = document.getElementById("studyTrendChart");
   new Chart(ctx, {
@@ -338,6 +346,7 @@ function studyTrendChart() {
 }
 
 function academicConsistency() {
+  let quizCount = Number(acadConsistency[0]["quiz_count"]);
   let score = Number(acadConsistency[0]["avg_quiz_score"]);
   const studyConsistencyCont = document.querySelector(".priority-cards");
   if (score >= 85) {
@@ -356,8 +365,18 @@ function academicConsistency() {
     title = "High Academic Risk";
     priority = priorities[0];
     message = "Quiz performance suggests possible learning difficulty.";
-    suggestion = "Review weaker topics and take more practice quizzes.";
+    suggestion =
+      "Review weaker topics and take more practice quizzes. If this is your first time, start taking practice quizzes.";
     color = colors[0];
+  }
+
+  if (quizCount === 0) {
+    console.log("ok");
+    title = "No Quizzes Detected Yet";
+    priority = "";
+    message = "";
+    suggestion = "Start taking quizzes to measure your academic performance.";
+    color = "blue";
   }
 
   studyConsistencyCont.innerHTML += `
