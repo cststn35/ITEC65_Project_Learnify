@@ -81,6 +81,19 @@ async function submitCreatedTask(e) {
 
   // if user clicks yes
   if (result.isConfirmed) {
+    //log first the xp
+    let xp_earned = 2;
+    const fd2 = new FormData();
+    fd2.append("userID", userID);
+    fd2.append("semesterID", semesterID);
+    fd2.append("reason", "TASK_CREATED");
+    fd2.append("xp", xp_earned);
+    await fetch(`/${BASE_URL}/actions/log_xp.php`, {
+      method: "POST",
+      body: fd2,
+    });
+
+    //create task
     const formData = new FormData(taskForm);
     const response = await fetch(
       `/${BASE_URL}/actions/tasks/create_task.php?userID=${userID}&semesterID=${semesterID}`,
@@ -94,7 +107,10 @@ async function submitCreatedTask(e) {
       Swal.fire({
         icon: "success",
         title: "Created!",
-        text: "The task has been successfully created",
+        html: `<div>The task has been successfully created</div><br/>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200 text-sm font-semibold shadow-sm">
+        <i class="bx bx-star text-base"></i>+2 XP</div>
+        `,
       });
 
       // fetch_task("from swal");
