@@ -88,11 +88,14 @@ function getAnswer(answer) {
 }
 
 function computeScore() {
+  const xp_earned_quiz = document.querySelector(".xp-earned-quiz");
   const resultModal = document.querySelector("#resultOverlay");
   const scoreCont = document.querySelector(".score-cont");
   score = student_answers.filter(
     (ans, i) => ans.answer === correct_answers[i],
   ).length;
+  let xp_earned = Math.floor(score * 2) + 20; //twenty is for completing the quiz, two xp per correct answer as well
+  xp_earned_quiz.textContent = `+${xp_earned}`;
   scoreCont.textContent = `${score}/${questions_length}`;
   const answerCont = document.querySelector(".answer-cont");
   quizSet.forEach((question, i) => {
@@ -126,7 +129,21 @@ async function submitQuizNow() {
 async function exitQuizNow() {
   //mark quiz as complete
   //log the answers
+  //log the xp based on correct answers
   //param to pass is quiz id only
+
+  //log first xp
+  let xp_earned = Math.floor(score * 2) + 20; //twenty is for completing the quiz, two xp per correct answer as well
+  const fd2 = new FormData();
+  fd2.append("userID", userID);
+  fd2.append("semesterID", semesterID);
+  fd2.append("reason", "QUIZ_COMPLETION");
+  fd2.append("xp", xp_earned);
+  await fetch(`/${BASE_URL}/actions/log_xp.php`, {
+    method: "POST",
+    body: fd2,
+  });
+
   const fd = new FormData();
   fd.append("quizID", quizID);
   fd.append("studAnswer", JSON.stringify(student_answers));
