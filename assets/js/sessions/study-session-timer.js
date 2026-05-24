@@ -8,6 +8,8 @@ const circumference = 2 * Math.PI * radius;
 
 progressCircle.style.strokeDasharray = circumference;
 
+let xp_earned = 0;
+let taskID = null;
 let quiz_decision = null;
 let start_time = null;
 let pause_start_time = null;
@@ -224,6 +226,11 @@ function showSessionCompletion() {
   paused_minutes.textContent = Math.floor(total_pause_duration / 60);
   const goal_minutes = document.querySelector(".end-goal-minutes");
   goal_minutes.textContent = Math.floor(maxSeconds / 60);
+  const xp_text = document.querySelector(".xp-earned");
+
+  let minuteStudied = Math.floor(getElapsedSeconds() / 60);
+  xp_earned = Math.floor(minuteStudied / 5) * 2; //2 xp earned per 5 minutes of study
+  xp_text.textContent = `+${xp_earned}`;
 
   sesCompleteModal.classList.remove(
     "opacity-0",
@@ -287,6 +294,31 @@ async function logEndTime() {
   fd.append("total_pause_seconds", total_pause_duration);
   fd.append("actual_duration_seconds", getElapsedSeconds());
 
+  //mark task done as first if there's any
+  if (taskID !== null) {
+    await fetch(
+      `/${BASE_URL}/actions/tasks/complete_task.php?userID=${userID}&semesterID=${semesterID}&taskID=${taskID}`,
+    );
+  }
+
+  //log this to daily session table
+  await fetch(`/${BASE_URL}/actions/sessions/log_daily_progress.php`, {
+    method: "POST",
+    body: fd,
+  });
+
+  //log xp count
+  const fd2 = new FormData();
+  fd2.append("userID", userID);
+  fd2.append("semesterID", semesterID);
+  fd2.append("reason", "STUDY_SESSION");
+  fd2.append("xp", xp_earned);
+  await fetch(`/${BASE_URL}/actions/log_xp.php`, {
+    method: "POST",
+    body: fd2,
+  });
+
+  //log end time in session
   const response = await fetch(
     `/${BASE_URL}/actions/sessions/log_end_time.php`,
     {
@@ -295,7 +327,7 @@ async function logEndTime() {
     },
   );
 
-  const data = response.json();
+  const data = await response.json();
   if (data.success) {
     console.log("successfully logged end time");
   } else {
