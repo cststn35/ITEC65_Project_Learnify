@@ -62,8 +62,9 @@
                                 <circle cx="18" cy="18" r="16" fill="none" class="stroke-slate-200" stroke-width="1.5"
                                     stroke-linecap="round"></circle>
                                 <!-- Gauge Progress -->
-                                <circle cx="18" cy="18" r="16" fill="none" class="stroke-red-500 consistency-progress" stroke-width="1.5"
-                                    stroke-dasharray="100.53" stroke-dashoffset="50.27" stroke-linecap="round"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none" class="stroke-red-500 consistency-progress"
+                                    stroke-width="1.5" stroke-dasharray="100.53" stroke-dashoffset="50.27"
+                                    stroke-linecap="round"></circle>
                             </svg>
                             <!-- Value Text -->
                             <div
@@ -96,7 +97,7 @@
                             class='bx bx-alarm text-3xl text-white'></i></span></div>
                 <div class="flex justify-center flex-col flex-1">
                     <div class="font-bold text-xl">Productivity Coach</div>
-                    <div>Gauges your productivity metrics</div>
+                    <div>Gauges your productivity metrics based on study session behavior</div>
                 </div>
             </div>
             <!-- productivity coach cards -->
@@ -113,7 +114,7 @@
                             class='bx bx-book-open text-3xl text-white'></i></span></div>
                 <div class="flex justify-center flex-col flex-1">
                     <div class="font-bold text-xl">Academic Coach</div>
-                    <div>Gauges your academic metrics</div>
+                    <div>Gauges your academic metrics based on quiz performance</div>
                 </div>
             </div>
             <!-- academic coach cards -->
