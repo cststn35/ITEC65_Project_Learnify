@@ -1,4 +1,7 @@
-<?php include_once("../actions/auth.php"); ?>
+<?php
+include_once("../actions/auth.php");
+date_default_timezone_set('Asia/Manila');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include_once("../config/meta-head.php") ?>
@@ -177,7 +180,10 @@
             </div>
             <!-- greetings -->
             <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6 w-full space-y-3">
-                <h1 class="font-semibold text-2xl">👋 GOOD EVENING, <span id="user-name">Juan</span></h1>
+                <h1 class="font-semibold text-2xl">👋 GOOD
+                    <?= ($h = date('G')) < 12 ? 'MORNING' : ($h < 18 ? 'AFTERNOON' : 'EVENING') ?>, <span
+                        id="user-name">Juan</span>
+                </h1>
                 <p class="text-slate-700 text-md" id="rem-minutes">You are {x} minutes away from today's study goal</p>
                 <p class="text-slate-500 text-sm" id="semester-status">Semester: {1st Semester} {S.Y 2025-2026}</p>
             </div>
