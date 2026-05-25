@@ -42,9 +42,11 @@ CREATE TABLE IF NOT EXISTS users (
     xp INT DEFAULT 0,
     current_streak INT DEFAULT 0,
     longest_streak INT DEFAULT 0,
+    last_streak_updated DATE NULL,
     last_study_date DATE NULL,
     daily_goal_minutes INT DEFAULT 120,
-    is_newly_registered INT DEFAULT 1,
+    is_newly_registered TINYINT(1) DEFAULT 1,
+    profile_pic_path VARCHAR(500) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 "
@@ -251,6 +253,7 @@ CREATE TABLE IF NOT EXISTS daily_progress (
     semester_id INT NOT NULL,
     date DATE NOT NULL,
     total_minutes INT NOT NULL,
+    is_goal_reached TINYINT(1) DEFAULT 0,
 
     UNIQUE (user_id, semester_id, date),
 
