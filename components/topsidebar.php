@@ -8,7 +8,7 @@
                     class="p-0">
             </span>
             <span>
-                <h1 class="font-bold text-white">Smart Study App</h1>
+                <h1 class="font-bold text-white">Learnify</h1>
                 <p class="text-sm text-white">Learn Smarter</p>
             </span>
             <span id="chevron-right" class="md:hidden flex items-center">
@@ -83,7 +83,7 @@
                     </span>
                 </a>
             </li>
-            <li class="w-[90%] mx-auto my-3">
+            <!-- <li class="w-[90%] mx-auto my-3">
                 <a href="#"
                     class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
@@ -93,7 +93,7 @@
                         Badges
                     </span>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
     <div>
