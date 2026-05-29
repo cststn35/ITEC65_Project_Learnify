@@ -59,7 +59,7 @@
                                     class="mb-2 text-slate-900 font-medium text-base inline-block">Short
                                     Description
                                     <span class="text-gray-500 font-bold text-xs">(optional)</span></label>
-                                <input type="text" id="description" name="description"
+                                <input type="text" id="description" name="descriptionTask"
                                     placeholder="Add notes about this task"
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600" />
                             </div>
