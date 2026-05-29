@@ -166,9 +166,7 @@ function loadFactTask($pdo)
         JOIN dim_date d1 ON d1.full_date = DATE(t.created_at)
         LEFT JOIN dim_date d2 ON d2.full_date = DATE(t.completed_at)
 
-        ON DUPLICATE KEY UPDATE
-            status = VALUES(status),
-            is_late = VALUES(is_late)
+        WHERE t.is_archived = 0;
     ";
 
     $pdo->exec($sql);
