@@ -44,6 +44,7 @@ function renderTasks(data) {
   ];
 
   data.forEach((task) => {
+    const description = task.description;
     const taskID = task.tasks_id;
     const title = task.title;
     const subjectName = task.name;
@@ -122,6 +123,16 @@ function renderTasks(data) {
                                 : ""
                             }
                         </div>
+                        ${
+                        description
+                            ? `
+                            <div class="flex items-center gap-1">
+                                <i class='bx bx-pencil'></i>
+                                <small><i>${description}</i></small>
+                            </div>
+                        `
+                            : ""
+                        }
                     </div>
                 </div>
             </div>
