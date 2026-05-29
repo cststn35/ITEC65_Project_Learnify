@@ -15,8 +15,8 @@ try {
         $title = isset($_POST["title"])
             ? trim(filter_var($_POST["title"], FILTER_SANITIZE_SPECIAL_CHARS))
             : "";
-        $description = isset($_POST["description"])
-            ? trim(filter_var($_POST["description"], FILTER_SANITIZE_SPECIAL_CHARS))
+        $description = isset($_POST["descriptionTask"])
+            ? trim(filter_var($_POST["descriptionTask"], FILTER_SANITIZE_SPECIAL_CHARS))
             : "";
         $subject = isset($_POST["subject"])
             ? trim($_POST["subject"])
