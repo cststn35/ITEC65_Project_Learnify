@@ -61,7 +61,7 @@ async function triggerFilter() {
           if (status == "Overdue") {
             return diffMs < 0 && task.status != "completed";
           } else if (status == "Due soon") {
-            return diffHours <= 24  && task.status != "completed";
+            return diffHours <= 24 && diffHours > 0  && task.status != "completed";
           } else if (status == "Pending") {
             return diffHours > 24 && task.status != "completed";
           } else {
