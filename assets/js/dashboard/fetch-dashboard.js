@@ -43,7 +43,7 @@ async function fetchData() {
       analyticsData["semester"].length > 0
         ? analyticsData["semester"][0]
         : null;
-    streak =
+    current_streak =
       analyticsData["streak"].length > 0 ? analyticsData["streak"][0] : null;
     pending_tasks =
       analyticsData["task_count"].length > 0
@@ -147,6 +147,8 @@ function currentStreak() {
 
   let message = "",
     color = "";
+
+  let streak = streakDays;
 
   if (streak >= 30) {
     message = "🏆 Legendary streak! You're unstoppable.";
