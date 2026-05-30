@@ -84,7 +84,7 @@ try {
             AND t.is_archived = 0
             AND t.status = 'pending'
             AND s.is_archived = 0
-        ORDER BY t.deadline DESC
+        ORDER BY t.deadline
         LIMIT 5
     ",
 
