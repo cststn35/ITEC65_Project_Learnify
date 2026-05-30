@@ -249,7 +249,7 @@
                                 <span class="text-slate-600 text-sm">Total Tasks</span>
                                 <span><i class='bx bx-book text-blue-500 text-xl'></i></span>
                             </div>
-                            <span class="font-semibold text-2xl">
+                            <span class="font-semibold text-2xl" id="total_tasks">
                                 Placeholder
                             </span>
                         </div>
@@ -258,7 +258,7 @@
                                 <span class="text-slate-600 text-sm">Completed</span>
                                 <span><i class='bx bx-check-circle text-green-500 text-xl'></i></span>
                             </div>
-                            <span class="font-semibold text-2xl">
+                            <span class="font-semibold text-2xl" id="completed-num">
                                 Placeholder
                             </span>
                         </div>
@@ -267,7 +267,7 @@
                                 <span class="text-slate-600 text-sm">In Progress</span>
                                 <span><i class='bx bx-time text-yellow-500 text-xl'></i></span>
                             </div>
-                            <span class="font-semibold text-2xl">
+                            <span class="font-semibold text-2xl" id="in-progress">
                                 Placeholder
                             </span>
                         </div>
@@ -276,7 +276,16 @@
                                 <span class="text-slate-600 text-sm">Due Today</span>
                                 <span><i class='bx bx-book text-blue-500 text-xl'></i></span>
                             </div>
-                            <span class="font-semibold text-2xl">
+                            <span class="font-semibold text-2xl" id="due-today">
+                                Placeholder
+                            </span>
+                        </div>
+                        <div class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 text-sm">Overdue</span>
+                                <span><i class='bx bx-alarm-exclamation text-red-500 text-xl'></i></span>
+                            </div>
+                            <span class="font-semibold text-2xl" id="overdue-num">
                                 Placeholder
                             </span>
                         </div>
