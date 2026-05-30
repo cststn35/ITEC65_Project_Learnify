@@ -1,11 +1,13 @@
 <?php
 require_once("../config/runQuery.php");
+require_once("../actions/notifications.php");
 date_default_timezone_set('Asia/Manila');
 
 $userID = $_SESSION['user_id'] ?? null;
 $semesterID = $_SESSION['semester_id'] ?? null;
 $currentStreak = 0;
 $currentXP = 0;
+$profileImagePath = "";
 
 //obtain current streak
 $sql = "SELECT current_streak FROM users WHERE user_id = :user_id";
@@ -17,6 +19,12 @@ $currentStreak = $streak['current_streak'];
 $sql = "SELECT SUM(xp_change) AS xp_change FROM xp_logs WHERE user_id = :user_id";
 $result = runQuery($pdo, $sql, ['user_id' => $userID]);
 $currentXP = $result->fetch()['xp_change'] ?? 0;
+
+//obtain profile picture
+$sql = "SELECT profile_pic_path FROM users WHERE user_id = :user_id";
+$result = runQuery($pdo, $sql, ['user_id' => $userID]);
+$profileImagePath = "../" . $result->fetch()['profile_pic_path'];
+
 function checkStreak($pdo, $userID)
 {
     $sql = "SELECT DATE(last_streak_updated) AS last_streak_updated FROM users WHERE user_id = :user_id";
@@ -127,6 +135,8 @@ function logStreakXP($pdo, $userID, $semesterID)
     ];
     $result = runQuery($pdo, $sql, $params);
 
+    triggerStreakMilestone($pdo, $userID, (int) $currentStreak);
+
     $_SESSION['isloggedProgressXP'] = true;
 }
 
@@ -204,11 +214,48 @@ function logProgressXP($pdo, $userID, $semesterID)
         WHERE user_id = :user_id
         AND date = CURDATE()";
     $result = runQuery($pdo, $sql2, ['user_id' => $userID]);
+
+    triggerDailyGoal($pdo, $userID, $semesterID, $total_minutes);
+}
+function updateLastStudyDateFromXP($pdo, $userId, $semesterId)
+{
+    $sql = "
+        UPDATE users
+        SET last_study_date = (
+            SELECT DATE(MAX(created_at))
+            FROM xp_logs
+            WHERE xp_logs.user_id = :user_id
+            AND xp_logs.semester_id = :semester_id
+        )
+        WHERE user_id = :user_id3
+        AND EXISTS (
+            SELECT 1
+            FROM xp_logs
+            WHERE xp_logs.user_id = :user_id2
+            AND xp_logs.semester_id = :semester_id2
+        )
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':user_id' => $userId,
+        ':semester_id' => $semesterId,
+        ':user_id2' => $userId,
+        ':semester_id2' => $semesterId,
+        ':user_id3' => $userId,
+    ]);
 }
 
+//streaks and progress
 checkStreak($pdo, $userID);
 logStreakXP($pdo, $userID, $semesterID);
 logProgressXP($pdo, $userID, $semesterID);
+updateLastStudyDateFromXP($pdo, $userID, $semesterID);
+//notifications
+triggerOnboarding($pdo, $userID, $semesterID);
+triggerInactivity($pdo);
+triggerTasksDueTomorrow($pdo);
+triggerOverdueTasks($pdo);
 ?>
 <!-- settings overlay -->
 <!-- opacity-0 pointer-events-none scale-95 -->
@@ -231,21 +278,162 @@ logProgressXP($pdo, $userID, $semesterID);
                 </svg>
             </button>
         </div>
+        <div class="my-6 space-y-6">
 
-        <form id="settings-form-container">
-            <div class="my-6 space-y-6">
+            <!-- profile section -->
+            <div class="space-y-4">
+                <h4 class="text-slate-900 font-semibold text-sm uppercase tracking-wide">
+                    Profile
+                </h4>
 
+                <form id="profilePicForm" enctype="multipart/form-data">
+
+                    <label class="mb-2 text-slate-900 font-medium text-base inline-block">
+                        Profile Picture
+                    </label>
+
+                    <div class="flex flex-col md:flex-row md:items-center gap-4">
+
+                        <img id="profilePreview" src="<?= !empty($profileImagePath)
+                            ? htmlspecialchars($profileImagePath)
+                            : '../assets/images/default-profile.png' ?>"
+                            class="w-20 h-20 rounded-full object-cover border border-slate-300">
+
+                        <div class="flex-1">
+                            <input type="file" id="profilePic" name="profile_pic" accept="image/*" class="text-sm text-slate-600
+                    file:mr-4
+                    file:px-3
+                    file:py-2
+                    file:rounded-md
+                    file:border-0
+                    file:bg-slate-100
+                    file:text-slate-700
+                    hover:file:bg-slate-200">
+                        </div>
+
+                        <button type="submit" id="updateProfilePicBtn"
+                            class="px-3.5 py-2 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                            Update Picture
+                        </button>
+
+                    </div>
+
+                </form>
             </div>
 
-            <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
-                <button type="button" id="cancelBtn-settings"
-                    class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                    Cancel</button>
-                <button type="submit" id="settings-save"
-                    class="px-3.5 py-2 text-white text-sm font-semibold rounded-md cursor-pointer bg-blue-600 border border-blue-600 transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                    Save Settings</button>
+
+            <!-- security section -->
+            <div class="space-y-4 pt-4 border-t border-slate-200">
+                <h4 class="text-slate-900 font-semibold text-sm uppercase tracking-wide">Security</h4>
+                <div class="space-y-3">
+                    <div>
+                        <label for="current_password" class="mb-2 text-slate-900 font-medium text-base inline-block">
+                            Current Password
+                        </label>
+
+                        <div class="relative">
+                            <input type="password" id="current_password"
+                                class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none pr-10" />
+
+                            <button type="button"
+                                class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                                data-target="current_password">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="new_password" class="mb-2 text-slate-900 font-medium text-base inline-block">
+                            New Password
+                        </label>
+
+                        <div class="relative">
+                            <input type="password" id="new_password"
+                                class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none pr-10" />
+
+                            <button type="button"
+                                class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                                data-target="new_password">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="confirm_password" class="mb-2 text-slate-900 font-medium text-base inline-block">
+                            Confirm New Password
+                        </label>
+
+                        <div class="relative">
+                            <input type="password" id="confirm_password"
+                                class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none pr-10" />
+
+                            <button type="button"
+                                class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                                data-target="confirm_password">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button"
+                        class="px-3.5 py-2 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                        Change Password
+                    </button>
+
+                    <div class="password-error text-red-500 text-sm"></div>
+
+                </div>
             </div>
-        </form>
+
+
+            <!-- learning settings -->
+            <div class="space-y-4 pt-4 border-t border-slate-200">
+                <h4 class="text-slate-900 font-semibold text-sm uppercase tracking-wide">Learning Settings</h4>
+
+                <!-- active semester -->
+                <div>
+                    <label for="semester" class="mb-2 text-slate-900 font-medium text-base inline-block">
+                        Active Semester
+                    </label>
+
+                    <select id="semester"
+                        class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none">
+                        <option value="1st_sem">1st Semester</option>
+                        <option value="2nd_sem">2nd Semester</option>
+                        <option value="summer">Summer</option>
+                    </select>
+
+                    <button type="button"
+                        class="mt-3 px-3.5 py-2 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                        Update Semester
+                    </button>
+                </div>
+
+                <!-- daily goal -->
+                <div>
+                    <label for="daily_goal" class="mb-2 text-slate-900 font-medium text-base inline-block">
+                        Daily Progress Goal (minutes)
+                    </label>
+
+                    <input type="number" id="daily_goal" min="1"
+                        class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none"
+                        placeholder="e.g. 60" />
+
+                    <button type="button" id="updateGoalBtn"
+                        class="mt-3 px-3.5 py-2 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                        Update Goal
+                    </button>
+                    <div class="daily-goal-error text-red-500 text-sm"></div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="border-t border-slate-300 pt-4 flex justify-end gap-4 md:pt-6">
+            <button type="button" id="cancelBtn-settings"
+                class="px-3.5 py-2 text-slate-900 text-sm font-semibold rounded-md cursor-pointer bg-white border border-slate-300 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                Cancel</button>
+        </div>
     </div>
 </div>
 <!-- sidebar -->
@@ -382,7 +570,8 @@ logProgressXP($pdo, $userID, $semesterID);
             <button id="notifBtn"
                 class="relative p-2 rounded-lg hover:bg-slate-600 transition-colors text-slate-200 flex items-center">
                 <i class='bx bx-bell text-2xl'></i>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full ring-2 ring-slate-700"></span>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full ring-2 ring-slate-700 hidden"
+                    id="red-ball"></span>
             </button>
             <div id="notifMenu"
                 class="hidden absolute -right-17 md:right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
@@ -400,9 +589,11 @@ logProgressXP($pdo, $userID, $semesterID);
         </div>
         <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-600 transition-colors"
             id="dropdownBtn">
-            <div
+            <!-- <div
                 class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center ring-2 ring-slate-500">
-            </div>
+            </div> -->
+            <img src="<?= $profileImagePath ?>" alt="profile-pic"
+                class="w-8 h-8 rounded-full flex items-center justify-center ring-2 ring-slate-500">
             <i class='bx bx-chevron-down text-2xl text-slate-300'></i>
             <div id="dropdownMenu"
                 class="hidden absolute top-12 right-5 mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
@@ -432,7 +623,7 @@ logProgressXP($pdo, $userID, $semesterID);
         sidebar.classList.toggle("translate-x-0");
     });
 
-    //dropdown menu logic
+    //profile dropdown menu logic
     const btn = document.getElementById("dropdownBtn");
     const menu = document.getElementById("dropdownMenu");
 
@@ -476,50 +667,102 @@ logProgressXP($pdo, $userID, $semesterID);
     };
 
     //notification dropdown logic
-    let notifications = [
-        { id: 1, text: "New quiz available", read: false },
-        { id: 2, text: "Your study session is completed", read: false },
-        { id: 3, text: "Reminder: Math task due tomorrow", read: false }
-    ];
-
     const notif_btn = document.getElementById("notifBtn");
     const notif_menu = document.getElementById("notifMenu");
     const list = document.getElementById("notifList");
     const markAll = document.getElementById("markAll");
 
-    function renderNotifications() {
-        const unread = notifications.filter(n => !n.read).length;
+    async function fetchNotifications() {
+        const BASE_URL = window.location.pathname.split("/")[1];
+        const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+        const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
 
-        list.innerHTML = notifications.map(n => `
-        <div onclick="markAsRead(${n.id})"
-            class="px-4 py-3 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition ${n.read ? 'opacity-50' : ''}">
-
-            <div class="flex items-start justify-between gap-2">
-                <p class="text-sm text-slate-700">${n.text}</p>
-
-                ${!n.read ? `<span class="w-2 h-2 mt-2 bg-indigo-500 rounded-full"></span>` : ""}
-            </div>
-
-        </div>
-    `).join("");
-    }
-
-    function markAsRead(id) {
-        notifications = notifications.map(n =>
-            n.id === id ? { ...n, read: true } : n
+        const formData = new FormData();
+        formData.append('userID', userID);
+        formData.append('semesterID', semesterID);
+        const response = await fetch(
+            `/${BASE_URL}/actions/fetch_notifications.php`, {
+            method: "POST",
+            body: formData
+        }
         );
-
-        renderNotifications();
+        const data = await response.json();
+        if (data.success) {
+            renderNotifications(data.data);
+        }
     }
 
-    markAll.addEventListener("click", () => {
-        notifications = notifications.map(n => ({ ...n, read: true }));
-        renderNotifications();
+    function renderNotifications(data) {
+        let not_is_read = 0;
+        list.innerHTML = "";
+        data.forEach((notification) => {
+            list.innerHTML +=
+                `
+            <div onclick="markAsRead(${notification.notif_id})"
+                        class="px-4 py-3 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition ${notification.is_read ? 'opacity-50' : ''}">
+                <div class="flex items-center justify-between gap-2">
+                    <div class="space-y-1">
+                        <p class="text-sm text-slate-700">${notification.title}</p>
+                        <p class="text-xs text-slate-500">${notification.message}</p>
+                    </div>
+                    ${!notification.is_read ? `<span class="w-2 h-2 mt-2 bg-indigo-500 rounded-full"></span>` : ``}
+                </div>
+            </div>
+            `
+            not_is_read += !notification.is_read ? 1 : 0;
+        })
+
+        if (not_is_read > 0) {
+            document.getElementById('red-ball').classList.remove('hidden');
+        } else {
+            document.getElementById('red-ball').classList.add('hidden');
+        }
+    }
+
+    async function markAsRead(notifID) {
+        const BASE_URL = window.location.pathname.split("/")[1];
+        const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+        const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
+
+        const formData = new FormData();
+        formData.append('userID', userID);
+        formData.append('semesterID', semesterID);
+        formData.append('notifID', notifID)
+        const response = await fetch(
+            `/${BASE_URL}/actions/mark_read_notifications.php`, {
+            method: "POST",
+            body: formData
+        }
+        );
+        const data = await response.json();
+        if (data.success) {
+            fetchNotifications();
+        }
+    }
+
+    markAll.addEventListener("click", async () => {
+        const BASE_URL = window.location.pathname.split("/")[1];
+        const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+        const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
+
+        const formData = new FormData();
+        formData.append('userID', userID);
+        formData.append('semesterID', semesterID);
+        const response = await fetch(
+            `/${BASE_URL}/actions/mark_read_notifications_all.php`, {
+            method: "POST",
+            body: formData
+        }
+        );
+        const data = await response.json();
+        if (data.success) {
+            fetchNotifications();
+        }
     });
 
     notif_btn.addEventListener("click", () => {
         notif_menu.classList.toggle("hidden");
-        renderNotifications();
+        fetchNotifications();
     });
 
     document.addEventListener("click", (e) => {
@@ -528,5 +771,8 @@ logProgressXP($pdo, $userID, $semesterID);
         }
     });
 
-    renderNotifications();
+    fetchNotifications();
 </script>
+<script src="../components/change-profile.js"></script>
+<script src="../components/change-password.js"></script>
+<script src="../components/change-daily-progress.js"></script>
