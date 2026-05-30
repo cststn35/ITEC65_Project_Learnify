@@ -241,6 +241,46 @@
                             </button>
                         </div>
                     </div>
+                    <!-- statistics overview -->
+                    <div class="flex flex-col md:flex-row mt-4 mb-2 gap-4">
+                        <div
+                            class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 text-sm">Total Tasks</span>
+                                <span><i class='bx bx-book text-blue-500 text-xl'></i></span>
+                            </div>
+                            <span class="font-semibold text-2xl">
+                                Placeholder
+                            </span>
+                        </div>
+                        <div class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 text-sm">Completed</span>
+                                <span><i class='bx bx-check-circle text-green-500 text-xl'></i></span>
+                            </div>
+                            <span class="font-semibold text-2xl">
+                                Placeholder
+                            </span>
+                        </div>
+                        <div class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 text-sm">In Progress</span>
+                                <span><i class='bx bx-time text-yellow-500 text-xl'></i></span>
+                            </div>
+                            <span class="font-semibold text-2xl">
+                                Placeholder
+                            </span>
+                        </div>
+                        <div class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto p-4 sm:p-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 text-sm">Due Today</span>
+                                <span><i class='bx bx-book text-blue-500 text-xl'></i></span>
+                            </div>
+                            <span class="font-semibold text-2xl">
+                                Placeholder
+                            </span>
+                        </div>
+                    </div>
 
                     <!-- tasks -->
                     <div class="tasks-container mt-3 flex-1 overflow-y-auto flex flex-col gap-4 min-h-0   [&::-webkit-scrollbar]:w-2
