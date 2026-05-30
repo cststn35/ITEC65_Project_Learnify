@@ -30,6 +30,12 @@ function formatFullMDY(sqlTimestamp) {
 
 function renderTasks(data) {
   taskContainer.innerHTML = "";
+  let total_tasks = 0;
+  let completed = 0;
+  let in_progress = 0;
+  let due_today = 0;
+  let overdue = 0;
+
   const status_pill = [
     '<span class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-green-100 text-green-700 border border-green-200">Completed</span>',
     '<span class="px-2 py-1 rounded-xl text-xs font-medium inline-flex items-center bg-yellow-100 text-yellow-700 border border-yellow-200">Due soon</span>',
@@ -44,6 +50,7 @@ function renderTasks(data) {
   ];
 
   data.forEach((task) => {
+    total_tasks++;
     const description = task.description;
     const taskID = task.tasks_id;
     const title = task.title;
@@ -58,6 +65,7 @@ function renderTasks(data) {
     //for status of task
     if (task.status == "completed") {
       statusLook = status_pill[0];
+      completed++;
     } else {
       const now = new Date();
       const due = new Date(task.deadline);
@@ -67,12 +75,15 @@ function renderTasks(data) {
       if (diffMs < 0) {
         //overdue
         statusLook = status_pill[2];
+        overdue++;
       } else if (diffHours <= 24) {
         //due soon
         statusLook = status_pill[1];
+        due_today++;
       } else {
         //pending
         statusLook = status_pill[3];
+        in_progress++;
       }
     }
 
@@ -124,7 +135,7 @@ function renderTasks(data) {
                             }
                         </div>
                         ${
-                        description
+                          description
                             ? `
                             <div class="flex items-center gap-1">
                                 <i class='bx bx-pencil'></i>
@@ -203,4 +214,10 @@ function renderTasks(data) {
     </div>
 `;
   });
+
+  document.getElementById("total_tasks").textContent = total_tasks;
+  document.getElementById("completed-num").textContent = completed;
+  document.getElementById("in-progress").textContent = in_progress;
+  document.getElementById("due-today").textContent = due_today;
+  document.getElementById("overdue-num").textContent = overdue;
 }
