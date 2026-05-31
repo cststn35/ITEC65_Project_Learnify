@@ -574,7 +574,7 @@ triggerOverdueTasks($pdo);
                     id="red-ball"></span>
             </button>
             <div id="notifMenu"
-                class="hidden absolute -right-17 md:right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
+                class="hidden absolute -right-17 md:right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-200">
 
                 <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
                     <span class="font-semibold text-slate-700">Notifications</span>
