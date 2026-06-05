@@ -5,7 +5,8 @@ $fullName = $_SESSION["registration"]["fullname"] ?? "";
 $email = $_SESSION["registration"]["email"] ?? "";
 $regerror = $_SESSION["registration"]["error"] ?? "";
 $logerror = $_SESSION["login"]["error"] ?? "";
-unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["registration"]["email"], $_SESSION["registration"]["error"], $_SESSION["login"]["error"]); //so that these variables won't persist when refreshed
+$successfulreg = $_SESSION["successful_registration"] ?? "";
+unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["registration"]["email"], $_SESSION["registration"]["error"], $_SESSION["login"]["error"], $_SESSION["successful_registration"]); //so that these variables won't persist when refreshed
 ?>
 <!doctype html>
 <html>
@@ -16,6 +17,7 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="./assets/css/login-register.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="font-[Inter]">
@@ -168,6 +170,17 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
             </div>
         </div>
     </div>
+    <script>
+        let success = <?= json_encode($successfulreg) ?>;
+        if (success != "") {
+            console.log('ok');
+            Swal.fire({
+                icon: "success",
+                title: "Registered!",
+                text: "You have been succesfully registered",
+            });
+        }
+    </script>
     <script src="./assets/js/login-register.js"></script>
 </body>
 
