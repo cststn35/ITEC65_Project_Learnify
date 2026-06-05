@@ -12,17 +12,28 @@ $password = isset($_POST["password"])
     : "";
 
 if ($email && $password) {
-    $sql = "SELECT user_id, name, password_hash FROM users WHERE email = :email";
+    $sql = "SELECT user_id, name, password_hash, is_newly_registered FROM users WHERE email = :email AND is_deleted = 0";
     // Prepare and execute query
     $stmt = $pdo->prepare($sql); //Fetch the password of the user
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch();
 
+    $sql2 = "SELECT semester_id FROM semesters WHERE user_id = :user_id AND is_active = 1";
+    $stmt2 = $pdo->prepare($sql2);
+    $stmt2->execute(['user_id' => (int) $user['user_id']]);
+    $semesterID = $stmt2->fetch()['semester_id'];
+
+    if (!$semesterID) {
+        $semesterID = 0;
+    }
+
+
     if ($user && password_verify($password, $user['password_hash'])) { //Compare the hashed password of the user to the entered password
         $_SESSION['user_id'] = $user['user_id'];
         $name = $user["name"];
         $_SESSION['name'] = $name;
-        $_SESSION['semester_id'] = 1;
+        $_SESSION['semester_id'] = (int) $semesterID;
+        $_SESSION['is_newly_registered'] = (int) $user['is_newly_registered'];
         header("Location: ../pages/dashboard.php");
         exit;
     }
