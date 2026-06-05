@@ -64,6 +64,7 @@ try {
         ]);
 
         if ($result) {
+            $_SESSION['successful_registration'] = true;
             header("Location: ../login-register.php");
             exit;
         }
