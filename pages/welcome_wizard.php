@@ -64,12 +64,12 @@ session_start();
 
 <body class="bg-[#0F172A] text-white font-[Inter]">
 
-    <!-- BACKGROUND -->
+    <!-- background -->
     <div class="fixed inset-0 -z-10 overflow-hidden">
         <div class="bg-learnify"></div>
     </div>
 
-    <!-- CENTER WRAPPER -->
+    <!-- center wrapper -->
     <div class="fixed inset-0 flex items-center justify-center p-4">
         <div class="w-full max-w-xl bg-[#0F172A]/70 backdrop-blur-xl border border-slate-700 rounded-xl shadow-2xl p-6">
             <div class="flex justify-center">
@@ -77,7 +77,7 @@ session_start();
                     class="p-0">
             </div>
 
-            <!-- HEADER -->
+            <!-- header -->
             <div class="mb-6 text-center">
                 <h2 class="text-2xl font-bold">Welcome to Learnify!</h2>
                 <p class="text-slate-400 text-sm">Setup your profile before starting learning</p>
@@ -89,11 +89,11 @@ session_start();
                 </div>
             </div>
 
-            <!-- SLIDER -->
+            <!-- slider -->
             <div class="overflow-hidden">
                 <div id="slider" class="flex transition-transform duration-500 ease-in-out">
 
-                    <!-- STEP 1 -->
+                    <!-- step 1 -->
                     <div class="min-w-full px-1">
                         <h3 class="text-lg font-semibold mb-4">Profile Picture</h3>
 
@@ -112,7 +112,7 @@ session_start();
                         </div>
                     </div>
 
-                    <!-- STEP 2 -->
+                    <!-- step 2 -->
                     <div class="min-w-full px-1">
                         <h3 class="text-lg font-semibold mb-4">Daily Goal</h3>
 
@@ -133,7 +133,7 @@ session_start();
                         </div>
                     </div>
 
-                    <!-- STEP 3 -->
+                    <!-- step 3 -->
                     <div class="min-w-full px-1">
                         <h3 class="text-lg font-semibold mb-4">Learning Period</h3>
 

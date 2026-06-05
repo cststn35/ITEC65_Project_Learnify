@@ -8,9 +8,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-/* =========================
-   STYLES
-========================= */
+//styles
 
 function titleStyle($sheet, $cell)
 {
@@ -51,9 +49,7 @@ function fetch($pdo, $sql, $params)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-/* =========================
-   INPUT
-========================= */
+//input
 
 try {
 
@@ -69,9 +65,7 @@ try {
         ':semester_id' => $semesterID
     ];
 
-    /* =========================
-       EXECUTE ALL QUERIES (1–17)
-    ========================= */
+    //execution of all queries
 
     $q1 = fetch($pdo, "SELECT ROUND(SUM(duration_seconds)/3600,2) total FROM fact_study_session fs JOIN dim_user du ON fs.user_sk=du.user_sk JOIN dim_semester ds ON fs.semester_sk=ds.semester_sk WHERE du.user_id=:user_id AND ds.semester_id=:semester_id AND fs.status='completed'", $baseParams)[0]['total'];
 
@@ -107,9 +101,7 @@ try {
 
     $q17 = fetch($pdo, "SELECT dxr.category, SUM(fx.xp_change) xp FROM fact_xp fx JOIN dim_xp_reason dxr ON fx.reason_sk=dxr.reason_sk JOIN dim_user du ON fx.user_sk=du.user_sk JOIN dim_semester ds ON fx.semester_sk=ds.semester_sk WHERE du.user_id=:user_id AND ds.semester_id=:semester_id GROUP BY dxr.category", $baseParams);
 
-    /* =========================
-       EXCEL
-    ========================= */
+    //excel
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -118,17 +110,13 @@ try {
     $sheet->getColumnDimension('A')->setWidth(32);
     $sheet->getColumnDimension('B')->setWidth(22);
 
-    /* =========================
-       TITLE
-    ========================= */
+    //title
 
     $sheet->setCellValue("A1", "LEARNIFY FULL ANALYTICS DASHBOARD");
     $sheet->mergeCells("A1:D2");
     titleStyle($sheet, "A1");
 
-    /* =========================
-       KPI BLOCK (ALL METRICS)
-    ========================= */
+    //kpi block
 
     $sheet->fromArray([
         ["Metric", "Value"],
@@ -146,9 +134,7 @@ try {
 
     headerStyle($sheet, "A4:B4");
 
-    /* =========================
-       STUDY TREND
-    ========================= */
+    //study trend
 
     $sheet->setCellValue("A16", "STUDY TREND");
     $sheet->fromArray(["Date", "Minutes"], NULL, "A17");
@@ -162,9 +148,7 @@ try {
     }
     zebra($sheet, 18, $row - 1);
 
-    /* =========================
-       SUBJECTS
-    ========================= */
+    //subjects
 
     $start = $row + 2;
     $sheet->setCellValue("A$start", "SUBJECT BREAKDOWN");
@@ -179,9 +163,7 @@ try {
     }
     zebra($sheet, $start + 2, $row - 1);
 
-    /* =========================
-       XP BREAKDOWN
-    ========================= */
+    //xp breakdown
 
     $startXP = $row + 2;
     $sheet->setCellValue("A$startXP", "XP BREAKDOWN");
@@ -196,9 +178,7 @@ try {
     }
     zebra($sheet, $startXP + 2, $row - 1);
 
-    /* =========================
-       OUTPUT
-    ========================= */
+    //output
 
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment; filename="learnify_full_report.xlsx"');
