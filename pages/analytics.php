@@ -12,7 +12,24 @@
             ?>
         <main
             class="bg-slate-100 col-start-2 p-4 md:p-6 lg:px-30 max-h-[calc(100dvh-60px)] flex flex-col overflow-scroll">
-            <h1 class="text-3xl font-semibold">Analytics</h1>
+            <div class="flex justify-between">
+                <h1 class="text-3xl font-semibold">Analytics</h1>
+                <a href="../actions/analytics/export-analytics.php?userID=<?= $_SESSION['user_id'] ?>&semesterID=<?= $_SESSION['semester_id'] ?>"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 
+         bg-slate-800 hover:bg-slate-700 
+         text-white text-sm font-semibold 
+         rounded-lg shadow-md hover:shadow-lg
+         transition-all duration-200 
+         active:scale-[0.98]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" />
+                    </svg>
+
+                    Export Report
+                </a>
+            </div>
+
             <!-- today/semester overview -->
             <div class="space-y-10">
                 <div class="space-y-2">
@@ -58,7 +75,21 @@
                     <div class="w-full grid md:grid-cols-2 gap-4">
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80">
-                            <h1 class="font-semibold text-sm">Study Trend</h1>
+                            <div class="flex items-center justify-between">
+                                <h1 class="font-semibold text-sm">Study Trend</h1>
+                                <div>
+                                    <select class="filter-select subject-filter text-xs border rounded px-2 py-1"
+                                        data-key="studyTrendView" data-param="subject_id">
+                                    </select>
+
+                                    <select class="filter-select text-xs border rounded px-2 py-1"
+                                        data-key="studyTrendView" data-param="time">
+                                        <option value="weekly">Weekly (Last 7 Days)</option>
+                                        <option value="monthly">Monthly (Last 30 Days)</option>
+                                        <option value="periodical">Periodical</option>
+                                    </select>
+                                </div>
+                            </div>
                             <!-- chart wrapper -->
                             <div class="relative w-full h-64 p-4">
                                 <canvas id="studyTrendChart"></canvas>
@@ -66,7 +97,19 @@
                         </div>
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80 ">
-                            <h1 class="font-semibold text-sm">Study By Subject</h1>
+                            <div class="flex items-center justify-between">
+                                <h1 class="font-semibold text-sm">Study By Subject</h1>
+                                <div>
+                                    <select class="filter-select text-xs border rounded px-2 py-1"
+                                        data-key="studySubjectView" data-param="time">
+                                        <option value="weekly">Weekly (Last 7 Days)</option>
+                                        <option value="monthly">Monthly (Last 30 Days)</option>
+                                        <option value="periodical">Periodical</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
                             <!-- chart wrapper -->
                             <div class="relative w-full h-64 p-4">
                                 <canvas id="studySubjectChart"></canvas>
@@ -110,7 +153,12 @@
                     <div class="w-full flex flex-col md:flex-row gap-4">
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80">
-                            <h1 class="font-semibold text-sm">Planned vs. Actual Study Time</h1>
+                            <div class="flex justify-between items-center gap-1">
+                                <h1 class="font-semibold text-sm">Planned vs. Actual Study Time</h1>
+                                <select class="filter-select subject-filter text-xs border rounded px-2 py-1"
+                                    data-key="planStudyView" data-param="subject_id">
+                                </select>
+                            </div>
                             <!-- chart wrapper -->
                             <div class="relative w-full h-64 p-4">
                                 <canvas id="plannedActualChart"></canvas>
@@ -125,7 +173,13 @@
                             </div>
                         </div>
                         <div class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 w-full h-80">
-                            <h1 class="font-semibold text-sm mb-10">Task Completion + On-Time Rate</h1>
+                            <div class="flex items-center justify-between mb-10 gap-3">
+                                <h1 class="font-semibold text-sm">Task Completion + On-Time Rate</h1>
+
+                                <select class="filter-select subject-filter text-xs border rounded px-2 py-1"
+                                    data-key="taskTrendView" data-param="subject_id">
+                                </select>
+                            </div>
                             <div class="flex flex-col items-center flex-1 gap-10">
                                 <div class="w-full">
                                     <h1 class="w-full font-semibold text-xs underline">Tasks Done On Time</h1>
@@ -161,7 +215,21 @@
                     <div class="w-full flex flex-col md:flex-row gap-4">
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80">
-                            <h1 class="font-semibold text-sm">Quiz Trend</h1>
+                            <div class="flex items-center justify-between">
+                                <h1 class="font-semibold text-sm">Quiz Trend</h1>
+                                <div>
+                                    <select class="filter-select subject-filter text-xs border rounded px-2 py-1"
+                                        data-key="quizView" data-param="subject_id">
+                                    </select>
+                                    <select class="filter-select text-xs border rounded px-2 py-1" data-key="quizView"
+                                        data-param="time">
+                                        <option value="weekly">Weekly (Last 7 Days)</option>
+                                        <option value="monthly">Monthly (Last 30 Days)</option>
+                                        <option value="periodical">Periodical</option>
+                                    </select>
+                                </div>
+
+                            </div>
                             <!-- chart wrapper -->
                             <div class="relative w-full h-64 p-4">
                                 <canvas id="quizTrendChart"></canvas>
@@ -191,7 +259,16 @@
                     <div class="w-full flex flex-col md:flex-row gap-4">
                         <div
                             class="bg-white border border-slate-200 shadow-sm rounded-lg p-4 sm:p-6 space-y-3 w-full h-80">
-                            <h1 class="font-semibold text-sm">XP Growth</h1>
+                            <div class="flex items-center justify-between">
+                                <h1 class="font-semibold text-sm">XP Growth</h1>
+
+                                <select class="filter-select text-xs border rounded px-2 py-1" data-key="xpView"
+                                    data-param="time">
+                                    <option value="weekly">Weekly (Last 7 Days)</option>
+                                    <option value="monthly">Monthly (Last 30 Days)</option>
+                                    <option value="semester">Periodical</option>
+                                </select>
+                            </div>
                             <!-- chart wrapper -->
                             <div class="relative w-full h-64 p-4">
                                 <canvas id="xpGrowthChart"></canvas>
@@ -225,6 +302,53 @@
         const BASE_URL = window.location.pathname.split("/")[1];
         const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
+    </script>
+    <script>
+        let studyViewMode = {
+            time: "weekly",
+            subject_id: "all"
+        };
+
+        let studySubjectViewMode = {
+            time: "weekly",
+            subject_id: "all"
+        };
+
+        let quizViewMode = {
+            time: "weekly",
+            subject_id: "all"
+        };
+
+        let filters = {
+            studyTrendView: {
+                time: "weekly",
+                subject_id: "all",
+            },
+            studySubjectView: {
+                time: "weekly"
+            },
+            quizView: {
+                time: "weekly",
+                subject_id: "all"
+            },
+            xpView: {
+                time: "weekly"
+            },
+            taskTrendView: {
+                subject_id: "all"
+            },
+            planStudyView: {
+                subject_id: "all"
+            }
+        }
+
+        document.querySelectorAll(".filter-select").forEach((select) => {
+            select.addEventListener('change', (e) => {
+                filters[select.dataset.key][select.dataset.param] = e.target.value;
+                to_fetch_again = true;
+                fetchData();
+            })
+        });
     </script>
     <script src="../assets/js/analytics/analytics-chart.js"></script>
 </body>
