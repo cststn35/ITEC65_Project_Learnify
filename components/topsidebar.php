@@ -392,21 +392,86 @@ triggerOverdueTasks($pdo);
                 <!-- active semester -->
                 <div>
                     <label for="semester" class="mb-2 text-slate-900 font-medium text-base inline-block">
-                        Active Semester
+                        Active Period
                     </label>
 
-                    <select id="semester"
-                        class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none">
-                        <option value="1st_sem">1st Semester</option>
-                        <option value="2nd_sem">2nd Semester</option>
-                        <option value="summer">Summer</option>
-                    </select>
+                    <select id="semester-select"
+                        class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none"></select>
+                    <div class="flex justify-between items-center">
+                        <button type="button" id="update-period"
+                            class="mt-3 px-3.5 py-2 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                            Update Period
+                        </button>
+                        <span class="text-xs underline text-blue-400 cursor-pointer" id="new-period">Add New
+                            Period</span>
+                    </div>
 
-                    <button type="button"
-                        class="mt-3 px-3.5 py-2 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                        Update Semester
-                    </button>
                 </div>
+                <!-- add period form -->
+                <form class="max-w-xl mx-auto space-y-6 hidden" id="add-period-form">
+
+                    <!-- system type -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Learning System Type
+                        </label>
+                        <select id="systemType" name="period_type" required
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select your system</option>
+                            <option value="semester">Semester-based</option>
+                            <option value="term">Term-based</option>
+                            <option value="quarter">Quarter-based</option>
+                            <option value="module">Module-based</option>
+                        </select>
+                    </div>
+
+                    <!-- dynamic section wrapper -->
+                    <div id="dynamicFields" class="space-y-6 hidden">
+
+                        <!-- current period -->
+                        <div id="periodField">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Current Period
+                            </label>
+                            <input type="text" name="current_period" placeholder="e.g. 1st Semester, Q2, Module 3"
+                                required
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div id="startField">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Start Date
+                            </label>
+                            <input name="start_date" id="start_date" type="date" required
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                min="<?= date('Y-m-d') ?>" />
+                        </div>
+
+                        <div id="endField">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                End Date
+                            </label>
+                            <input name="end_date" id="end_date" type="date" required
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" />
+                        </div>
+
+
+                        <!-- year level -->
+                        <div id="yearField">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                School or Learning Year
+                            </label>
+                            <input name="year_level" required
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-semester"
+                        class="w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-700 transition">
+                        Add New Period
+                    </button>
+
+                </form>
 
                 <!-- daily goal -->
                 <div>
@@ -613,6 +678,8 @@ triggerOverdueTasks($pdo);
     </span>
 </div>
 <script>
+    console.log(<?= json_encode($_SESSION['user_id']) ?>);
+    console.log("semester id", <?= json_encode($_SESSION['semester_id']) ?>);
     const chevron = document.getElementById("chevron-right");
     const hamburger = document.getElementById("hamburger");
     const sidebar = document.getElementById("sidebar");
@@ -776,3 +843,163 @@ triggerOverdueTasks($pdo);
 <script src="../components/change-profile.js"></script>
 <script src="../components/change-password.js"></script>
 <script src="../components/change-daily-progress.js"></script>
+<script>
+    //for dynamic addition of period
+    const systemType = document.getElementById("systemType");
+    const dynamicFields = document.getElementById("dynamicFields");
+    const customNote = document.getElementById("customNote");
+    const periodField = document.getElementById("periodField");
+    const yearField = document.getElementById("yearField");
+
+    systemType.addEventListener("change", function () {
+        const value = this.value;
+
+        // show main dynamic section unless "none"
+        if (value === "none") {
+            dynamicFields.classList.add("hidden");
+            return;
+        }
+
+        dynamicFields.classList.remove("hidden");
+
+        // reset visibility
+        customNote.classList.add("hidden");
+        periodField.classList.remove("hidden");
+        yearField.classList.remove("hidden");
+
+        // adjust based on selection
+        if (value === "custom") {
+            customNote.classList.remove("hidden");
+        }
+
+        if (value === "module" || value === "custom") {
+            //still show period
+            periodField.querySelector("input").placeholder =
+                "e.g. Module 3, Week 5, Lesson 2";
+        } else {
+            periodField.querySelector("input").placeholder =
+                "e.g. 1st Semester, Q2, Term 1";
+        }
+
+        //some systems may not need year level
+        if (value === "module") {
+            yearField.classList.add("hidden");
+        }
+    });
+
+    const addPeriodForm = document.getElementById("add-period-form");
+
+    document.getElementById("new-period").addEventListener("click", () => {
+        addPeriodForm.classList.toggle("hidden");
+    });
+
+    //for submission of form
+    addPeriodForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const start_date = document.getElementById("start_date").value;
+        const end_date = document.getElementById("end_date").value;
+        if (start_date >= end_date) {
+            Swal.fire({
+                icon: "error",
+                title: "Failed!",
+                text: "Invalid settings of start date and end date",
+            });
+            return;
+        }
+
+        const BASE_URL = window.location.pathname.split("/")[1];
+        const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+
+        const formData = new FormData(addPeriodForm);
+        formData.append("userID", userID);
+
+        const response = await fetch(
+            `/${BASE_URL}/components/add-new-period.php`, {
+            method: "POST",
+            body: formData
+        }
+        );
+        const data = await response.json();
+        if (data.success) {
+            Swal.fire({
+                icon: "success",
+                title: "Created!",
+                text: "The period was added.",
+            });
+            addPeriodForm.reset();
+            addPeriodForm.classList.toggle('hidden');
+            fetchPeriods();
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Failed!",
+                text: "There was an error adding a new date",
+            });
+        }
+    });
+
+    //for fetching of active period list
+    const semesterDown = document.getElementById('semester-select');
+    async function fetchPeriods() {
+        const formData = new FormData();
+        const BASE_URL = window.location.pathname.split("/")[1];
+        const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+        formData.append('userID', userID);
+
+        const response = await fetch(
+            `/${BASE_URL}/components/fetch-periods.php`, {
+            method: "POST",
+            body: formData
+        }
+        );
+        const data = await response.json();
+
+        if (data.success) {
+            semesterDown.innerHTML = "";
+            data.data.forEach((period) => {
+                semesterDown.innerHTML +=
+                    `
+                    <option value="${period.semester_id}" ${period.is_active ? "selected" : ""}>${period.semester_name} (${period.school_year})</option>
+                `
+            });
+
+        }
+    }
+    fetchPeriods();
+
+    //for updating periods
+    document.getElementById('update-period').onclick = updatePeriod;
+    async function updatePeriod() {
+        const formData = new FormData();
+        const BASE_URL = window.location.pathname.split("/")[1];
+        const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+        formData.append('userID', userID);
+        formData.append('semesterID', semesterDown.value);
+        const response = await fetch(
+            `/${BASE_URL}/components/update-periods.php`, {
+            method: "POST",
+            body: formData
+        }
+        );
+        const data = await response.json();
+
+        if (data.success) {
+            Swal.fire({
+                icon: "success",
+                title: "Changed!",
+                text: "The active period was changed.",
+            });
+
+            setTimeout(() => {
+                location.reload();
+            }, 2000)
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Failed!",
+                text: "There was an error changing the active period!",
+            });
+        }
+    }
+
+</script>
