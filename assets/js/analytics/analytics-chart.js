@@ -19,10 +19,33 @@ let subject_mastery = 0;
 let studytime_quiz = 0;
 let xp_growth = 0;
 let xp_breakdown = 0;
+let subject_filter = "";
+let to_fetch_again = false;
+
+let consistencyChartInstance;
+let studyTrendInstance;
+let quizTrendChartInstance;
+let xpGrowthChartInstance;
+let studySubjectChartInstance;
+let peakStudyChartInstance;
+let plannedActualChartInstance;
+let sessionCompletionChartInstance;
+let quizTrendInstance;
+let subjectMasteryChartInstance;
+let studyQuizChartInstance;
+let xpBreakdownChartInstance;
 
 async function fetchData() {
+  const formData = new FormData();
+  formData.append("userID", userID);
+  formData.append("semesterID", semesterID);
+  formData.append("filters", JSON.stringify(filters));
   const response = await fetch(
-    `/${BASE_URL}/actions/analytics/fetch-analytics.php?userID=${userID}&semesterID=${semesterID}`,
+    `/${BASE_URL}/actions/analytics/fetch-analytics.php?`,
+    {
+      method: "POST",
+      body: formData,
+    },
   );
   const data = await response.json();
   if (data.success) {
@@ -45,6 +68,7 @@ async function fetchData() {
     studytime_quiz = analyticsData["study_vs_quiz"];
     xp_growth = analyticsData["xp_growth"];
     xp_breakdown = analyticsData["xp_source_breakdown"];
+    subject_filter = analyticsData["subject_filter"];
     initializeAnalytics();
   }
 }
@@ -52,6 +76,9 @@ async function fetchData() {
 fetchData();
 
 function initializeAnalytics() {
+  if (!to_fetch_again) {
+    populateSubjectFilter();
+  }
   initializeKPI();
   studyTrendChart();
   studySubjectChart();
@@ -65,6 +92,33 @@ function initializeAnalytics() {
   studyQuizChart();
   xpGrowthChart();
   xpBreakdownChart();
+}
+
+function formatMonthLabel(number) {
+  const months = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December",
+  };
+  return months[number];
+}
+
+function populateSubjectFilter() {
+  document.querySelectorAll(".subject-filter").forEach((subject) => {
+    subject.innerHTML = `<option value="all">All Subjects</option>`;
+    subject_filter.forEach((asig) => {
+      subject.innerHTML += `<option value="${asig.subject_id}">${asig.name}</option>`;
+    });
+  });
 }
 
 function initializeKPI() {
@@ -83,53 +137,45 @@ function initializeKPI() {
 }
 
 function studyTrendChart() {
-  let datos = new Array(7).fill(0);
-  let index = 0;
-  study_trend.forEach((trend) => {
-    switch (trend.weekday) {
-      case "Sunday":
-        index = 6;
-        break;
-      case "Monday":
-        index = 0;
-        break;
-      case "Tuesday":
-        index = 1;
-        break;
-      case "Wednesday":
-        index = 2;
-        break;
-      case "Thursday":
-        index = 3;
-        break;
-      case "Friday":
-        index = 4;
-        break;
-      case "Saturday":
-        index = 5;
-        break;
-      default:
-        break;
+  const labels = [];
+  const datos = [];
+
+  study_trend.forEach((row) => {
+    if (filters["studyTrendView"]["time"] == "weekly") {
+      labels.push(row.weekday);
+    } else if (filters["studyTrendView"]["time"] == "monthly") {
+      labels.push(row.full_date);
+    } else {
+      labels.push(formatMonthLabel(Number(row.month)));
     }
-    datos[index] = trend.total_minutes;
+
+    datos.push((row.total_seconds / 60).toFixed(2));
   });
 
+  if (studyTrendInstance) {
+    studyTrendInstance.destroy();
+  }
+
   const ctx = document.getElementById("studyTrendChart");
-  new Chart(ctx, {
+
+  studyTrendInstance = new Chart(ctx, {
     type: "line",
+
     data: {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      labels,
+
       datasets: [
         {
           label: "Minutes Studied",
           data: datos,
-          borderColor: "rgb(59, 130, 246)",
-          backgroundColor: "rgba(59, 130, 246, 0.2)",
+          borderColor: "rgb(59,130,246)",
+          backgroundColor: "rgba(59,130,246,.2)",
           fill: true,
           tension: 0.4,
         },
       ],
     },
+
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -138,6 +184,7 @@ function studyTrendChart() {
 }
 
 function studySubjectChart() {
+  if (studySubjectChartInstance) studySubjectChartInstance.destroy();
   let subjects = [];
   let datos = [];
   const ctx = document.getElementById("studySubjectChart");
@@ -145,13 +192,13 @@ function studySubjectChart() {
     subjects.push(subject.name);
     datos.push(subject.total_hours);
   });
-  new Chart(ctx, {
+  studySubjectChartInstance = new Chart(ctx, {
     type: "bar",
     data: {
       labels: subjects,
       datasets: [
         {
-          label: "Hours Studied",
+          label: "Minutes Studied",
           data: datos,
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
@@ -199,6 +246,7 @@ function consistencyChart() {
 }
 
 function peakStudyChart() {
+  if (peakStudyChartInstance) peakStudyChartInstance.destroy();
   console.log(peak_study_hours);
   let datos = new Array(24).fill(0);
   peak_study_hours.forEach((hour) => {
@@ -309,7 +357,7 @@ function peakStudyChart() {
     "11 PM",
   ];
   const ctx = document.getElementById("peakStudyChart");
-  new Chart(ctx, {
+  peakStudyChartInstance = new Chart(ctx, {
     type: "bar",
     data: {
       labels: timeLabel,
@@ -391,6 +439,7 @@ function peakStudyChart() {
 }
 
 function plannedActualTime() {
+  if (plannedActualChartInstance) plannedActualChartInstance.destroy();
   console.log(planned_actual_study_time);
   const avg_target_minutes = planned_actual_study_time[0]["avg_target_minutes"];
   const avg_actual_minutes = planned_actual_study_time[0]["avg_actual_minutes"];
@@ -427,10 +476,11 @@ function plannedActualTime() {
       },
     },
   };
-  new Chart(ctx, config);
+  plannedActualChartInstance = new Chart(ctx, config);
 }
 
 function sessionCompletionChart() {
+  if (sessionCompletionChartInstance) sessionCompletionChartInstance.destroy();
   console.log(session_completion_rate);
   const ctx = document.getElementById("sessionCompletionChart");
 
@@ -465,7 +515,7 @@ function sessionCompletionChart() {
     },
   };
 
-  new Chart(ctx, config);
+  sessionCompletionChartInstance = new Chart(ctx, config);
 }
 
 function taskCompletionChart() {
@@ -496,53 +546,45 @@ function taskCompletionChart() {
 }
 
 function quizTrend() {
-  console.log(quiz_trend);
-  let datos = new Array(7).fill(0);
-  let index = 0;
-  quiz_trend.forEach((trend) => {
-    switch (trend.weekday) {
-      case "Sunday":
-        index = 6;
-        break;
-      case "Monday":
-        index = 0;
-        break;
-      case "Tuesday":
-        index = 1;
-        break;
-      case "Wednesday":
-        index = 2;
-        break;
-      case "Thursday":
-        index = 3;
-        break;
-      case "Friday":
-        index = 4;
-        break;
-      case "Saturday":
-        index = 5;
-        break;
-      default:
-        break;
+  if (quizTrendChartInstance) quizTrendChartInstance.destroy();
+  console.log("QUIZ TREND", quiz_trend);
+  const labels = [];
+  const datos = [];
+
+  quiz_trend.forEach((row) => {
+    if (filters["quizView"]["time"] == "weekly") {
+      labels.push(row.weekday);
+    } else if (filters["quizView"]["time"] == "monthly") {
+      labels.push(row.full_date);
+    } else {
+      labels.push(formatMonthLabel(Number(row.month)));
     }
-    datos[index] = trend.avg_score;
+
+    datos.push(row.avg_score);
   });
 
+  if (quizTrendInstance) {
+    quizTrendInstance.destroy();
+  }
+
   const ctx = document.getElementById("quizTrendChart");
-  new Chart(ctx, {
+
+  quizTrendInstance = new Chart(ctx, {
     type: "line",
+
     data: {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      labels,
+
       datasets: [
         {
           label: "Average Quiz Score (%)",
           data: datos,
-          borderColor: "rgb(75, 192, 192)",
+          borderColor: "rgb(75,192,192)",
           fill: false,
-          tension: 0.1,
         },
       ],
     },
+
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -551,7 +593,7 @@ function quizTrend() {
 }
 
 function subjectMasteryChart() {
-  console.log(subject_mastery);
+  if (subjectMasteryChartInstance) subjectMasteryChartInstance.destroy();
   let subjects = [];
   let datos = [];
   const ctx = document.getElementById("subjectMasteryChart");
@@ -559,7 +601,7 @@ function subjectMasteryChart() {
     subjects.push(subject.name);
     datos.push(subject.mastery_score);
   });
-  new Chart(ctx, {
+  subjectMasteryChartInstance = new Chart(ctx, {
     type: "bar",
     data: {
       labels: subjects,
@@ -598,6 +640,7 @@ function subjectMasteryChart() {
 }
 
 function studyQuizChart() {
+  if (studyQuizChartInstance) studyQuizChartInstance.destroy();
   console.log(studytime_quiz);
   let datos = [];
   studytime_quiz.forEach((element) => {
@@ -640,57 +683,44 @@ function studyQuizChart() {
     },
   };
 
-  new Chart(ctx, config);
+  studyQuizChartInstance = new Chart(ctx, config);
 }
 
 function xpGrowthChart() {
+  if (xpGrowthChartInstance) xpGrowthChartInstance.destroy();
   console.log(xp_growth);
-  let datos = new Array(7).fill(0);
-  let index = 0;
-  xp_growth.forEach((trend) => {
-    switch (trend.weekday) {
-      case "Sunday":
-        index = 6;
-        break;
-      case "Monday":
-        index = 0;
-        break;
-      case "Tuesday":
-        index = 1;
-        break;
-      case "Wednesday":
-        index = 2;
-        break;
-      case "Thursday":
-        index = 3;
-        break;
-      case "Friday":
-        index = 4;
-        break;
-      case "Saturday":
-        index = 5;
-        break;
-      default:
-        break;
+  const labels = [];
+  const datos = [];
+
+  xp_growth.forEach((row) => {
+    if (filters["xpView"]["time"] == "weekly") {
+      labels.push(row.weekday);
+    } else if (filters["xpView"]["time"] == "monthly") {
+      labels.push(row.full_date);
+    } else {
+      labels.push(formatMonthLabel(Number(row.month)));
     }
-    datos[index] = trend.total_xp;
+    datos.push(row.total_xp);
   });
 
   const ctx = document.getElementById("xpGrowthChart");
-  new Chart(ctx, {
+
+  xpGrowthChartInstance = new Chart(ctx, {
     type: "line",
+
     data: {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      labels,
+
       datasets: [
         {
-          label: "XP Count",
+          label: "XP Earned",
           data: datos,
-          borderColor: "rgb(75, 192, 192)",
+          borderColor: "rgb(168,85,247)",
           fill: false,
-          tension: 0.1,
         },
       ],
     },
+
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -699,6 +729,7 @@ function xpGrowthChart() {
 }
 
 function xpBreakdownChart() {
+  if (xpBreakdownChartInstance) xpBreakdownChartInstance.destroy();
   let STUDY = 0;
   let TASK = 0;
   let STREAK = 0;
@@ -743,5 +774,5 @@ function xpBreakdownChart() {
     },
   };
 
-  new Chart(ctx, config);
+  xpBreakdownChartInstance = new Chart(ctx, config);
 }
