@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS users (
     is_newly_registered TINYINT(1) DEFAULT 1,
     profile_pic_path VARCHAR(500) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    is_deleted TINYINT(1) DEFAULT 0
 );
 "
 );
