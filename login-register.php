@@ -1,12 +1,13 @@
 <?php
 session_start();
 $overlayActive = $_SESSION['reg'] ?? false;
-$fullName = $_SESSION["registration"]["fullname"] ?? "";
+$firstName = $_SESSION["registration"]["firstName"] ?? "";
+$lastName = $_SESSION["registration"]["lastName"] ?? "";
 $email = $_SESSION["registration"]["email"] ?? "";
 $regerror = $_SESSION["registration"]["error"] ?? "";
 $logerror = $_SESSION["login"]["error"] ?? "";
 $successfulreg = $_SESSION["successful_registration"] ?? "";
-unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["registration"]["email"], $_SESSION["registration"]["error"], $_SESSION["login"]["error"], $_SESSION["successful_registration"]); //so that these variables won't persist when refreshed
+unset($_SESSION["reg"], $_SESSION["registration"]["firstName"], $_SESSION["registration"]["lastName"], $_SESSION["registration"]["email"], $_SESSION["registration"]["error"], $_SESSION["login"]["error"], $_SESSION["successful_registration"]); //so that these variables won't persist when refreshed
 ?>
 <!doctype html>
 <html>
@@ -38,11 +39,19 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                 </div>
                 <form action="./actions/registration-process.php" method="POST" class="w-full space-y-4">
                     <div class="input-box w-full">
-                        <p class="text-sm font-bold mb-1">Full Name</p>
+                        <p class="text-sm font-bold mb-1">First Name</p>
                         <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                             <i class="fa fa-user mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
-                            <input type="text" id="fullname" name="fullname" required class="w-full py-1 outline-none"
-                                placeholder="Last Name, First Name, M.I." value="<?= $fullName ? $fullName : '' ?>">
+                            <input type="text" id="firstname" name="firstname" required class="w-full py-1 outline-none"
+                                placeholder="Enter your first name" value="<?= $firstName ? $firstName : '' ?>">
+                        </label>
+                    </div>
+                    <div class="input-box w-full">
+                        <p class="text-sm font-bold mb-1">Last Name</p>
+                        <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
+                            <i class="fa fa-user mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
+                            <input type="text" id="lastname" name="lastname" required class="w-full py-1 outline-none"
+                                placeholder="Enter your last name" value="<?= $lastName ? $lastName : '' ?>">
                         </label>
                     </div>
                     <div class=" input-box w-full">
@@ -114,7 +123,7 @@ unset($_SESSION["reg"], $_SESSION["registration"]["fullname"], $_SESSION["regist
                 <div class="input-box w-full">
                     <div class="flex justify-between">
                         <p class="text-sm font-bold">Password</p>
-                        <p class="text-sm">Forgot password?</p>
+                        <!-- <p class="text-sm">Forgot password?</p> -->
                     </div>
                     <label class="flex items-center border border-slate-600 rounded-md px-3 py-2 cursor-text">
                         <i class="fa fa-lock mr-2 text-gray-500 text-lg fa-fw" aria-hidden="true"></i>
