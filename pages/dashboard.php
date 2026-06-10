@@ -128,12 +128,12 @@ date_default_timezone_set('Asia/Manila');
                                     class="px-3.5 py-3 text-base text-slate-900 rounded-md bg-white w-full outline-1 -outline-offset-1 outline-slate-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600">
                                     <option value="" disabled hidden selected>Select a day</option>
                                     <option value="1">Sunday</option>
-                                    <option value="2">Monday</option>
-                                    <option value="3">Tuesday</option>
-                                    <option value="4">Wednesday</option>
-                                    <option value="5">Thursday</option>
-                                    <option value="6">Friday</option>
-                                    <option value="7">Saturday</option>
+                                    <option value="2">Mony</option>
+                                    <option value="3">Tue</option>
+                                    <option value="4">Wed</option>
+                                    <option value="5">Thu</option>
+                                    <option value="6">Fry</option>
+                                    <option value="7">Sa</option>
                                 </select>
                             </div>
                             <div class="startTimeInput">
