@@ -30,6 +30,7 @@ $sql =
     "
     SELECT 
         DATE_FORMAT(s.created_at, '%M %d, %Y') AS created_at,
+        s.session_id,
         s.title AS session_title,
         t.title AS task_title,
         sub.name AS subject_title,
@@ -37,6 +38,7 @@ $sql =
         FLOOR(s.actual_duration_seconds/60) as actual_duration_seconds,
         s.total_pause_seconds,
         s.status,
+        s.session_notes,
 
         LEAST(
             ROUND(
@@ -58,6 +60,7 @@ $sql =
 
     WHERE s.user_id = :user_id
     AND s.semester_id = :semester_id
+    AND s.status != 'invalidated'
 
     ORDER BY s.created_at DESC;
 ";
@@ -385,6 +388,7 @@ $tableData = $result->fetchAll();
                                 <th class="px-4 py-3.5">Pause</th>
                                 <th class="px-4 py-3.5">Quiz</th>
                                 <th class="px-4 py-3.5">Status</th>
+                                <th class="px-4 py-3.5">Session Notes</th>
                                 <th class="px-4 py-3.5">Action</th>
                             </tr>
                         </thead>
@@ -480,6 +484,16 @@ $tableData = $result->fetchAll();
                                     </td>
 
                                     <td class="px-4 py-4 flex justify-between md:table-cell">
+                                        <span class="md:hidden text-slate-500 font-semibold">Session Notes</span>
+
+                                        <button onclick="viewSessionNotes('<?= $row['session_notes'] ?>')"
+                                            class="px-3 py-2 text-sm bg-slate-800 text-white rounded-lg hover:bg-slate-700 active:scale-[0.98] transition">
+                                            View Session Notes
+                                        </button>
+
+                                    </td>
+
+                                    <td class="px-4 py-4 flex justify-between md:table-cell">
                                         <span class="md:hidden text-slate-500 font-semibold">Action</span>
 
                                         <?php if ($row['total_questions']): ?>
@@ -488,6 +502,13 @@ $tableData = $result->fetchAll();
                                                 View Result
                                             </button>
                                         <?php endif; ?>
+                                        <?php if ($row['status'] == "paused"): ?>
+                                            <button onclick="invalidateSession(<?= $row['session_id'] ?>)"
+                                                class="px-3 py-2 text-sm bg-red-800 text-white rounded-lg hover:bg-red-700 active:scale-[0.98] transition">
+                                                Invalidate Session
+                                            </button>
+                                        <?php endif; ?>
+
                                     </td>
 
                                 </tr>
@@ -510,11 +531,21 @@ $tableData = $result->fetchAll();
         console.log(userID);
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
         const startStudy = <?= json_encode($_SESSION['start_study'] ?? null) ?>;
+
+        function viewSessionNotes(notes) {
+            swal.fire({
+                title: 'Session Notes',
+                text: notes || "No notes available for this session.",
+                icon: 'info',
+                confirmButtonText: 'Close'
+            });
+        }
     </script>
     <script src="../assets/js/sessions/add_session_modal.js"></script>
     <script src="../assets/js/tasks/fetch_subjects_2.js"></script>
     <script src="../assets/js/sessions/fetch_tasks_sessions.js"></script>
     <script src="../assets/js/sessions/show_quiz_result.js"></script>
+    <script src="../assets/js/sessions/invalidate-session.js"></script>
 </body>
 
 </html>
