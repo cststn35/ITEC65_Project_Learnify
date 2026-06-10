@@ -23,8 +23,14 @@ $currentXP = $result->fetch()['xp_change'] ?? 0;
 //obtain profile picture
 $sql = "SELECT profile_pic_path FROM users WHERE user_id = :user_id";
 $result = runQuery($pdo, $sql, ['user_id' => $userID]);
-$profileImagePath = "../" . $result->fetch()['profile_pic_path'];
+$profileImagePath = $result->fetch()['profile_pic_path'] ?? '../assets/images/profile-placeholder.png';
 
+//obtain current learning system/semester
+$sql = "SELECT semester_name, school_year FROM semesters WHERE semester_id = :semester_id AND is_active = 1";
+$result = runQuery($pdo, $sql, ['semester_id' => $semesterID]);
+$learningSystem = $result->fetch();
+$semesterName = $learningSystem['semester_name'] ?? 'No Active Period';
+$schoolYear = $learningSystem['school_year'] ?? '';
 function checkStreak($pdo, $userID)
 {
     $sql = "SELECT DATE(last_streak_updated) AS last_streak_updated FROM users WHERE user_id = :user_id";
@@ -294,9 +300,7 @@ triggerOverdueTasks($pdo);
 
                     <div class="flex flex-col md:flex-row md:items-center gap-4">
 
-                        <img id="profilePreview" src="<?= !empty($profileImagePath)
-                            ? htmlspecialchars($profileImagePath)
-                            : '../assets/images/default-profile.png' ?>"
+                        <img id="profilePreview" src="../<?= $profileImagePath ?>"
                             class="w-20 h-20 rounded-full object-cover border border-slate-300">
 
                         <div class="flex-1">
@@ -319,6 +323,34 @@ triggerOverdueTasks($pdo);
                     </div>
 
                 </form>
+            </div>
+
+            <!-- change name section -->
+            <div class="space-y-4 pt-4 border-t border-slate-200">
+                <h4 class="text-slate-900 font-semibold text-sm uppercase tracking-wide">Change Name</h4>
+                <div class="space-y-3">
+                    <div>
+                        <label for="first_name" class="mb-2 text-slate-900 font-medium text-base inline-block">
+                            First Name
+                        </label>
+
+                        <input type="text" id="first_name" value="<?= $_SESSION['first_name'] ?>"
+                            class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none" />
+                    </div>
+                    <div>
+                        <label for="last_name" class="mb-2 text-slate-900 font-medium text-base inline-block">
+                            Last Name
+                        </label>
+
+                        <input type="text" id="last_name" value="<?= $_SESSION['last_name'] ?>"
+                            class="px-3.5 py-3 w-full rounded-md border border-slate-300 focus:border-blue-600 focus:outline-none" />
+                    </div>
+                    <button type="button" id="updateNameBtn" onclick="changeName(<?= $_SESSION['user_id'] ?>)"
+                        class="px-3.5 py-2 text-sm font-semibold rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                        Update Name
+                    </button>
+                    <div class="name-error text-red-500 text-sm"></div>
+                </div>
             </div>
 
 
@@ -522,7 +554,7 @@ triggerOverdueTasks($pdo);
         <ul class="mt-4">
             <li class="w-[90%] mx-auto my-3">
                 <a href="../pages/dashboard.php"
-                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors <?= basename($_SERVER['PHP_SELF']) === 'dashboard.php' ? 'bg-white text-black!' : '' ?>">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-home text-2xl'></i>
                     </span>
@@ -533,7 +565,7 @@ triggerOverdueTasks($pdo);
             </li>
             <li class="w-[90%] mx-auto my-3">
                 <a href="../pages/study-session.php"
-                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors <?= basename($_SERVER['PHP_SELF']) === 'study-session.php' ? 'bg-white text-black!' : '' ?>">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-timer text-2xl'></i>
                     </span>
@@ -544,7 +576,7 @@ triggerOverdueTasks($pdo);
             </li>
             <li class="w-[90%] mx-auto my-3">
                 <a href="../pages/tasks.php"
-                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors <?= basename($_SERVER['PHP_SELF']) === 'tasks.php' ? 'bg-white text-black!' : '' ?>">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-check-square text-2xl'></i>
                     </span>
@@ -555,7 +587,7 @@ triggerOverdueTasks($pdo);
             </li>
             <li class="w-[90%] mx-auto my-3">
                 <a href="../pages/courses.php"
-                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors <?= basename($_SERVER['PHP_SELF']) === 'courses.php' ? 'bg-white text-black!' : '' ?>">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-book-open text-2xl'></i>
                     </span>
@@ -566,7 +598,7 @@ triggerOverdueTasks($pdo);
             </li>
             <li class="w-[90%] mx-auto my-3">
                 <a href="../pages/analytics.php"
-                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors <?= basename($_SERVER['PHP_SELF']) === 'analytics.php' ? 'bg-white text-black!' : '' ?>">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-bar-chart-alt-2 text-2xl'></i>
                     </span>
@@ -577,7 +609,7 @@ triggerOverdueTasks($pdo);
             </li>
             <li class="w-[90%] mx-auto my-3">
                 <a href="../pages/smart-coach.php"
-                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors">
+                    class="flex items-center text-white rounded-xl hover:bg-white hover:text-black transition-colors <?= basename($_SERVER['PHP_SELF']) === 'smart-coach.php' ? 'bg-white text-black!' : '' ?>">
                     <span class="w-[50px] h-[50px] flex items-center justify-center">
                         <i class='bx bx-star text-2xl'></i>
                     </span>
@@ -606,8 +638,8 @@ triggerOverdueTasks($pdo);
                 <img src="../assets/images/semester.png" alt="Logo" width="50" class="p-0">
             </span>
             <span>
-                <h1 class="font-bold text-white">2nd Semester</h1>
-                <p class="text-sm text-white">S.Y. 2025-2026</p>
+                <h1 class="font-bold text-white"><?= $semesterName ?></h1>
+                <p class="text-sm text-white"><?= $schoolYear ?></p>
             </span>
         </div>
     </div>
@@ -657,7 +689,7 @@ triggerOverdueTasks($pdo);
             <!-- <div
                 class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center ring-2 ring-slate-500">
             </div> -->
-            <img src="<?= $profileImagePath ?>" alt="profile-pic"
+            <img src="../<?= $profileImagePath ?>" alt="profile-pic"
                 class="w-8 h-8 rounded-full flex items-center justify-center ring-2 ring-slate-500">
             <i class='bx bx-chevron-down text-2xl text-slate-300'></i>
             <div id="dropdownMenu"
@@ -843,6 +875,7 @@ triggerOverdueTasks($pdo);
 <script src="../components/change-profile.js"></script>
 <script src="../components/change-password.js"></script>
 <script src="../components/change-daily-progress.js"></script>
+<script src="../components/change-name.js"></script>
 <script>
     //for dynamic addition of period
     const systemType = document.getElementById("systemType");
