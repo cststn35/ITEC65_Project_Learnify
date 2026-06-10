@@ -141,7 +141,7 @@ session_start();
 
                             <select id="systemType"
                                 class="w-full px-3 py-2 bg-[#0B1220] border border-slate-700 rounded-md">
-                                <option value="">Select system type</option>
+                                <option value="">Select academic term system</option>
                                 <option>Semester-based</option>
                                 <option>Term-based</option>
                                 <option>Quarter-based</option>
@@ -149,7 +149,7 @@ session_start();
                             </select>
 
                             <input class="w-full px-3 py-2 bg-[#0B1220] border border-slate-700 rounded-md"
-                                placeholder="Current period" id="period_name">
+                                placeholder="Enter current period (e.g., Q1, 1st Semester,Term 1)" id="period_name">
                             <!-- start Date -->
                             <div>
                                 <label class="text-sm text-slate-300">Start Date</label>
@@ -167,7 +167,7 @@ session_start();
                             </div>
 
                             <input class="w-full px-3 py-2 bg-[#0B1220] border border-slate-700 rounded-md"
-                                placeholder="Year Level / School Year" id="year_level">
+                                placeholder="Enter school/learning year (e.g., 2023-2024)" id="year_level">
                         </div>
 
                         <div class="flex justify-between mt-6">
