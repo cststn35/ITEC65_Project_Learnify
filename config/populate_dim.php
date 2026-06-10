@@ -5,11 +5,12 @@ function loadDimUser($pdo)
         SET FOREIGN_KEY_CHECKS = 0;
         TRUNCATE TABLE dim_user;
         SET FOREIGN_KEY_CHECKS = 1;
-        INSERT INTO dim_user (user_id, name, created_at)
-        SELECT user_id, name, created_at
+        INSERT INTO dim_user (user_id, first_name, last_name, created_at)
+        SELECT user_id, first_name, last_name, created_at
         FROM users
         ON DUPLICATE KEY UPDATE
-            name = VALUES(name)
+            first_name = VALUES(first_name),
+            last_name = VALUES(last_name)
     ";
 
     $pdo->exec($sql);
