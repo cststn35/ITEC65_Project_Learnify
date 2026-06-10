@@ -26,14 +26,17 @@ try {
             ? trim($_POST["actual_duration_seconds"])
             : 0;
 
-        $sql = "UPDATE sessions SET end_time = :end_time, total_pause_seconds = :total_pause_seconds, actual_duration_seconds = :actual_duration_seconds, status = 'completed' WHERE user_id = :user_id AND session_id = :session_id AND semester_id = :semester_id AND (status = 'active' OR status = 'paused')";
+        $session_notes = isset($_POST['session_notes']) ? trim($_POST['session_notes']) : "";
+
+        $sql = "UPDATE sessions SET end_time = :end_time, total_pause_seconds = :total_pause_seconds, actual_duration_seconds = :actual_duration_seconds, status = 'completed', session_notes = :session_notes WHERE user_id = :user_id AND session_id = :session_id AND semester_id = :semester_id AND (status = 'active' OR status = 'paused')";
         $params = [
             'user_id' => $userID,
             'semester_id' => $semesterID,
             'session_id' => $sessionID,
             'end_time' => $end_time,
             'total_pause_seconds' => $totalPauseSeconds,
-            'actual_duration_seconds' => $actualDurationSeconds
+            'actual_duration_seconds' => $actualDurationSeconds,
+            'session_notes' => $session_notes
         ];
 
         $result = runQuery($pdo, $sql, $params);
