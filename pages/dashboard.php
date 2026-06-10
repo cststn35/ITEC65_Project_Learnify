@@ -131,7 +131,7 @@ date_default_timezone_set('Asia/Manila');
                                     <option value="2">Monday</option>
                                     <option value="3">Tuesday</option>
                                     <option value="4">Wednesday</option>
-                                    <option value="5">Thu</option>
+                                    <option value="5">Thursday</option>
                                     <option value="6">Fry</option>
                                     <option value="7">Sa</option>
                                 </select>
