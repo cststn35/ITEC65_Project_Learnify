@@ -29,7 +29,9 @@ try {
 
         $status = isset($_POST['from_resume']) ? "active" : "paused";
 
-        $sql = "UPDATE sessions SET pause_start_time = :start_time, total_pause_seconds = :total_pause_seconds, actual_duration_seconds = :actual_duration_seconds, status = :status WHERE user_id = :user_id AND session_id = :session_id AND semester_id = :semester_id AND (status = 'active' OR status = 'paused')";
+        $session_notes = isset($_POST['session_notes']) ? trim($_POST['session_notes']) : "";
+
+        $sql = "UPDATE sessions SET pause_start_time = :start_time, total_pause_seconds = :total_pause_seconds, actual_duration_seconds = :actual_duration_seconds, status = :status, session_notes = :session_notes WHERE user_id = :user_id AND session_id = :session_id AND semester_id = :semester_id AND (status = 'active' OR status = 'paused')";
         $params = [
             'user_id' => $userID,
             'semester_id' => $semesterID,
@@ -37,7 +39,8 @@ try {
             'start_time' => $start_time,
             'total_pause_seconds' => $totalPauseSeconds,
             'actual_duration_seconds' => $actualDurationSeconds,
-            'status' => $status
+            'status' => $status,
+            'session_notes' => $session_notes
         ];
 
         $result = runQuery($pdo, $sql, $params);
