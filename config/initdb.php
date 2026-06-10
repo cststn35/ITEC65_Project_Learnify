@@ -36,7 +36,8 @@ runQuery(
     "
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     xp INT DEFAULT 0,
@@ -47,10 +48,25 @@ CREATE TABLE IF NOT EXISTS users (
     daily_goal_minutes INT DEFAULT 120,
     is_newly_registered TINYINT(1) DEFAULT 1,
     profile_pic_path VARCHAR(500) NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    is_deleted TINYINT(1) DEFAULT 0
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_deleted TINYINT(1) DEFAULT 0,
+
+    INDEX idx_users_is_deleted (is_deleted),
+    INDEX idx_users_created_at (created_at),
+    INDEX idx_users_xp (xp)
 );
 "
+);
+
+$adminPasswordHash = password_hash('adminlearnify123', PASSWORD_DEFAULT);
+
+runQuery(
+    $pdo,
+    "
+INSERT INTO users (first_name, last_name, email, password_hash) VALUES
+('Admin', 'Admin', 'admin@gmail.com', :password_hash)
+",
+    ['password_hash' => $adminPasswordHash]
 );
 
 runQuery(
@@ -66,7 +82,10 @@ CREATE TABLE IF NOT EXISTS semesters (
     is_active BOOLEAN NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    INDEX idx_semesters_user_id (user_id),
+    INDEX idx_semesters_user_active (user_id, is_active),
+    INDEX idx_semesters_school_year (school_year)
 );
 "
 );
@@ -92,7 +111,11 @@ CREATE TABLE IF NOT EXISTS subjects (
     is_archived BOOLEAN NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id),
+    INDEX idx_subjects_user_id (user_id),
+    INDEX idx_subjects_semester_id (semester_id),
+    INDEX idx_subjects_user_semester (user_id, semester_id),
+    INDEX idx_subjects_archived (is_archived)
 );
 "
 );
@@ -117,7 +140,13 @@ CREATE TABLE IF NOT EXISTS tasks (
 
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (subject_id) REFERENCES subjects(subject_id),
-    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id),
+    INDEX idx_tasks_user_id (user_id),
+    INDEX idx_tasks_subject_id (subject_id),
+    INDEX idx_tasks_semester_id (semester_id),
+    INDEX idx_tasks_user_status (user_id, status),
+    INDEX idx_tasks_deadline (deadline),
+    INDEX idx_tasks_user_archived (user_id, is_archived)
 );
 "
 );
@@ -132,13 +161,14 @@ CREATE TABLE IF NOT EXISTS sessions (
     subject_id INT NOT NULL,
     semester_id INT NOT NULL,
     title VARCHAR(100) NOT NULL,
+    session_notes TEXT NULL,
     target_duration_minutes INT NOT NULL,
     start_time DATETIME NOT NULL,
     pause_start_time DATETIME NULL,
     end_time DATETIME NULL,
     total_pause_seconds INT DEFAULT 0,
     actual_duration_seconds INT NULL,
-    status ENUM('active', 'paused', 'completed', 'abandoned')
+    status ENUM('active', 'paused', 'completed', 'abandoned','invalidated')
         DEFAULT 'active',
     question_count INT DEFAULT 0,
     file_name VARCHAR(100) NULL,
@@ -159,7 +189,14 @@ CREATE TABLE IF NOT EXISTS sessions (
 
     FOREIGN KEY (semester_id)
         REFERENCES semesters(semester_id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+        INDEX idx_sessions_user_id (user_id),
+        INDEX idx_sessions_subject_id (subject_id),
+        INDEX idx_sessions_semester_id (semester_id),
+        INDEX idx_sessions_task_id (task_id),
+        INDEX idx_sessions_user_status (user_id, status),
+        INDEX idx_sessions_start_time (start_time)
 );
 "
 );
@@ -172,15 +209,16 @@ CREATE TABLE IF NOT EXISTS quizzes (
     session_id INT NULL,
     score INT DEFAULT 0,
     total_questions INT NOT NULL,
-    duration_taken_seconds INT DEFAULT 0,
     status ENUM('in_progress', 'completed', 'abandoned')
         DEFAULT 'in_progress',
-    xp_earned INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (session_id)
     REFERENCES sessions(session_id)
-    ON DELETE SET NULL
+    ON DELETE SET NULL,
+
+    INDEX idx_quizzes_session_id (session_id),
+    INDEX idx_quizzes_status (status)
 );
 "
 );
@@ -201,7 +239,9 @@ CREATE TABLE IF NOT EXISTS questions (
 
     FOREIGN KEY (quiz_id)
     REFERENCES quizzes(quiz_id)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+
+    INDEX idx_questions_quiz_id (quiz_id)
 );
 "
 );
@@ -240,7 +280,12 @@ CREATE TABLE IF NOT EXISTS xp_logs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id),
+
+    INDEX idx_xp_logs_user_id (user_id),
+    INDEX idx_xp_logs_semester_id (semester_id),
+    INDEX idx_xp_logs_user_created (user_id, created_at),
+    INDEX idx_xp_logs_reason (reason)
 );
 "
 );
@@ -259,7 +304,11 @@ CREATE TABLE IF NOT EXISTS daily_progress (
     UNIQUE (user_id, semester_id, date),
 
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id),
+
+    INDEX idx_daily_progress_user_id (user_id),
+    INDEX idx_daily_progress_semester_id (semester_id),
+    INDEX idx_daily_progress_user_date (user_id, date)
 );
 "
 );
@@ -278,7 +327,12 @@ CREATE TABLE IF NOT EXISTS notifications (
     semester_id INT NOT NULL,
 
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id)
+    FOREIGN KEY (semester_id) REFERENCES semesters(semester_id),
+
+    INDEX idx_notifications_user_id (user_id),
+    INDEX idx_notifications_user_unread (user_id, is_read),
+    INDEX idx_notifications_semester_id (semester_id),
+    INDEX idx_notifications_created_at (created_at)
 );
 "
 );
@@ -305,7 +359,13 @@ CREATE TABLE IF NOT EXISTS schedules (
         REFERENCES semesters(semester_id),
 
     FOREIGN KEY (subject_id)
-        REFERENCES subjects(subject_id)
+        REFERENCES subjects(subject_id),
+
+        INDEX idx_schedules_user_id (user_id),
+        INDEX idx_schedules_subject_id (subject_id),
+        INDEX idx_schedules_semester_id (semester_id),
+        INDEX idx_schedules_user_day (user_id, day_of_week),
+        INDEX idx_schedules_time (start_time, end_time)
 );
 "
 );
@@ -320,7 +380,8 @@ runQuery(
 CREATE TABLE IF NOT EXISTS dim_user (
     user_sk INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNIQUE,
-    name VARCHAR(255),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     created_at DATE
 );
 "
