@@ -33,7 +33,7 @@ async function fetchData() {
       analyticsData["daily_progress_goal"][0]["daily_goal_minutes"];
     name =
       analyticsData["user_info"].length > 0
-        ? analyticsData["user_info"][0]["name"]
+        ? analyticsData["user_info"][0]["first_name"] + " " + analyticsData["user_info"][0]["last_name"]
         : null;
     today_study =
       analyticsData["today_study"].length > 0
