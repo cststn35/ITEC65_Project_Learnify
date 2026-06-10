@@ -139,6 +139,8 @@ async function pauseTimer() {
 
   pause_start_time = nowLocal;
 
+  let session_notes = document.getElementById("session-notes").value;
+  console.log("pausing timer with notes:", session_notes);
   const fd = new FormData();
   fd.append("userID", userID);
   fd.append("semesterID", semesterID);
@@ -146,6 +148,7 @@ async function pauseTimer() {
   fd.append("pause_start_time", nowLocal);
   fd.append("total_pause_seconds", total_pause_duration);
   fd.append("actual_duration_seconds", getElapsedSeconds());
+  fd.append("session_notes", session_notes);
 
   await fetch(`/${BASE_URL}/actions/sessions/log_pause_start_time.php`, {
     method: "POST",
@@ -287,12 +290,15 @@ function triggerFullscreen() {
 }
 
 async function logEndTime() {
+  const session_notes = document.getElementById("session-notes").value; 
+  console.log("logging end time with notes:", session_notes);
   const fd = new FormData();
   fd.append("userID", userID);
   fd.append("semesterID", semesterID);
   fd.append("sessionID", sessionID);
   fd.append("total_pause_seconds", total_pause_duration);
   fd.append("actual_duration_seconds", getElapsedSeconds());
+  fd.append("session_notes", session_notes);
 
   //mark task done as first if there's any
   if (taskID !== null) {
