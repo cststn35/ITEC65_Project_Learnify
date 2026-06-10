@@ -42,6 +42,8 @@ function renderData(data) {
 
   document.querySelector(".subjectName").textContent = data.subject_name;
 
+  document.querySelector("#session-notes").value = data.session_notes || "";
+
   document.querySelector(".taskName").textContent =
     data.task_title ?? "General Study";
 
