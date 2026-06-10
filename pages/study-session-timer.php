@@ -341,7 +341,7 @@
                         <h1 class="font-bold">Session Notes</h1>
                         <textarea
                             class="w-full h-50 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border border-slate-400 rounded-md p-4"
-                            placeholder="Write your reflections, key learnings, or questions..."></textarea>
+                            placeholder="Write your reflections, key learnings, or questions..." id="session-notes"></textarea>
                     </div>
                     <div class="flex flex-col gap-3 flex-1">
                         <div class="bg-white p-5 rounded-md shadow-md flex-1">
