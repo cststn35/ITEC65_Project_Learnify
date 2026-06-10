@@ -66,7 +66,6 @@ scheduleForm.addEventListener("submit", submitCreatedSchedule);
 async function submitCreatedSchedule(e) {
   // stop normal form submission first
   e.preventDefault();
-  console.log("Will i get triggered too?");
 
   const startTimeValue = document.getElementById("startTime").value;
   const endTimeValue = document.getElementById("endTime").value;
@@ -163,7 +162,6 @@ async function submitCreatedCourse(e) {
       title: "Missing field!",
       text: "Don't forget to fill all fields",
     });
-    console.log(description.value, course.value, selectedColor);
     return;
   }
 

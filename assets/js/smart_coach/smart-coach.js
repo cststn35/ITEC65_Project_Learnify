@@ -30,7 +30,6 @@ async function fetchData() {
   const data = await response.json();
   if (data.success) {
     let coach = data.result;
-    console.log(coach);
     consistency = coach["consistency"];
     acadConsistency = coach["academic_risk"];
     task_management = coach["task_management"];
@@ -68,7 +67,6 @@ function initializeKPI() {
   const healthProgress2 = document.querySelector(".health-progress-text");
   let circumference = 2 * Math.PI * radius;
   let offset = circumference * (1 - study_health / 100);
-  console.log(offset);
   healthProgress.setAttribute("stroke-dashoffset", offset);
   healthProgress2.textContent = `${study_health}`;
 
@@ -225,7 +223,6 @@ function taskManagement() {
 }
 
 function studyPattern() {
-  console.log(efficiency);
   let avg_target_minutes = Number(efficiency[0]["avg_target_minutes"]);
   let avg_actual_minutes = Number(efficiency[0]["avg_actual_minutes"]);
   let score = avg_target_minutes - avg_actual_minutes;
@@ -292,7 +289,6 @@ function studyPattern() {
 }
 
 function sessionStability() {
-  console.log(session_stability);
   let score = Number(session_stability[0]["completion_rate"]);
   const cont = document.querySelector(".proCoachCont");
   if (score >= 85) {
@@ -470,7 +466,6 @@ function subjectPerformance() {
 }
 
 function dailyProgress() {
-  console.log(daily_progress);
   const cont = document.querySelector(".streak-cont");
   let score = Number(daily_progress[0]["progress_percent"]);
   let remaining =
@@ -517,7 +512,6 @@ function dailyProgress() {
 }
 
 function streakMetric() {
-  console.log(streak_metric);
   const cont = document.querySelector(".streak-cont");
   let score = Number(streak_metric[0]["current_streak"]);
   if (score >= 30) {

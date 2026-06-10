@@ -36,6 +36,8 @@ if ($new !== $confirm) {
 
 $user_id = $_SESSION['user_id'];
 
+$pdo->beginTransaction();
+
 // get user password
 $sql = "SELECT password_hash FROM users WHERE user_id = :user_id";
 $stmt = runQuery($pdo, $sql, [
@@ -75,6 +77,8 @@ runQuery($pdo, $sql, [
     ':password_hash' => $newHash,
     ':user_id' => $user_id
 ]);
+
+$pdo->commit();
 
 echo json_encode([
     'success' => true,

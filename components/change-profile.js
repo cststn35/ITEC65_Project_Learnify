@@ -1,4 +1,3 @@
-console.log("hello world");
 const profilePic = document.getElementById("profilePic");
 const profilePreview = document.getElementById("profilePreview");
 const profilePicForm = document.getElementById("profilePicForm");

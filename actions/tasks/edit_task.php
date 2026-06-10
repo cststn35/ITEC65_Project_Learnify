@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../config/runQuery.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $pdo->beginTransaction();
         $userID = isset($_GET["userID"])
             ? trim($_GET["userID"])
             : "";
@@ -70,14 +71,17 @@ try {
                 "success" => true,
                 "message" => "Task updated"
             ]);
+            $pdo->commit();
         } else {
             echo json_encode([
                 "success" => false,
                 "message" => "No changes made (same data or task not found)"
             ]);
+            $pdo->rollBack();
         }
     }
 } catch (PDOException $e) {
+    $pdo->rollBack();
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()

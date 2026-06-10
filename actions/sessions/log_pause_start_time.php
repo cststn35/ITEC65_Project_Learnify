@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../config/runQuery.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $pdo->beginTransaction();
         $userID = isset($_POST["userID"])
             ? trim($_POST["userID"])
             : "";
@@ -49,13 +50,16 @@ try {
             echo json_encode([
                 'success' => true
             ]);
+            $pdo->commit();
         } else {
             echo json_encode([
                 'success' => false
             ]);
+            $pdo->rollBack();
         }
     }
 } catch (PDOException $e) {
+    $pdo->rollBack();
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()

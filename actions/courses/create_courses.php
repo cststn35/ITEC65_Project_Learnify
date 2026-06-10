@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../config/runQuery.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $pdo->beginTransaction();
         $userID = isset($_GET["userID"])
             ? trim($_GET["userID"])
             : "";
@@ -51,6 +52,8 @@ try {
             'success' => true,
             'data' => $result
         ]);
+
+        $pdo->commit();
     }
 
 } catch (PDOException $e) {
@@ -58,4 +61,5 @@ try {
         'success' => false,
         'error' => $e->getMessage()
     ]);
+    $pdo->rollBack();
 }

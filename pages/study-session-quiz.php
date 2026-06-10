@@ -144,11 +144,9 @@
     </div>
     <script>
         const BASE_URL = window.location.pathname.split("/")[1];
-        console.log(BASE_URL);
         const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
         const quizID = <?= json_encode($_SESSION['quiz_id'] ?? null) ?>;
-        console.log(quizID);
     </script>
     <script src="../assets/js/sessions/render_quiz.js"></script>
     <script src="../assets/js/sessions/fetch_quiz.js"></script>

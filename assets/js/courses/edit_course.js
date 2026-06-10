@@ -27,7 +27,6 @@ const descriptionInput = courseFormContainer.querySelector(".descriptionInput in
 
 function openEditModal(data){
     //obtaining the values needed for the form
-    console.log("trigger");
     const title = data.name;
     const desc = data.description;
     const color = data.color;

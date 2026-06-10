@@ -1,6 +1,5 @@
 let schedule_id = 0;
 function editSchedule(scheduleID) {
-  console.log("i am clicked");
   schedule_id = scheduleID;
   fetch_sched_edit(scheduleID);
 }
@@ -11,7 +10,6 @@ async function fetch_sched_edit(scheduleID) {
   );
   const data = await response.json();
   if (data.success) {
-    console.log(data.data[0]);
     openEditModal(data.data[0]);
   }
 }
@@ -37,7 +35,6 @@ const roomInput = schedFormContainer.querySelector(".roomInput input");
 
 function openEditModal(data) {
   //obtaining the values needed for the form
-  console.log(data);
   const subject = data.subject_id;
   const day = data.day_of_week;
   const start = data.start_time;
@@ -69,7 +66,6 @@ function openEditModal(data) {
 async function submitEditedSchedule(e) {
   // stop normal form submission first
   e.preventDefault();
-  console.log("I should be triggered");
 
   //confirmation alert
   const result = await Swal.fire({

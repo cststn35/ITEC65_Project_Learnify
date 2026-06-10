@@ -3,6 +3,7 @@ header("Content-Type: application/json");
 require_once __DIR__ . '/../../config/runQuery.php';
 
 try {
+    $pdo->beginTransaction();
     $userID = isset($_GET["userID"])
         ? trim($_GET["userID"])
         : "";
@@ -78,9 +79,12 @@ try {
             'data' => $result,
             'data2' => $result2
         ]);
+
+        $pdo->commit();
     }
 
 } catch (PDOException $e) {
+    $pdo->rollBack();
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()

@@ -16,7 +16,6 @@ async function completeTask(taskID, userID) {
     `/${BASE_URL}/actions/tasks/complete_task.php?userID=${userID}&semesterID=${semesterID}&taskID=${taskID}`,
   );
   const data = await response.json();
-  console.log(data);
   if (data.success) {
     Swal.fire({
       icon: "success",

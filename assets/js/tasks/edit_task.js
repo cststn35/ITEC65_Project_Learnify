@@ -65,7 +65,6 @@ function openEditModal(data) {
 async function submitEditedTask(e) {
   // stop normal form submission first
   e.preventDefault();
-  console.log("I should be triggered");
 
   //confirmation alert
   const result = await Swal.fire({

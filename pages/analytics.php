@@ -266,7 +266,7 @@
                                     data-param="time">
                                     <option value="weekly">Weekly (Last 7 Days)</option>
                                     <option value="monthly">Monthly (Last 30 Days)</option>
-                                    <option value="semester">Periodical</option>
+                                    <option value="periodical">Periodical</option>
                                 </select>
                             </div>
                             <!-- chart wrapper -->

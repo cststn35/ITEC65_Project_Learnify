@@ -35,10 +35,7 @@ urgencyFilter.addEventListener("change", (e) => {
 });
 
 async function triggerFilter() {
-  console.log(subject, urgency, status);
-  console.log(taskData);
   await fetch_task("from filter"); //refresh data
-  //this will be tricky
 
   //filter subjects first
   taskData =
@@ -87,7 +84,6 @@ async function triggerFilter() {
       return difficultyOrder[a.priority] - difficultyOrder[b.priority];
     });
   }
-  console.log(taskData);
 
   renderTasks(taskData);
 }

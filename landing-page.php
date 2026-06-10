@@ -5,7 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Learnify Landing Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         html {
@@ -17,6 +16,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="src/output.css">
 </head>
 
 <body class="bg-slate-100 text-slate-800 font-[Inter]">

@@ -3,7 +3,6 @@ let data2meta = "";
 const courseContainer = document.querySelector(".course-container");
 
 async function fetch_courses(source) {
-  // console.log("called?");
   const response = await fetch(
     `/${BASE_URL}/actions/courses/fetch_courses.php?userID=${userID}&semesterID=${semesterID}`,
   );

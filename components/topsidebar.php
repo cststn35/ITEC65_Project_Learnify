@@ -23,7 +23,9 @@ $currentXP = $result->fetch()['xp_change'] ?? 0;
 //obtain profile picture
 $sql = "SELECT profile_pic_path FROM users WHERE user_id = :user_id";
 $result = runQuery($pdo, $sql, ['user_id' => $userID]);
-$profileImagePath = $result->fetch()['profile_pic_path'] ?? '../assets/images/profile-placeholder.png';
+$path = $result->fetch()['profile_pic_path'];
+$path = empty($path) ? null : "../" . $path;
+$profileImagePath = $path ?? '../assets/images/profile-placeholder.png';
 
 //obtain current learning system/semester
 $sql = "SELECT semester_name, school_year FROM semesters WHERE semester_id = :semester_id AND is_active = 1";
@@ -300,7 +302,7 @@ triggerOverdueTasks($pdo);
 
                     <div class="flex flex-col md:flex-row md:items-center gap-4">
 
-                        <img id="profilePreview" src="../<?= $profileImagePath ?>"
+                        <img id="profilePreview" src="<?= $profileImagePath ?>"
                             class="w-20 h-20 rounded-full object-cover border border-slate-300">
 
                         <div class="flex-1">
@@ -689,7 +691,7 @@ triggerOverdueTasks($pdo);
             <!-- <div
                 class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center ring-2 ring-slate-500">
             </div> -->
-            <img src="../<?= $profileImagePath ?>" alt="profile-pic"
+            <img src="<?= $profileImagePath ?>" alt="profile-pic"
                 class="w-8 h-8 rounded-full flex items-center justify-center ring-2 ring-slate-500">
             <i class='bx bx-chevron-down text-2xl text-slate-300'></i>
             <div id="dropdownMenu"

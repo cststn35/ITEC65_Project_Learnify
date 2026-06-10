@@ -14,7 +14,6 @@ async function fetchSubjects(userID) {
     const data = await response.json();
 
     if (data.success) {
-      console.log(data.data);
       subjectInput.innerHTML =
         '<option value="" disabled hidden selected>Select a subject</option>';
 

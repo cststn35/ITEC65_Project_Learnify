@@ -132,6 +132,7 @@ function getLocalDatetime() {
 }
 
 async function pauseTimer() {
+  if(getElapsedSeconds() <= 0) return; //don't allow pausing if timer hasn't started yet
   if (timer) clearInterval(timer); //clearInterval if its running
   isRunning = false;
 
@@ -140,7 +141,6 @@ async function pauseTimer() {
   pause_start_time = nowLocal;
 
   let session_notes = document.getElementById("session-notes").value;
-  console.log("pausing timer with notes:", session_notes);
   const fd = new FormData();
   fd.append("userID", userID);
   fd.append("semesterID", semesterID);
@@ -157,17 +157,6 @@ async function pauseTimer() {
 
   document.querySelector(".resume-status").classList.remove("hidden");
 }
-
-// function resetTimer() {
-//   clearInterval(timer);
-//   isRunning = false;
-
-//   elapsed = 0;
-
-//   timeDisplay.textContent = "00:00";
-
-//   progressCircle.style.strokeDashoffset = circumference;
-// }
 
 const endSessionModal = document.querySelector("#end-modal");
 
@@ -245,7 +234,6 @@ function showSessionCompletion() {
 }
 
 function quizDecision() {
-  console.log(quiz_decision);
   if (quiz_decision == "yes") {
     document.querySelector(".yes-quiz").classList.remove("hidden");
   } else if (quiz_decision == "later") {
@@ -258,16 +246,13 @@ function quizDecision() {
 //handle tab switches and refresh
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
-    console.log("user switched tab");
     pauseTimer();
   } else {
-    console.log("user came back");
     startTimer();
   }
 });
 
 window.addEventListener("beforeunload", () => {
-  console.log("closing tab or refreshing");
   pauseTimer();
 });
 
@@ -291,7 +276,6 @@ function triggerFullscreen() {
 
 async function logEndTime() {
   const session_notes = document.getElementById("session-notes").value; 
-  console.log("logging end time with notes:", session_notes);
   const fd = new FormData();
   fd.append("userID", userID);
   fd.append("semesterID", semesterID);
@@ -334,11 +318,6 @@ async function logEndTime() {
   );
 
   const data = await response.json();
-  if (data.success) {
-    console.log("successfully logged end time");
-  } else {
-    console.log("failed to log to end time");
-  }
 }
 
 //code for uploading file to php and quiz generate
@@ -362,7 +341,6 @@ fileInput.addEventListener("change", () => {
     quizButtons.classList.add("hidden");
   }
   if (fileInput.files.length > 0) {
-    console.log("File uploaded");
     uploadText.textContent = "Change file";
     generationStatus.textContent = "Loading...";
     const fileName = fileInput.files[0].name;

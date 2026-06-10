@@ -9,11 +9,11 @@ require_once("../config/runQuery.php");
 $userID = $_SESSION['user_id'] ?? null;
 $semesterID = $_SESSION['semester_id'] ?? null;
 
-$sql = "SELECT COUNT(*) AS total_sessions FROM sessions WHERE user_id = :user_id AND semester_id = :semester_id";
+$sql = "SELECT COUNT(*) AS total_sessions FROM sessions WHERE user_id = :user_id AND semester_id = :semester_id AND status = 'completed'";
 $result = runQuery($pdo, $sql, ['user_id' => $userID, 'semester_id' => $semesterID]);
 $total_sessions = $result->fetch()['total_sessions'];
 
-$sql = "SELECT COALESCE(SUM(actual_duration_seconds),0) AS total_time FROM sessions WHERE user_id = :user_id AND semester_id = :semester_id";
+$sql = "SELECT COALESCE(SUM(actual_duration_seconds),0) AS total_time FROM sessions WHERE user_id = :user_id AND semester_id = :semester_id AND status = 'completed'";
 $result = runQuery($pdo, $sql, ['user_id' => $userID, 'semester_id' => $semesterID]);
 $total_time = (int) $result->fetch()['total_time'] ?? 0;
 $total_time = floor($total_time / 3600) . " hr " . floor(($total_time % 3600) / 60) . " min";
@@ -528,7 +528,6 @@ $tableData = $result->fetchAll();
     <script>
         const BASE_URL = window.location.pathname.split("/")[1];
         const userID = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
-        console.log(userID);
         const semesterID = <?= json_encode($_SESSION['semester_id'] ?? null) ?>;
         const startStudy = <?= json_encode($_SESSION['start_study'] ?? null) ?>;
 

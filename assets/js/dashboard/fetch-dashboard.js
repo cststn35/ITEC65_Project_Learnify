@@ -27,7 +27,6 @@ async function fetchData() {
   );
   const data = await response.json();
   if (data.success) {
-    console.log(data.result);
     let analyticsData = data.result;
     daily_progress_goal =
       analyticsData["daily_progress_goal"][0]["daily_goal_minutes"];
@@ -64,7 +63,6 @@ async function fetchData() {
 fetchData();
 
 function initializeAnalytics() {
-  console.log("ok");
   initializeGreeting();
   todayStudy();
   currentStreak();
@@ -373,7 +371,6 @@ function academicConsistency() {
   }
 
   if (quizCount === 0) {
-    console.log("ok");
     title = "No Quizzes Detected Yet";
     priority = "";
     message = "";

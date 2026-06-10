@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../config/runQuery.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == "GET") {
+        $pdo->beginTransaction();
         $userID = isset($_GET["userID"])
             ? trim($_GET["userID"])
             : "";
@@ -31,16 +32,26 @@ try {
 
         $result = runQuery($pdo, $sql, $params);
 
+        $sql = "UPDATE tasks SET is_archived = 1 WHERE subject_id = :subjectID";
+
+        $params = [
+            "subjectID" => $courseID
+        ];
+
+        $result = runQuery($pdo, $sql, $params);
+
         if ($result->rowCount() > 0) { //to confirm if it is deleted
             echo json_encode([
                 "success" => true,
                 "message" => "Task deleted"
             ]);
+            $pdo->commit();
         } else {
             echo json_encode([
                 "success" => false,
                 "message" => "No changes made (same data or task not found)"
             ]);
+            $pdo->rollBack();
         }
     }
 } catch (PDOException $e) {
@@ -48,4 +59,5 @@ try {
         'success' => false,
         'error' => $e->getMessage()
     ]);
+    $pdo->rollBack();
 }

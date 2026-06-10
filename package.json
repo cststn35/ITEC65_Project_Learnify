@@ -1,8 +1,31 @@
 {
   "devDependencies": {
-    "tailwindcss": "^4.2.4"
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.0"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.2.4"
-  }
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "@tailwindcss/cli": "^4.3.0",
+    "boxicons": "^2.1.4",
+    "sweetalert2": "^11.26.25"
+  },
+  "name": "study-app",
+  "version": "1.0.0",
+  "description": "Work-in-Progress project of Team Quebec for ITEC 65/DCIT 55",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cststn35/ITEC65_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cststn35/ITEC65_Project/issues"
+  },
+  "homepage": "https://github.com/cststn35/ITEC65_Project#readme"
 }

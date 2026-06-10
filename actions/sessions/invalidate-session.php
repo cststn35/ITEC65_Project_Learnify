@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../config/runQuery.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == "GET") {
+        $pdo->beginTransaction();
         $sessionID = $_GET['sessionID'];
 
         $sql = "UPDATE sessions SET status = 'invalidated' WHERE session_id = :session_id";
@@ -18,6 +19,7 @@ try {
             echo json_encode([
                 'success' => false
             ]);
+            $pdo->rollBack();
             exit;
         }
 
@@ -25,8 +27,10 @@ try {
         echo json_encode([
             'success' => true
         ]);
+        $pdo->commit();
     }
 } catch (PDOException $e) {
+    $pdo->rollBack();
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()

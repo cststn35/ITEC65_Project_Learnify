@@ -27,7 +27,6 @@ function isValidDateTime(dt) {
 function renderData(data) {
   taskID = data.task_id;
   quiz_decision = data.quiz_decision;
-  console.log(data.quiz_decision);
   start_time = isValidDateTime(data.start_time) ? data.start_time : null;
 
   pause_start_time = isValidDateTime(data.pause_start_time)
@@ -84,20 +83,10 @@ async function uploadQuestionsTODB() {
     `/${BASE_URL}/actions/sessions/upload-questions.php?sessionID=${sessionID}`,
   );
   const data = await response.json();
-  console.log(data);
-  if (data.success) {
-    console.log("questions uploaded");
-  } else {
-    console.log("try again");
-  }
 }
 
 if (toUploadTODB) {
-  console.log("will upload");
-  console.log(questions);
   uploadQuestionsTODB();
-} else {
-  console.log("will not upload");
-}
+} 
 
 fetchSessionInfo(sessionID);

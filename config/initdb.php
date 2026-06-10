@@ -441,7 +441,7 @@ CREATE TABLE IF NOT EXISTS dim_xp_reason (
 runQuery(
     $pdo,
     "
-CREATE TABLE fact_study_session (
+CREATE TABLE IF NOT EXISTS fact_study_session (
     session_sk INT AUTO_INCREMENT PRIMARY KEY,
 
     user_sk INT NOT NULL,

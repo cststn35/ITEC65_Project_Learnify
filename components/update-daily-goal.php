@@ -25,6 +25,8 @@ if (!$goal || $goal < 1) {
     exit;
 }
 
+$pdo->beginTransaction();
+
 runQuery($pdo, "
     UPDATE users
     SET daily_goal_minutes = :goal
@@ -38,3 +40,4 @@ echo json_encode([
     "success" => true,
     "message" => "Daily goal updated successfully."
 ]);
+$pdo->commit();

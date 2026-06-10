@@ -6,7 +6,6 @@ let isQuizActive = false;
 const submitBtn = document.getElementById("session-submit");
 
 async function changeBordera(choice) {
-  console.log(choice);
   const allChoices = document.querySelectorAll(".answer");
   const uploadInput = document.querySelector(".uploadInput");
 
@@ -36,8 +35,10 @@ async function changeBordera(choice) {
     uploadInput.classList.remove("hidden");
   }
 
-  if (choice == ".no-answer" || ".later-answer") {
-    console.log("i select no");
+  if (choice == ".no-answer" || choice == ".later-answer") {
+    selectedNumber = "";
+    fileInput.value = "";
+    submitBtn.disabled = false;
     quizGenerationStatus = "";
     await unsetQuizzes();
   }
@@ -50,7 +51,6 @@ async function unsetQuizzes() {
     `/${BASE_URL}/actions/sessions/unset_session_quizzes.php`,
   );
   const data = await response.json();
-  console.log(data.status);
 }
 
 const fileInput = document.querySelector(".file-input");
@@ -74,7 +74,6 @@ const generationStatus = document.querySelector(".generation-status");
 
 fileInput.addEventListener("change", () => {
   if (fileInput.files.length > 0) {
-    console.log("File uploaded");
     uploadText.textContent = "Change file";
     generationStatus.textContent = "Loading...";
     submitBtn.disabled = true;
@@ -255,8 +254,6 @@ async function submitCreatedSession(e) {
   // stop normal form submission first
   e.preventDefault();
 
-  console.log("trigger");
-
   if (!quizGenerationStatus && quizGenerationStatus != "") {
     Swal.fire({
       icon: "error",
@@ -392,7 +389,6 @@ async function submitCreatedCourse(e) {
       title: "Missing field!",
       text: "Don't forget to fill all fields",
     });
-    console.log(description.value, course.value, selectedColor);
     return;
   }
 

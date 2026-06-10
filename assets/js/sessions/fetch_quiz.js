@@ -64,9 +64,7 @@ function renderData(data) {
   });
 
   questions_length = data.length;
-  //   console.log(questions_length);
   student_answers = Array(questions_length).fill(null);
-  //   console.log(student_answers);
 
   //register events and dom elements
   questionCount.textContent = `Questions: ${currentIndex + 1}/${questions_length}`;

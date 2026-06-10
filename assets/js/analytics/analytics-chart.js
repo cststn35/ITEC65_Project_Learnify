@@ -50,7 +50,6 @@ async function fetchData() {
   const data = await response.json();
   if (data.success) {
     let analyticsData = data.result;
-    console.log(analyticsData);
     study_time = analyticsData["total_study_time"][0]["total_hours"];
     quiz_average = analyticsData["quiz_average_score"][0]["quiz_average"];
     tasks_done = analyticsData["task_completion"];
@@ -130,10 +129,6 @@ function initializeKPI() {
   quizAvg.textContent = `${quiz_average ?? 0}%`;
   tasksDone.textContent = `${tasks_done[0]["completed_tasks"] ?? 0}/${tasks_done[0]["total_tasks"] ?? 0}`;
   streaks.textContent = `${streak[0]["current_streak"] ?? 0} Day(s)`;
-  console.log(study_time);
-  console.log(quiz_average);
-  console.log(tasks_done);
-  console.log(streak);
 }
 
 function studyTrendChart() {
@@ -247,7 +242,6 @@ function consistencyChart() {
 
 function peakStudyChart() {
   if (peakStudyChartInstance) peakStudyChartInstance.destroy();
-  console.log(peak_study_hours);
   let datos = new Array(24).fill(0);
   peak_study_hours.forEach((hour) => {
     let index;
@@ -440,7 +434,6 @@ function peakStudyChart() {
 
 function plannedActualTime() {
   if (plannedActualChartInstance) plannedActualChartInstance.destroy();
-  console.log(planned_actual_study_time);
   const avg_target_minutes = planned_actual_study_time[0]["avg_target_minutes"];
   const avg_actual_minutes = planned_actual_study_time[0]["avg_actual_minutes"];
   const ctx = document.getElementById("plannedActualChart");
@@ -481,7 +474,6 @@ function plannedActualTime() {
 
 function sessionCompletionChart() {
   if (sessionCompletionChartInstance) sessionCompletionChartInstance.destroy();
-  console.log(session_completion_rate);
   const ctx = document.getElementById("sessionCompletionChart");
 
   let active = 0;
@@ -519,7 +511,6 @@ function sessionCompletionChart() {
 }
 
 function taskCompletionChart() {
-  console.log(task_completion);
   const on_time_percentages = Math.floor(
     ((Number(task_completion[0]["on_time_tasks"]) || 0) /
       (Number(task_completion[0]["completed_tasks"]) || 1)) *
@@ -527,7 +518,6 @@ function taskCompletionChart() {
   );
 
   let lates = 0;
-  console.log(on_time_percentages);
   if ((Number(task_completion[0]["completed_tasks"]) || 0) === 0) {
     lates = 0;
   } else {
@@ -547,7 +537,6 @@ function taskCompletionChart() {
 
 function quizTrend() {
   if (quizTrendChartInstance) quizTrendChartInstance.destroy();
-  console.log("QUIZ TREND", quiz_trend);
   const labels = [];
   const datos = [];
 
@@ -641,7 +630,6 @@ function subjectMasteryChart() {
 
 function studyQuizChart() {
   if (studyQuizChartInstance) studyQuizChartInstance.destroy();
-  console.log(studytime_quiz);
   let datos = [];
   studytime_quiz.forEach((element) => {
     datos.push({
@@ -688,7 +676,6 @@ function studyQuizChart() {
 
 function xpGrowthChart() {
   if (xpGrowthChartInstance) xpGrowthChartInstance.destroy();
-  console.log(xp_growth);
   const labels = [];
   const datos = [];
 
@@ -734,7 +721,6 @@ function xpBreakdownChart() {
   let TASK = 0;
   let STREAK = 0;
   let QUIZ = 0;
-  console.log(xp_breakdown);
   xp_breakdown.forEach((xp) => {
     if (xp.category == "STUDY") {
       STUDY += Number(xp.total_xp);

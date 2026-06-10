@@ -3,6 +3,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php include_once("../config/meta-head.php") ?>
+<?php include_once("../config/runQuery.php")?>
+<?php
+//obtain current learning system/semester
+$semesterID = $_SESSION['semester_id'] ?? null;
+$sql = "SELECT semester_name, school_year FROM semesters WHERE semester_id = :semester_id AND is_active = 1";
+$result = runQuery($pdo, $sql, ['semester_id' => $semesterID]);
+$learningSystem = $result->fetch();
+$semesterName = $learningSystem['semester_name'] ?? 'No Active Period';
+$schoolYear = $learningSystem['school_year'] ?? '';
+?>
 
 <body class="font-[Inter]">
     <div class="md:grid md:grid-cols-[250px_1fr] md:grid-rows-[60px_1fr] h-screen">
@@ -20,7 +30,7 @@
                     <div>Personalized recommendations based on your study behavior</div>
                 </div>
                 <div class="flex items-center">
-                    <span class="bg-green-200 rounded-3xl p-2 border border-green-300">2nd Semester S.Y 2025-2026</span>
+                    <span class="bg-green-200 rounded-3xl p-2 border border-green-300"><?= $semesterName ?> <?= $schoolYear ?></span>
                 </div>
             </div>
             <!-- KPI -->

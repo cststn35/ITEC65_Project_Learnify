@@ -10,7 +10,7 @@
         include_once("../components/topsidebar.php")
             ?>
         <main
-            class="bg-slate-100 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] h-full flex flex-col overflow-hidden">
+            class="bg-slate-100 col-start-2 p-4 md:p-6 lg:p-8 max-h-[calc(100dvh-60px)] h-full flex flex-col overflow-scroll">
             <div class="flex justify-between">
                 <h1 class="font-bold text-2xl">TASKS</h1>
                 <button type="button"
@@ -186,8 +186,8 @@
             </div>
 
             <!-- cards -->
-            <div class="cards-container flex-1 flex flex-col min-h-0">
-                <div class="flex flex-col flex-1 min-h-0">
+            <div class="cards-container flex-1 flex flex-col">
+                <div class="flex flex-col flex-1">
                     <div
                         class="bg-white border border-slate-200 shadow-sm w-full rounded-lg mx-auto mt-6 p-4 sm:p-6 flex flex-col gap-3">
                         <div class="flex flex-wrap gap-3 border-b border-slate-200 pb-4">

@@ -4,8 +4,6 @@ async function startToStudy() {
   //function in auto filling study session once the user clicks start study in tasks page
   if (startStudy === null) return;
 
-  console.log(startStudy);
-
   const title = document.getElementById("title");
   const tasks = document.getElementById("tasks");
   const subject = document.getElementById("subject");
@@ -34,11 +32,9 @@ async function unsetStartStudy() {
     `/${BASE_URL}/actions/tasks/unset_session_study.php`,
   );
   const data = await response.json();
-  console.log(data.status);
 }
 
 async function fetchTasks(userID) {
-  console.log(userID);
   try {
     const response = await fetch(
       `/${BASE_URL}/actions/sessions/fetch_tasks_sessions.php?userID=${userID}&semester_id=${semesterID}`,
@@ -52,7 +48,6 @@ async function fetchTasks(userID) {
     const data = await response.json();
 
     if (data.success) {
-      console.log(data.data);
 
       data.data.forEach((task) => {
         taskInput.innerHTML += `<option value="${task.tasks_id}">${task.title}</option>`;

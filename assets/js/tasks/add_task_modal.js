@@ -65,7 +65,6 @@ taskForm.addEventListener("submit", submitCreatedTask);
 async function submitCreatedTask(e) {
   // stop normal form submission first
   e.preventDefault();
-  console.log("Will i get triggered too?");
 
   // confirmation alert
   const result = await Swal.fire({
@@ -166,7 +165,6 @@ async function submitCreatedCourse(e) {
       title: "Missing field!",
       text: "Don't forget to fill all fields",
     });
-    console.log(description.value, course.value, selectedColor);
     return;
   }
 
