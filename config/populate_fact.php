@@ -93,9 +93,7 @@ function loadFactQuiz($pdo)
             semester_sk,
             date_sk,
             score,
-            total_questions,
-            duration_seconds,
-            xp_earned
+            total_questions
         )
         SELECT
             du.user_sk,
@@ -103,9 +101,7 @@ function loadFactQuiz($pdo)
             dsem.semester_sk,
             d.date_sk,
             q.score,
-            q.total_questions,
-            q.duration_taken_seconds,
-            q.xp_earned
+            q.total_questions
 
         FROM quizzes q
 
