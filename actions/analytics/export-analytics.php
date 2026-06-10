@@ -8,6 +8,8 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
+//based on phpspreadsheet documentation
+
 //styles
 
 function titleStyle($sheet, $cell)
