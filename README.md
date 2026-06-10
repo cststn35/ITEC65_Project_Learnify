@@ -10,6 +10,7 @@ Team Quebec
 
 1.Application Overview
 The system is a Study and Learning Management System named LEARNIFY designed for students to manage tasks, courses, study sessions, quizzes, and analytics.
+
 Purpose
 Learnify is designed to help students organize their academic tasks, improve time management, and enhance learning productivity through an all-in-one digital platform that supports studying, tracking progress, and building effective study habits.
 To help students organize academic tasks efficiently
