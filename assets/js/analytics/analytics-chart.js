@@ -128,8 +128,8 @@ function initializeKPI() {
   const streaks = document.querySelector(".streak-count");
   studyTime.textContent = `${study_time ?? 0} Hour(s)`;
   quizAvg.textContent = `${quiz_average ?? 0}%`;
-  tasksDone.textContent = `${tasks_done[0]["completed_tasks"] ?? 0}/${tasks_done[0]["total_tasks"]}`;
-  streaks.textContent = `${streak[0]["current_streak"]} Day(s)`;
+  tasksDone.textContent = `${tasks_done[0]["completed_tasks"] ?? 0}/${tasks_done[0]["total_tasks"] ?? 0}`;
+  streaks.textContent = `${streak[0]["current_streak"] ?? 0} Day(s)`;
   console.log(study_time);
   console.log(quiz_average);
   console.log(tasks_done);
