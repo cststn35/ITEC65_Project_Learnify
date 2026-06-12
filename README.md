@@ -239,7 +239,7 @@ C:\xampp\htdocs
 
 ### Step 2
 
-Create an empty database named:
+Open XAMPP Control Panel and Start Apache and MySQL services. Then, create an empty database named:
 
 ```text
 studyapp
