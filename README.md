@@ -182,6 +182,11 @@ The page where users and administrators can view descriptive reports and insight
 
 * Figma
 
+## Figma Link
+```text
+https://www.figma.com/design/S4GRLsgxsDh37Mqrue4FuX/website?node-id=0-1&t=30VWfrMl7ZNsCaPW-1
+```
+
 The system uses a clean dashboard-based interface with sidebar navigation, modal forms, and a responsive layout designed for ease of use and productivity.
 
 The overall visual theme follows an academic, productivity-oriented, minimalist, data-driven, and professional design. Learnify adopts a modern academic productivity theme, utilizing a clean slate-based color palette, intuitive dashboard layouts, and data-driven visualizations to help students effectively manage their academic responsibilities and learning progress.
